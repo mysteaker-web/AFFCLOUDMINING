@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - AFF CLOUD MINING</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: #0B1120; font-family: 'Inter', sans-serif; color: #E2E8F0; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+        .glass-card {
+            background: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 212, 255, 0.15);
+            border-radius: 20px;
+            padding: 48px 36px;
+            width: 100%;
+            max-width: 420px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #00D4FF, #0099CC);
+            color: #0B1120;
+            font-weight: 700;
+            padding: 14px;
+            border-radius: 12px;
+            width: 100%;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-primary:hover { box-shadow: 0 0 40px rgba(0, 212, 255, 0.4); }
+        .input-field {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #E2E8F0;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s;
+        }
+        .input-field:focus { border-color: #00D4FF; box-shadow: 0 0 15px rgba(0, 212, 255, 0.1); }
+        .logo-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #00D4FF, #0099CC);
+            color: #0B1120;
+            font-weight: 900;
+            font-size: 22px;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            margin: 0 auto 16px;
+        }
+        .link { color: #00D4FF; text-decoration: none; font-weight: 500; }
+        .link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="glass-card">
+        <div class="logo-icon">AFF</div>
+        <h1 style="text-align: center; font-size: 1.5rem; font-weight: 700; margin-bottom: 4px;">Selamat Datang</h1>
+        <p style="text-align: center; color: #94A3B8; font-size: 14px; margin-bottom: 32px;">Login ke akun AFF CLOUD MINING</p>
+        
+        <form onsubmit="handleLogin(event)" style="display: flex; flex-direction: column; gap: 16px;">
+            <div>
+                <label style="font-size: 13px; color: #94A3B8; margin-bottom: 6px; display: block;">Email</label>
+                <input type="email" class="input-field" placeholder="Masukkan email Anda" required>
+            </div>
+            <div>
+                <label style="font-size: 13px; color: #94A3B8; margin-bottom: 6px; display: block;">Password</label>
+                <input type="password" class="input-field" placeholder="Masukkan password" required>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 13px;">
+                <label style="display: flex; align-items: center; gap: 6px; color: #94A3B8; cursor: pointer;">
+                    <input type="checkbox"> Ingat saya
+                </label>
+                <a href="#" class="link">Lupa password?</a>
+            </div>
+            <button type="submit" class="btn-primary">🚀 Login</button>
+        </form>
+        
+        <p style="text-align: center; margin-top: 20px; font-size: 14px; color: #94A3B8;">
+            Belum punya akun? <a href="register.html" class="link">Daftar sekarang</a>
+        </p>
+        <p style="text-align: center; margin-top: 8px;">
+            <a href="index.html" style="color: #64748B; font-size: 13px; text-decoration: none;">← Kembali ke Beranda</a>
+        </p>
+    </div>
+
+    <script>
+        function handleLogin(e) {
+            e.preventDefault();
+            window.location.href = 'dashboard.html';
+        }
+    </script>
+</body>
+</html>
