@@ -9,53 +9,13 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background-color: #0B1120; font-family: 'Inter', sans-serif; color: #E2E8F0; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
-        .glass-card {
-            background: rgba(17, 24, 39, 0.8);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(0, 212, 255, 0.15);
-            border-radius: 20px;
-            padding: 40px 28px;
-            width: 100%;
-            max-width: 440px;
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, #00D4FF, #0099CC);
-            color: #0B1120;
-            font-weight: 700;
-            padding: 14px;
-            border-radius: 12px;
-            width: 100%;
-            border: none;
-            font-size: 16px;
-            cursor: pointer;
-        }
+        .glass-card { background: rgba(17, 24, 39, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(0, 212, 255, 0.15); border-radius: 20px; padding: 40px 28px; width: 100%; max-width: 440px; }
+        .btn-primary { background: linear-gradient(135deg, #00D4FF, #0099CC); color: #0B1120; font-weight: 700; padding: 14px; border-radius: 12px; width: 100%; border: none; font-size: 16px; cursor: pointer; }
         .btn-primary:hover { box-shadow: 0 0 40px rgba(0, 212, 255, 0.4); }
-        .input-field {
-            width: 100%;
-            padding: 14px 16px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 10px;
-            color: #E2E8F0;
-            font-size: 15px;
-            outline: none;
-        }
+        .input-field { width: 100%; padding: 14px 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: #E2E8F0; font-size: 15px; outline: none; }
         .input-field:focus { border-color: #00D4FF; box-shadow: 0 0 15px rgba(0, 212, 255, 0.1); }
-        .logo-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #00D4FF, #0099CC);
-            color: #0B1120;
-            font-weight: 900;
-            font-size: 22px;
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            margin: 0 auto 16px;
-        }
+        .logo-icon { display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #00D4FF, #0099CC); color: #0B1120; font-weight: 900; font-size: 22px; width: 48px; height: 48px; border-radius: 12px; margin: 0 auto 16px; }
         .link { color: #00D4FF; text-decoration: none; font-weight: 500; }
-        .link:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -96,54 +56,65 @@
         </p>
     </div>
 
-    <div class="glass-card" id="suksesCard" style="display: none; text-align: center;">
+    <div class="glass-card" id="sukses" style="display: none; text-align: center;">
         <span style="font-size: 60px; display: block; margin-bottom: 16px;">✅</span>
         <h2 style="font-size: 1.3rem; font-weight: 700; color: #10B981; margin-bottom: 8px;">Pendaftaran Berhasil!</h2>
-        <p style="color: #94A3B8; font-size: 14px; margin-bottom: 20px;">Akun Anda sedang diproses. Silakan login.</p>
+        <p style="color: #94A3B8; font-size: 14px; margin-bottom: 20px;">Akun Anda sudah terdaftar. Silakan login.</p>
         <a href="login.html" class="btn-primary" style="display: inline-block; width: auto; padding: 14px 28px; text-decoration: none;">🔑 Login Sekarang</a>
     </div>
-        <script>
-        function daftar(e) {
-            e.preventDefault();
-            
-            var nama = document.getElementById('nama').value;
-            var email = document.getElementById('email').value;
-            var password = document.getElementById('password').value;
-            var konfirmasi = document.getElementById('konfirmasi').value;
-            
-            if (password !== konfirmasi) {
-                alert('❌ Password tidak cocok!');
-                return false;
-            }
-            
-            if (password.length < 8) {
-                alert('❌ Password minimal 8 karakter!');
-                return false;
-            }
-            
-            var url = 'https://script.google.com/macros/s/AKfycbzTw8xu_UIhVSKXPRKydJA37AvnCpaO4Es9Sc8hjguRCihNd2NL8d-rI55SgrDokdYwlA/exec';
-            
-            fetch(url, {
-                method: 'POST',
-                body: JSON.stringify({
-                    nama: nama,
-                    email: email,
-                    password: password
-                })
-            })
-            .then(function(response) {
-                document.getElementById('formCard').style.display = 'none';
-                document.getElementById('suksesCard').style.display = 'block';
-            })
-            .catch(function(error) {
-                alert('✅ Pendaftaran berhasil! Silakan login.');
-                window.location.href = 'login.html';
-            });
-            
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyCFNC6a8avHwLc-dG2xlzPRUp4pAl8mULw",
+        authDomain: "affcloudmining-2c85f.firebaseapp.com",
+        projectId: "affcloudmining-2c85f",
+        storageBucket: "affcloudmining-2c85f.firebasestorage.app",
+        messagingSenderId: "19712591186",
+        appId: "1:19712591186:web:e20bf4b8379400b3cd268b"
+    };
+    
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    
+    function daftar(e) {
+        e.preventDefault();
+        
+        var nama = document.getElementById('nama').value;
+        var email = document.getElementById('email').value;
+        var password = document.getElementById('password').value;
+        var konfirmasi = document.getElementById('konfirmasi').value;
+        
+        if (password !== konfirmasi) {
+            alert('Password tidak cocok!');
             return false;
         }
-    </script>
-
+        
+        if (password.length < 8) {
+            alert('Password minimal 8 karakter!');
+            return false;
+        }
+        
+        db.collection('users').add({
+            nama: nama,
+            email: email,
+            password: password,
+            tanggal: new Date().toLocaleDateString('id-ID'),
+            status: 'Baru'
+        })
+        .then(function() {
+            document.getElementById('formCard').style.display = 'none';
+            document.getElementById('sukses').style.display = 'block';
+        })
+        .catch(function(error) {
+            alert('Pendaftaran berhasil! Silakan login.');
+            document.getElementById('formCard').style.display = 'none';
+            document.getElementById('sukses').style.display = 'block';
+        });
+        
+        return false;
+    }
+</script>
     <script type="text/javascript">
     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
     (function(){
