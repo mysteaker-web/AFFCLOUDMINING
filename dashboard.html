@@ -9,14 +9,19 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background-color: #0B1120; font-family: 'Inter', sans-serif; color: #E2E8F0; min-height: 100vh; display: flex; }
-        .sidebar { width: 250px; background: rgba(11, 17, 32, 0.95); border-right: 1px solid rgba(0, 212, 255, 0.1); padding: 24px 16px; display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 10; }
+        .sidebar { width: 250px; background: rgba(11, 17, 32, 0.95); border-right: 1px solid rgba(153, 69, 255, 0.15); padding: 24px 16px; display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 10; }
         .main-content { margin-left: 250px; flex: 1; padding: 24px; }
-        .glass-card { background: rgba(17, 24, 39, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(0, 212, 255, 0.1); border-radius: 16px; padding: 24px; }
-        .stat-card { background: rgba(17, 24, 39, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(0, 212, 255, 0.1); border-radius: 14px; padding: 20px; text-align: center; }
-        .btn-primary { background: linear-gradient(135deg, #00D4FF, #0099CC); color: #0B1120; font-weight: 700; padding: 12px 24px; border-radius: 10px; cursor: pointer; border: none; text-decoration: none; display: inline-block; }
-        .nav-item { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 10px; color: #94A3B8; text-decoration: none; transition: all 0.2s; font-size: 14px; font-weight: 500; margin-bottom: 4px; }
-        .nav-item:hover, .nav-item.active { background: rgba(0, 212, 255, 0.1); color: #00D4FF; }
-        .logo-icon { display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #00D4FF, #0099CC); color: #0B1120; font-weight: 900; font-size: 16px; width: 34px; height: 34px; border-radius: 8px; }
+        .glass-card { background: rgba(17, 24, 39, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(153, 69, 255, 0.15); border-radius: 16px; padding: 24px; }
+        .stat-card { background: rgba(17, 24, 39, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(153, 69, 255, 0.1); border-radius: 14px; padding: 20px; text-align: center; }
+        .btn-primary { background: linear-gradient(135deg, #9945FF, #14F195); color: #0B1120; font-weight: 700; padding: 12px 24px; border-radius: 10px; cursor: pointer; border: none; text-decoration: none; display: inline-block; }
+        .btn-outline { background: transparent; color: #14F195; font-weight: 600; padding: 12px 24px; border-radius: 10px; border: 2px solid #14F195; cursor: pointer; text-decoration: none; display: inline-block; }
+        .nav-item { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 10px; color: #94A3B8; text-decoration: none; transition: all 0.2s; font-size: 14px; font-weight: 500; margin-bottom: 4px; cursor: pointer; }
+        .nav-item:hover, .nav-item.active { background: rgba(153, 69, 255, 0.15); color: #14F195; }
+        .logo-icon { display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #9945FF, #14F195); color: #0B1120; font-weight: 900; font-size: 16px; width: 34px; height: 34px; border-radius: 8px; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .input-field { width: 100%; padding: 14px 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: #E2E8F0; font-size: 15px; outline: none; }
+        .input-field:focus { border-color: #14F195; }
     </style>
 </head>
 <body>
@@ -33,17 +38,17 @@
     <div class="sidebar">
         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 32px; padding: 0 8px;">
             <div class="logo-icon">AFF</div>
-            <span style="font-weight: 700; color: #00D4FF; font-size: 15px;">CLOUD MINING</span>
+            <span style="font-weight: 700; color: #14F195; font-size: 15px;">CLOUD MINING</span>
         </div>
         
         <nav style="flex: 1;">
-            <a href="#" class="nav-item active">📊 Dashboard</a>
-            <a href="#" class="nav-item">⛏️ Mining Aktif</a>
-            <a href="#" class="nav-item">💳 Beli Kontrak</a>
-            <a href="#" class="nav-item">💰 Wallet</a>
-            <a href="#" class="nav-item">👥 Referral</a>
-            <a href="#" class="nav-item">📜 Riwayat</a>
-            <a href="#" class="nav-item">⚙️ Pengaturan</a>
+            <a class="nav-item active" onclick="showTab('dashboard')">📊 Dashboard</a>
+            <a class="nav-item" onclick="showTab('mining')">⛏️ Mining Aktif</a>
+            <a class="nav-item" onclick="showTab('beli')">💳 Beli Kontrak</a>
+            <a class="nav-item" onclick="showTab('wallet')">◎ Wallet</a>
+            <a class="nav-item" onclick="showTab('referral')">👥 Referral</a>
+            <a class="nav-item" onclick="showTab('riwayat')">📜 Riwayat</a>
+            <a class="nav-item" onclick="showTab('setting')">⚙️ Pengaturan</a>
         </nav>
         
         <a href="#" onclick="logout()" style="color: #EF4444; text-decoration: none; font-size: 13px; padding: 12px 16px; display: flex; align-items: center; gap: 8px;">🚪 Logout</a>
@@ -53,51 +58,161 @@
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px;">
             <div>
                 <h1 style="font-size: 1.5rem; font-weight: 700;">👋 Selamat Datang, <span id="namaUser"></span></h1>
-                <p style="color: #94A3B8; font-size: 13px;">Ringkasan akun mining Anda</p>
+                <p style="color: #94A3B8; font-size: 13px;">Ringkasan akun mining Solana Anda</p>
             </div>
             <div style="display: flex; align-items: center; gap: 12px;">
                 <span style="font-size: 20px; cursor: pointer;">🔔</span>
-                <div style="width: 36px; height: 36px; background: #00D4FF; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #0B1120; font-weight: 700; font-size: 14px;" id="inisialUser"></div>
+                <div style="width: 36px; height: 36px; background: linear-gradient(135deg, #9945FF, #14F195); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #0B1120; font-weight: 700; font-size: 14px;" id="inisialUser"></div>
             </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 28px;">
-            <div class="stat-card">
-                <p style="font-size: 12px; color: #94A3B8; margin-bottom: 6px;">💰 Total Terkunci</p>
-                <p style="font-size: 1.6rem; font-weight: 800; color: #00D4FF;">$0</p>
+        <!-- TAB DASHBOARD -->
+        <div id="tab-dashboard" class="tab-content active">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 28px;">
+                <div class="stat-card">
+                    <p style="font-size: 12px; color: #94A3B8; margin-bottom: 6px;">💰 Total Investasi</p>
+                    <p style="font-size: 1.6rem; font-weight: 800; color: #9945FF;">◎ 0</p>
+                </div>
+                <div class="stat-card">
+                    <p style="font-size: 12px; color: #94A3B8; margin-bottom: 6px;">📈 Profit Hari Ini</p>
+                    <p style="font-size: 1.6rem; font-weight: 800; color: #14F195;">◎ 0</p>
+                </div>
+                <div class="stat-card">
+                    <p style="font-size: 12px; color: #94A3B8; margin-bottom: 6px;">⚡ Hash Rate Aktif</p>
+                    <p style="font-size: 1.6rem; font-weight: 800; color: #E2E8F0;">0 TH/s</p>
+                </div>
+                <div class="stat-card">
+                    <p style="font-size: 12px; color: #94A3B8; margin-bottom: 6px;">◎ Saldo Tersedia</p>
+                    <p style="font-size: 1.6rem; font-weight: 800; color: #14F195;">◎ 0</p>
+                </div>
             </div>
-            <div class="stat-card">
-                <p style="font-size: 12px; color: #94A3B8; margin-bottom: 6px;">📈 Profit Hari Ini</p>
-                <p style="font-size: 1.6rem; font-weight: 800; color: #10B981;">$0</p>
-            </div>
-            <div class="stat-card">
-                <p style="font-size: 12px; color: #94A3B8; margin-bottom: 6px;">⚡ Hash Rate Aktif</p>
-                <p style="font-size: 1.6rem; font-weight: 800; color: #E2E8F0;">0 TH/s</p>
-            </div>
-            <div class="stat-card">
-                <p style="font-size: 12px; color: #94A3B8; margin-bottom: 6px;">🏦 Saldo Tersedia</p>
-                <p style="font-size: 1.6rem; font-weight: 800; color: #F59E0B;">$0</p>
+
+            <div class="glass-card" style="text-align: center; padding: 60px 24px;">
+                <span style="font-size: 60px; display: block; margin-bottom: 16px;">⛏️</span>
+                <h2 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 8px;">Belum Ada Kontrak Aktif</h2>
+                <p style="color: #94A3B8; font-size: 14px; margin-bottom: 24px;">Beli kontrak mining Solana untuk mulai menghasilkan profit harian</p>
+                <button class="btn-primary" onclick="showTab('beli')" style="padding: 14px 32px;">🛒 Beli Kontrak Sekarang</button>
             </div>
         </div>
-
-        <div class="glass-card" style="text-align: center; padding: 60px 24px;">
-            <span style="font-size: 60px; display: block; margin-bottom: 16px;">⛏️</span>
-            <h2 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 8px;">Belum Ada Kontrak Aktif</h2>
-            <p style="color: #94A3B8; font-size: 14px; margin-bottom: 24px;">Beli kontrak mining untuk mulai menghasilkan profit harian</p>
-            <a href="harga.html" class="btn-primary" style="padding: 14px 32px; text-decoration: none;">🛒 Beli Kontrak Sekarang</a>
+        <!-- TAB BELI KONTRAK -->
+<div id="tab-beli" class="tab-content">
+    <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 24px;">💳 Beli Kontrak Mining</h2>
+    
+    <div style="display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 32px;">
+        <div class="glass-card" style="flex: 1; min-width: 200px; text-align: center; padding: 24px 16px; cursor: pointer;" onclick="pilihPaket('Basic', 5)">
+            <p style="font-weight: 700; color: #14F195;">BASIC</p>
+            <p style="font-size: 1.8rem; font-weight: 900;">◎ 5 SOL</p>
+            <p style="color: #94A3B8; font-size: 12px;">6 Bulan • 1 TH/s</p>
+        </div>
+        <div class="glass-card" style="flex: 1; min-width: 200px; text-align: center; padding: 24px 16px; cursor: pointer; border-color: rgba(20, 241, 149, 0.4);" onclick="pilihPaket('Silver', 25)">
+            <p style="font-weight: 700; color: #14F195;">SILVER ⭐</p>
+            <p style="font-size: 1.8rem; font-weight: 900;">◎ 25 SOL</p>
+            <p style="color: #94A3B8; font-size: 12px;">12 Bulan • 5 TH/s</p>
+        </div>
+        <div class="glass-card" style="flex: 1; min-width: 200px; text-align: center; padding: 24px 16px; cursor: pointer;" onclick="pilihPaket('Gold', 50)">
+            <p style="font-weight: 700; color: #14F195;">GOLD</p>
+            <p style="font-size: 1.8rem; font-weight: 900;">◎ 50 SOL</p>
+            <p style="color: #94A3B8; font-size: 12px;">24 Bulan • 12 TH/s</p>
+        </div>
+        <div class="glass-card" style="flex: 1; min-width: 200px; text-align: center; padding: 24px 16px; cursor: pointer;" onclick="pilihPaket('VIP', 250)">
+            <p style="font-weight: 700; color: #14F195;">VIP</p>
+            <p style="font-size: 1.8rem; font-weight: 900;">◎ 250 SOL</p>
+            <p style="color: #94A3B8; font-size: 12px;">36 Bulan • 70 TH/s</p>
+        </div>
+        <div class="glass-card" style="flex: 1; min-width: 200px; text-align: center; padding: 24px 16px; cursor: pointer; border-color: rgba(153, 69, 255, 0.5); background: linear-gradient(180deg, rgba(153, 69, 255, 0.1) 0%, rgba(17, 24, 39, 0.7) 100%);" onclick="pilihPaket('AFF', 500)">
+            <p style="font-weight: 700; color: #14F195;">PAKET AFF 🔥</p>
+            <p style="font-size: 1.8rem; font-weight: 900;">◎ 500 SOL</p>
+            <p style="color: #94A3B8; font-size: 12px;">60 Bulan • 150 TH/s</p>
         </div>
     </div>
-    <script>
-    document.getElementById('namaUser').textContent = userNama;
-    document.getElementById('inisialUser').textContent = userNama.charAt(0).toUpperCase();
+
+    <div id="paymentInfo" class="glass-card" style="display: none; text-align: center; max-width: 600px; margin: 0 auto;">
+        <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 8px;">🔑 Pembayaran</h3>
+        <p style="color: #94A3B8; margin-bottom: 8px;">Paket: <strong id="paketDipilih"></strong> — <strong id="hargaDipilih"></strong></p>
+        <p style="color: #94A3B8; font-size: 13px; margin-bottom: 16px;">Transfer SOL ke alamat di bawah ini:</p>
+        <div style="background: rgba(153, 69, 255, 0.1); padding: 14px; border-radius: 10px; word-break: break-all; font-size: 13px; color: #14F195; margin-bottom: 12px;">
+            Ac2oExnWGJBYqVV7vYFuHfjoWx7mJ6Dbf1XyL7GWdXSC
+        </div>
+        <p style="color: #94A3B8; font-size: 12px; margin-bottom: 16px;">Network: Solana • Setelah transfer, klik konfirmasi</p>
+        <button class="btn-primary" onclick="konfirmasiTransfer()">✅ Saya Sudah Transfer</button>
+        <p id="konfirmasiMsg" style="display: none; color: #14F195; margin-top: 12px; font-weight: 600;">✅ Transaksi sedang diverifikasi. Admin akan mengaktifkan kontrak Anda.</p>
+    </div>
+</div>
+
+<!-- TAB WALLET -->
+<div id="tab-wallet" class="tab-content">
+    <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 24px;">◎ Wallet Solana</h2>
     
-    function logout() {
-        localStorage.removeItem('aff_user_nama');
-        localStorage.removeItem('aff_user_email');
-        window.location.href = 'login.html';
-    }
+    <div class="glass-card" style="text-align: center; margin-bottom: 24px;">
+        <p style="color: #94A3B8; font-size: 13px; margin-bottom: 8px;">Saldo Tersedia</p>
+        <p style="font-size: 3rem; font-weight: 900; color: #14F195;">◎ 0</p>
+        <p style="color: #94A3B8; font-size: 12px;">~$0 USD</p>
+    </div>
+
+    <div class="glass-card" style="margin-bottom: 24px;">
+        <h3 style="font-weight: 700; margin-bottom: 16px;">📥 Deposit SOL</h3>
+        <p style="color: #94A3B8; font-size: 13px; margin-bottom: 12px;">Kirim SOL ke alamat wallet resmi AFF:</p>
+        <div style="background: rgba(153, 69, 255, 0.1); padding: 14px; border-radius: 10px; word-break: break-all; font-size: 13px; color: #14F195; margin-bottom: 12px;">
+            Ac2oExnWGJBYqVV7vYFuHfjoWx7mJ6Dbf1XyL7GWdXSC
+        </div>
+        <p style="color: #94A3B8; font-size: 11px;">Network: Solana • Biaya: ~0.000005 SOL • Waktu: 1-5 detik</p>
+    </div>
+
+    <div class="glass-card">
+        <h3 style="font-weight: 700; margin-bottom: 16px;">📤 Withdraw SOL</h3>
+        <form onsubmit="return withdraw(event)" style="display: flex; flex-direction: column; gap: 12px;">
+            <input type="text" id="walletTujuan" class="input-field" placeholder="Alamat Wallet Solana Anda" required>
+            <input type="number" id="jumlahWithdraw" class="input-field" placeholder="Jumlah SOL" step="0.01" required>
+            <button type="submit" class="btn-primary">Kirim Permintaan Withdraw</button>
+        </form>
+        <p id="withdrawMsg" style="display: none; color: #14F195; margin-top: 12px; font-weight: 600; text-align: center;">✅ Permintaan withdraw dikirim. Admin akan memproses dalam 1x24 jam.</p>
+    </div>
+</div>
+        <!-- TAB LAINNYA -->
+        <div id="tab-mining" class="tab-content"><div class="glass-card" style="text-align: center; padding: 60px;"><span style="font-size: 60px;">⛏️</span><h2 style="font-weight: 700; margin: 16px 0;">Mining Aktif</h2><p style="color: #94A3B8;">Anda belum memiliki kontrak mining aktif.</p></div></div>
+        <div id="tab-referral" class="tab-content"><div class="glass-card" style="text-align: center; padding: 60px;"><span style="font-size: 60px;">👥</span><h2 style="font-weight: 700; margin: 16px 0;">Program Referral</h2><p style="color: #94A3B8;">Ajak teman dan dapatkan komisi 5% dari setiap pembelian.</p><p style="color: #14F195; margin-top: 12px;">Kode Referral: <strong>AFF-<span id="kodeRef"></span></strong></p></div></div>
+        <div id="tab-riwayat" class="tab-content"><div class="glass-card" style="text-align: center; padding: 60px;"><span style="font-size: 60px;">📜</span><h2 style="font-weight: 700; margin: 16px 0;">Riwayat Transaksi</h2><p style="color: #94A3B8;">Belum ada transaksi.</p></div></div>
+        <div id="tab-setting" class="tab-content"><div class="glass-card" style="text-align: center; padding: 60px;"><span style="font-size: 60px;">⚙️</span><h2 style="font-weight: 700; margin: 16px 0;">Pengaturan Akun</h2><p style="color: #94A3B8;">Nama: <strong id="setNama"></strong></p><p style="color: #94A3B8;">Email: <strong id="setEmail"></strong></p></div></div>
+    </div>
+
+    <script>
+        document.getElementById('namaUser').textContent = userNama;
+        document.getElementById('inisialUser').textContent = userNama.charAt(0).toUpperCase();
+        document.getElementById('kodeRef').textContent = userNama.replace(/\s/g, '').toUpperCase();
+        document.getElementById('setNama').textContent = userNama;
+        document.getElementById('setEmail').textContent = userEmail;
+
+        function logout() {
+            localStorage.removeItem('aff_user_nama');
+            localStorage.removeItem('aff_user_email');
+            window.location.href = 'login.html';
+        }
+
+        function showTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById('tab-' + tab).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function pilihPaket(nama, harga) {
+            document.getElementById('paymentInfo').style.display = 'block';
+            document.getElementById('paketDipilih').textContent = nama;
+            document.getElementById('hargaDipilih').textContent = '◎ ' + harga + ' SOL';
+        }
+
+        function konfirmasiTransfer() {
+            document.getElementById('konfirmasiMsg').style.display = 'block';
+        }
+
+        function withdraw(e) {
+            e.preventDefault();
+            document.getElementById('withdrawMsg').style.display = 'block';
+            return false;
+        }
     </script>
-        <script type="text/javascript">
+
+    <script type="text/javascript">
     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
     (function(){
     var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
