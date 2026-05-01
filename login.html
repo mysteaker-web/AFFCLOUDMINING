@@ -50,53 +50,53 @@
             <a href="index.html" style="color: #64748B; font-size: 13px; text-decoration: none;">← Kembali ke Beranda</a>
         </p>
     </div>
-        <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyCFNC6a8avHwLc-dG2xlzPRUp4pAl8mULw",
-            authDomain: "affcloudmining-2c85f.firebaseapp.com",
-            projectId: "affcloudmining-2c85f",
-            storageBucket: "affcloudmining-2c85f.firebasestorage.app",
-            messagingSenderId: "19712591186",
-            appId: "1:19712591186:web:e20bf4b8379400b3cd268b"
-        };
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyCFNC6a8avHwLc-dG2xlzPRUp4pAl8mULw",
+        authDomain: "affcloudmining-2c85f.firebaseapp.com",
+        projectId: "affcloudmining-2c85f",
+        storageBucket: "affcloudmining-2c85f.firebasestorage.app",
+        messagingSenderId: "19712591186",
+        appId: "1:19712591186:web:e20bf4b8379400b3cd268b"
+    };
+    
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    
+    function login(e) {
+        e.preventDefault();
         
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+        var email = document.getElementById('email').value.trim();
+        var password = document.getElementById('password').value.trim();
         
-        function login(e) {
-            e.preventDefault();
-            
-            var email = document.getElementById('email').value;
-            var password = document.getElementById('password').value;
-            
-            db.collection('users')
-                .where('email', '==', email)
-                .where('password', '==', password)
-                .get()
-                .then(function(snapshot) {
-                    if (snapshot.empty) {
-                        alert('❌ Email atau password salah!');
-                    } else {
-                        var userData = snapshot.docs[0].data();
-                        var userId = snapshot.docs[0].id;
-                        
-                        localStorage.setItem('aff_user_id', userId);
-                        localStorage.setItem('aff_user_nama', userData.nama);
-                        localStorage.setItem('aff_user_email', userData.email);
-                        
-                        window.location.href = 'dashboard.html';
-                    }
-                })
-                .catch(function(error) {
-                    alert('Login gagal. Coba lagi.');
-                });
-            
-            return false;
-        }
-    </script>
-
+        alert('Mencari: ' + email);
+        
+        db.collection('users')
+            .where('email', '==', email)
+            .where('password', '==', password)
+            .get()
+            .then(function(snapshot) {
+                alert('Ditemukan: ' + snapshot.size + ' data');
+                
+                if (snapshot.empty) {
+                    alert('Email atau password salah!');
+                } else {
+                    var userData = snapshot.docs[0].data();
+                    alert('Login sukses! Halo ' + userData.nama);
+                    localStorage.setItem('aff_user_nama', userData.nama);
+                    localStorage.setItem('aff_user_email', userData.email);
+                    window.location.href = 'dashboard.html';
+                }
+            })
+            .catch(function(error) {
+                alert('Error: ' + error.message);
+            });
+        
+        return false;
+    }
+</script>
     <script type="text/javascript">
     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
     (function(){
