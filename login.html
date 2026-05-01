@@ -41,6 +41,7 @@
                 <a href="#" class="link">Lupa password?</a>
             </div>
             <button type="submit" class="btn-primary">🚀 Login</button>
+            <p id="errorMsg" style="display: none; color: #EF4444; text-align: center; font-size: 13px; margin-top: 4px;">❌ Email atau password salah!</p>
         </form>
         
         <p style="text-align: center; margin-top: 20px; font-size: 14px; color: #94A3B8;">
@@ -71,27 +72,22 @@
         var email = document.getElementById('email').value.trim();
         var password = document.getElementById('password').value.trim();
         
-        alert('Mencari: ' + email);
-        
         db.collection('users')
             .where('email', '==', email)
             .where('password', '==', password)
             .get()
             .then(function(snapshot) {
-                alert('Ditemukan: ' + snapshot.size + ' data');
-                
                 if (snapshot.empty) {
-                    alert('Email atau password salah!');
+                    document.getElementById('errorMsg').style.display = 'block';
                 } else {
                     var userData = snapshot.docs[0].data();
-                    alert('Login sukses! Halo ' + userData.nama);
                     localStorage.setItem('aff_user_nama', userData.nama);
                     localStorage.setItem('aff_user_email', userData.email);
                     window.location.href = 'dashboard.html';
                 }
             })
             .catch(function(error) {
-                alert('Error: ' + error.message);
+                document.getElementById('errorMsg').style.display = 'block';
             });
         
         return false;
