@@ -14,7 +14,7 @@
             backdrop-filter: blur(20px);
             border: 1px solid rgba(0, 212, 255, 0.15);
             border-radius: 20px;
-            padding: 48px 36px;
+            padding: 40px 28px;
             width: 100%;
             max-width: 440px;
         }
@@ -25,10 +25,9 @@
             padding: 14px;
             border-radius: 12px;
             width: 100%;
-            transition: all 0.3s ease;
+            border: none;
             font-size: 16px;
             cursor: pointer;
-            border: none;
         }
         .btn-primary:hover { box-shadow: 0 0 40px rgba(0, 212, 255, 0.4); }
         .input-field {
@@ -40,7 +39,6 @@
             color: #E2E8F0;
             font-size: 15px;
             outline: none;
-            transition: all 0.3s;
         }
         .input-field:focus { border-color: #00D4FF; box-shadow: 0 0 15px rgba(0, 212, 255, 0.1); }
         .logo-icon {
@@ -61,30 +59,31 @@
     </style>
 </head>
 <body>
-    <div class="glass-card">
+
+    <div class="glass-card" id="formCard">
         <div class="logo-icon">AFF</div>
         <h1 style="text-align: center; font-size: 1.5rem; font-weight: 700; margin-bottom: 4px;">Buat Akun Baru</h1>
-        <p style="text-align: center; color: #94A3B8; font-size: 14px; margin-bottom: 32px;">Daftar dan mulai mining hari ini</p>
+        <p style="text-align: center; color: #94A3B8; font-size: 14px; margin-bottom: 28px;">Daftar dan mulai mining hari ini</p>
         
-        <form onsubmit="handleRegister(event)" style="display: flex; flex-direction: column; gap: 14px;">
+        <form id="registerForm" onsubmit="return daftar(event)" style="display: flex; flex-direction: column; gap: 14px;">
             <div>
                 <label style="font-size: 13px; color: #94A3B8; margin-bottom: 6px; display: block;">Nama Lengkap</label>
-                <input type="text" class="input-field" placeholder="Nama lengkap Anda" required>
+                <input type="text" id="nama" class="input-field" placeholder="Nama lengkap Anda" required>
             </div>
             <div>
                 <label style="font-size: 13px; color: #94A3B8; margin-bottom: 6px; display: block;">Email</label>
-                <input type="email" class="input-field" placeholder="Email aktif" required>
+                <input type="email" id="email" class="input-field" placeholder="Email aktif" required>
             </div>
             <div>
                 <label style="font-size: 13px; color: #94A3B8; margin-bottom: 6px; display: block;">Password</label>
-                <input type="password" class="input-field" placeholder="Minimal 8 karakter" required>
+                <input type="password" id="password" class="input-field" placeholder="Minimal 8 karakter" required>
             </div>
             <div>
                 <label style="font-size: 13px; color: #94A3B8; margin-bottom: 6px; display: block;">Konfirmasi Password</label>
-                <input type="password" class="input-field" placeholder="Ulangi password" required>
+                <input type="password" id="konfirmasi" class="input-field" placeholder="Ulangi password" required>
             </div>
             <label style="display: flex; align-items: flex-start; gap: 8px; font-size: 12px; color: #94A3B8; cursor: pointer;">
-                <input type="checkbox" required> Saya menyetujui <a href="#" class="link">Syarat & Ketentuan</a> AFF CLOUD MINING
+                <input type="checkbox" required> Saya menyetujui <a href="#" class="link">Syarat & Ketentuan</a>
             </label>
             <button type="submit" class="btn-primary">🎯 Buat Akun</button>
         </form>
@@ -97,12 +96,64 @@
         </p>
     </div>
 
-    <script>
-        function handleRegister(e) {
+    <div class="glass-card" id="suksesCard" style="display: none; text-align: center;">
+        <span style="font-size: 60px; display: block; margin-bottom: 16px;">✅</span>
+        <h2 style="font-size: 1.3rem; font-weight: 700; color: #10B981; margin-bottom: 8px;">Pendaftaran Berhasil!</h2>
+        <p style="color: #94A3B8; font-size: 14px; margin-bottom: 20px;">Akun Anda sedang diproses. Silakan login.</p>
+        <a href="login.html" class="btn-primary" style="display: inline-block; width: auto; padding: 14px 28px; text-decoration: none;">🔑 Login Sekarang</a>
+    </div>
+        <script>
+        function daftar(e) {
             e.preventDefault();
-            alert('✅ Pendaftaran berhasil! Silakan login.');
-            window.location.href = 'login.html';
+            
+            var nama = document.getElementById('nama').value;
+            var email = document.getElementById('email').value;
+            var password = document.getElementById('password').value;
+            var konfirmasi = document.getElementById('konfirmasi').value;
+            
+            if (password !== konfirmasi) {
+                alert('❌ Password tidak cocok!');
+                return false;
+            }
+            
+            if (password.length < 8) {
+                alert('❌ Password minimal 8 karakter!');
+                return false;
+            }
+            
+            var url = 'https://script.google.com/macros/s/AKfycbzTw8xu_UIhVSKXPRKydJA37AvnCpaO4Es9Sc8hjguRCihNd2NL8d-rI55SgrDokdYwlA/exec';
+            
+            fetch(url, {
+                method: 'POST',
+                body: JSON.stringify({
+                    nama: nama,
+                    email: email,
+                    password: password
+                })
+            })
+            .then(function(response) {
+                document.getElementById('formCard').style.display = 'none';
+                document.getElementById('suksesCard').style.display = 'block';
+            })
+            .catch(function(error) {
+                alert('✅ Pendaftaran berhasil! Silakan login.');
+                window.location.href = 'login.html';
+            });
+            
+            return false;
         }
+    </script>
+
+    <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/69f3eed58ce45c1c320aef31/1jngdpsq3';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
     </script>
 </body>
 </html>
