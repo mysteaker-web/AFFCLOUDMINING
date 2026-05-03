@@ -68,9 +68,9 @@
                 <div class="stat-card"><p style="font-size: 12px; color: #94A3B8;">◎ Saldo Tersedia</p><p style="font-size: 1.6rem; font-weight: 800; color: #14F195;" id="saldoTersedia">◎ 0</p></div>
             </div>
             <div id="kontrakAktif" class="glass-card" style="margin-bottom: 20px;"></div>
-            <div class="glass-card" style="text-align: center; padding: 40px;"><span style="font-size: 50px;">⛏️</span><h2 style="font-size: 1.2rem; font-weight: 700;">Ingin Mining Lebih Banyak?</h2><p style="color: #94A3B8;">Beli kontrak mining Solana</p><button class="btn-primary" onclick="showTab('beli')">🛒 Beli Kontrak</button></div>
-        </div>
-            <div id="tab-beli" class="tab-content">
+            <div class="glass-card" style="text-align: center; padding: 40px;"><span style="font-size: 50px;">⛏️</span><h2>Ingin Mining Lebih Banyak?</h2><p style="color: #94A3B8;">Beli kontrak mining Solana</p><button class="btn-primary" onclick="showTab('beli')">🛒 Beli Kontrak</button></div>
+                                                                                                            </div>
+                                                                                                                <div id="tab-beli" class="tab-content">
         <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 24px;">💳 Beli Kontrak Mining</h2>
         <div style="display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 32px;">
             <div class="glass-card" style="flex: 1; min-width: 200px; text-align: center; padding: 24px 16px; cursor: pointer;" onclick="pilihPaket('Basic',5)"><p style="font-weight: 700; color: #14F195;">BASIC</p><p style="font-size: 1.8rem; font-weight: 900;">◎ 5 SOL</p><p style="color: #94A3B8; font-size: 12px;">6 Bulan • 1 TH/s</p></div>
@@ -111,7 +111,7 @@
             <div class="glass-card" style="padding: 32px; text-align: center;">
                 <span style="font-size: 50px;">📤</span><h3 style="font-weight: 700;">Withdraw SOL</h3>
                 <p style="color: #94A3B8; font-size: 13px; margin-bottom: 20px;">Tarik profit ke wallet Anda</p>
-                <form id="formWithdraw" style="display: flex; flex-direction: column; gap: 12px;" onsubmit="return false;">
+                <form onsubmit="return false;" style="display: flex; flex-direction: column; gap: 12px;">
                     <input type="text" id="walletTujuan" class="input-field" placeholder="Alamat Wallet Solana Anda">
                     <input type="number" id="jumlahWithdraw" class="input-field" placeholder="Jumlah SOL" step="0.01">
                     <button type="button" class="btn-primary" onclick="kirimWithdraw()" style="width: 100%;">📤 Kirim Permintaan</button>
@@ -159,10 +159,10 @@
                 document.getElementById('saldoTersedia').textContent = '◎ ' + saldo;
                 document.getElementById('saldoWallet').textContent = '◎ ' + saldo;
                 if (status === 'Aktif') {
-                    document.getElementById('kontrakAktif').innerHTML = '<h3 style="font-weight:700;">⛏️ Kontrak Aktif</h3><p style="color:#14F195;">Paket: <strong>' + paket + '</strong></p><p style="color:#94A3B8;">Hash Rate: ' + hashrate + '</p><p style="color:#94A3B8;">Profit: ' + profit + '/hari</p><p style="color:#14F195;">Status: ✅ Aktif</p>';
+                    document.getElementById('kontrakAktif').innerHTML = '<h3>⛏️ Kontrak Aktif</h3><p style="color:#14F195;">Paket: <strong>' + paket + '</strong></p><p style="color:#94A3B8;">Hash Rate: ' + hashrate + '</p><p style="color:#94A3B8;">Profit: ' + profit + '/hari</p><p style="color:#14F195;">Status: ✅ Aktif</p>';
                     document.getElementById('miningInfo').innerHTML = 'Paket <strong>' + paket + '</strong> aktif!<br>Hash Rate: ' + hashrate + '<br>Profit: ' + profit + '/hari';
                 } else {
-                    document.getElementById('kontrakAktif').innerHTML = '<p style="text-align:center;color:#94A3B8;">Belum ada kontrak aktif.</p>';
+                    document.getElementById('kontrakAktif').innerHTML = '<p style="color:#94A3B8;">Belum ada kontrak aktif.</p>';
                     document.getElementById('miningInfo').textContent = 'Belum ada kontrak aktif.';
                 }
             }
@@ -185,7 +185,16 @@
         document.getElementById('depositStep2').style.display = 'block';
     }
     function copyWallet() { navigator.clipboard.writeText('Ac2oExnWGJBYqVV7vYFuHfjoWx7mJ6Dbf1XyL7GWdXSC'); alert('✅ Alamat dicopy!'); }
-    function konfirmasiDepoUser() { document.getElementById('depoUserMsg').style.display = 'block'; }
+    function konfirmasiDepoUser() {
+        var jumlah = document.getElementById('depoJumlahText').textContent;
+        db.collection('deposits').add({
+            nama: userNama, email: userEmail, jumlah: jumlah,
+            status: 'Menunggu ACC', tanggal: new Date().toLocaleDateString('id-ID')
+        }).then(function() {
+            document.getElementById('depoUserMsg').style.display = 'block';
+            document.getElementById('depoUserMsg').textContent = '✅ Deposit ' + jumlah + ' SOL menunggu verifikasi admin.';
+        });
+    }
 
     function kirimWithdraw() {
         var wallet = document.getElementById('walletTujuan').value.trim();
