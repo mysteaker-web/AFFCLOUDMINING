@@ -22,6 +22,14 @@
         .tab-content { display: none; } .tab-content.active { display: block; }
         .input-field { width: 100%; padding: 14px 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: #E2E8F0; font-size: 15px; outline: none; }
         .input-field:focus { border-color: #14F195; }
+        @keyframes mining { 0%{transform:translateY(0) rotate(0deg);} 25%{transform:translateY(-15px) rotate(-10deg);} 50%{transform:translateY(0) rotate(0deg);} 75%{transform:translateY(-10px) rotate(10deg);} 100%{transform:translateY(0) rotate(0deg);} }
+        @keyframes sparkle { 0%,100%{opacity:0;transform:scale(0);} 50%{opacity:1;transform:scale(1);} }
+        @keyframes numberScroll { 0%{opacity:0;transform:translateY(10px);} 100%{opacity:1;transform:translateY(0);} }
+        @keyframes fall { 0%{transform:translateY(-20px);opacity:1;} 100%{transform:translateY(40px);opacity:0;} }
+        .mining-animation { animation:mining 0.6s ease-in-out infinite; display:inline-block; font-size:60px; margin-bottom:16px; }
+        .sparkle { animation:sparkle 0.5s ease-in-out infinite; display:inline-block; position:absolute; font-size:20px; color:#14F195; }
+        .profit-number { animation:numberScroll 0.5s ease-out; display:inline-block; font-weight:900; font-size:2rem; color:#14F195; }
+        .particle-fall { position:absolute; width:4px; height:4px; background:#14F195; border-radius:50%; animation:fall 1.5s infinite; }
     </style>
 </head>
 <body>
@@ -55,10 +63,22 @@
                 <div class="stat-card"><p style="font-size:12px;color:#94A3B8;">⚡ Hash Rate Aktif</p><p style="font-size:1.6rem;font-weight:800;color:#E2E8F0;" id="hashRate">0 TH/s</p></div>
                 <div class="stat-card"><p style="font-size:12px;color:#94A3B8;">◎ Saldo Tersedia</p><p style="font-size:1.6rem;font-weight:800;color:#14F195;" id="saldoTersedia">◎ 0</p></div>
             </div>
-            <div id="kontrakAktif" class="glass-card" style="margin-bottom:20px;cursor:default;"></div>
+            <div class="glass-card" style="margin-bottom:20px;cursor:default;text-align:center;position:relative;overflow:hidden;">
+                <div id="miningAnimContainer" style="display:none;position:relative;">
+                    <span class="mining-animation">⛏️</span>
+                    <span class="sparkle" style="top:10px;left:45%;">💎</span>
+                    <span class="sparkle" style="top:20px;right:30%;animation-delay:0.2s;">✨</span>
+                    <span class="sparkle" style="top:0;left:55%;animation-delay:0.4s;">💎</span>
+                    <div class="particle-fall" style="left:40%;animation-delay:0s;"></div>
+                    <div class="particle-fall" style="left:60%;animation-delay:0.5s;"></div>
+                    <div class="particle-fall" style="left:50%;animation-delay:1s;"></div>
+                    <p style="color:#14F195;font-weight:700;margin-top:8px;">⛏️ Mining Solana...</p>
+                </div>
+                <div id="kontrakAktif"></div>
+            </div>
             <div class="glass-card" style="text-align:center;padding:40px;cursor:default;"><span style="font-size:50px;">⛏️</span><h2>Ingin Mining Lebih Banyak?</h2><p style="color:#94A3B8;">Beli kontrak mining Solana</p><button class="btn-primary" onclick="showTab('beli')">🛒 Beli Kontrak</button></div>
-                                                                                                    </div>
-                                                                                                        <div id="tab-beli" class="tab-content">
+                        </div>
+                            <div id="tab-beli" class="tab-content">
         <h2 style="font-size:1.5rem;font-weight:700;margin-bottom:24px;">💳 Beli Kontrak Mining</h2>
         <p style="text-align:center;color:#94A3B8;margin-bottom:20px;">Klik paket pilihan, transfer SOL, lalu konfirmasi</p>
         <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin-bottom:32px;">
@@ -117,8 +137,15 @@
                 document.getElementById('hashRate').textContent=hashrate;
                 document.getElementById('saldoTersedia').textContent='◎ '+saldo;
                 document.getElementById('saldoWallet').textContent='◎ '+saldo;
-                if(status==='Aktif'){document.getElementById('kontrakAktif').innerHTML='<h3>⛏️ Kontrak Aktif</h3><p style="color:#14F195;">Paket: <strong>'+paket+'</strong></p><p style="color:#94A3B8;">Hash Rate: '+hashrate+'</p><p style="color:#94A3B8;">Profit: '+profit+'/hari</p><p style="color:#14F195;">Status: ✅ Aktif</p>';document.getElementById('miningInfo').innerHTML='Paket <strong>'+paket+'</strong> aktif!<br>Hash Rate: '+hashrate+'<br>Profit: '+profit+'/hari';}
-                else{document.getElementById('kontrakAktif').innerHTML='<p style="color:#94A3B8;">Belum ada kontrak aktif.</p>';document.getElementById('miningInfo').textContent='Belum ada kontrak aktif.';}
+                if(status==='Aktif'){
+                    document.getElementById('miningAnimContainer').style.display='block';
+                    document.getElementById('kontrakAktif').innerHTML='<h3>⛏️ Kontrak Aktif</h3><p style="color:#14F195;">Paket: <strong>'+paket+'</strong></p><p style="color:#94A3B8;">Hash Rate: '+hashrate+'</p><p style="color:#94A3B8;">Profit: '+profit+'/hari</p><p style="color:#14F195;">Status: ✅ Aktif</p>';
+                    document.getElementById('miningInfo').innerHTML='Paket <strong>'+paket+'</strong> aktif!<br>Hash Rate: '+hashrate+'<br>Profit: '+profit+'/hari';
+                }else{
+                    document.getElementById('miningAnimContainer').style.display='none';
+                    document.getElementById('kontrakAktif').innerHTML='<p style="color:#94A3B8;">Belum ada kontrak aktif.</p>';
+                    document.getElementById('miningInfo').textContent='Belum ada kontrak aktif.';
+                }
             }
         });
     }
