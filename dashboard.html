@@ -83,7 +83,6 @@
             <h3 style="font-size: 1.2rem; font-weight: 700;">🔑 Pembayaran</h3>
             <p style="color: #94A3B8;">Transfer SOL ke alamat:</p>
             <div style="background: rgba(153, 69, 255, 0.1); padding: 14px; border-radius: 10px; word-break: break-all; font-size: 13px; color: #14F195;">Ac2oExnWGJBYqVV7vYFuHfjoWx7mJ6Dbf1XyL7GWdXSC</div>
-            <p style="color: #94A3B8; font-size: 12px;">Network: Solana</p>
         </div>
     </div>
 
@@ -112,21 +111,22 @@
             <div class="glass-card" style="padding: 32px; text-align: center;">
                 <span style="font-size: 50px;">📤</span><h3 style="font-weight: 700;">Withdraw SOL</h3>
                 <p style="color: #94A3B8; font-size: 13px; margin-bottom: 20px;">Tarik profit ke wallet Anda</p>
-                <form id="formWithdraw" style="display: flex; flex-direction: column; gap: 12px;">
+                <form id="formWithdraw" style="display: flex; flex-direction: column; gap: 12px;" onsubmit="return false;">
                     <input type="text" id="walletTujuan" class="input-field" placeholder="Alamat Wallet Solana Anda">
                     <input type="number" id="jumlahWithdraw" class="input-field" placeholder="Jumlah SOL" step="0.01">
                     <button type="button" class="btn-primary" onclick="kirimWithdraw()" style="width: 100%;">📤 Kirim Permintaan</button>
                 </form>
-                <p id="withdrawMsg" style="display: none; color: #14F195; margin-top: 12px;">✅ Permintaan dikirim. Diproses 1x24 jam.</p>
+                <p id="withdrawMsg" style="display: none; color: #14F195; margin-top: 12px;">✅ Permintaan dikirim.</p>
+                <p id="withdrawError" style="display: none; color: #EF4444; font-size: 13px; margin-top: 8px;">❌ Saldo tidak mencukupi!</p>
             </div>
         </div>
     </div>
-    <div id="tab-mining" class="tab-content"><div class="glass-card" style="text-align: center; padding: 60px;"><span style="font-size: 60px;">⛏️</span><h2 style="font-weight: 700;">Mining Aktif</h2><p style="color: #94A3B8;" id="miningInfo">Memuat...</p></div></div>
-    <div id="tab-referral" class="tab-content"><div class="glass-card" style="text-align: center; padding: 60px;"><span style="font-size: 60px;">👥</span><h2 style="font-weight: 700;">Program Referral</h2><p style="color: #94A3B8;">Ajak teman, komisi 5%.</p><p style="color: #14F195;">Kode: <strong id="kodeRef"></strong></p></div></div>
-    <div id="tab-riwayat" class="tab-content"><div class="glass-card" style="text-align: center; padding: 60px;"><span style="font-size: 60px;">📜</span><h2 style="font-weight: 700;">Riwayat</h2><p style="color: #94A3B8;">Fitur segera hadir.</p></div></div>
-    <div id="tab-setting" class="tab-content"><div class="glass-card" style="text-align: center; padding: 60px;"><span style="font-size: 60px;">⚙️</span><h2 style="font-weight: 700;">Pengaturan</h2><p style="color: #94A3B8;">Nama: <strong id="setNama"></strong></p><p style="color: #94A3B8;">Email: <strong id="setEmail"></strong></p></div></div>
-            </div>
-            <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <div id="tab-mining" class="tab-content"><div class="glass-card" style="text-align: center; padding: 60px;"><h2>⛏️ Mining Aktif</h2><p id="miningInfo" style="color:#94A3B8;">Memuat...</p></div></div>
+    <div id="tab-referral" class="tab-content"><div class="glass-card" style="text-align: center; padding: 60px;"><h2>👥 Referral</h2><p style="color:#94A3B8;">Kode: <strong id="kodeRef"></strong></p></div></div>
+    <div id="tab-riwayat" class="tab-content"><div class="glass-card" style="text-align: center; padding: 60px;"><h2>📜 Riwayat</h2><p style="color:#94A3B8;">Segera hadir.</p></div></div>
+    <div id="tab-setting" class="tab-content"><div class="glass-card" style="text-align: center; padding: 60px;"><h2>⚙️ Pengaturan</h2><p style="color:#94A3B8;">Nama: <strong id="setNama"></strong></p><p style="color:#94A3B8;">Email: <strong id="setEmail"></strong></p></div></div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 <script>
     firebase.initializeApp({
@@ -190,10 +190,11 @@
     function kirimWithdraw() {
         var wallet = document.getElementById('walletTujuan').value.trim();
         var jumlah = parseFloat(document.getElementById('jumlahWithdraw').value.trim());
+        document.getElementById('withdrawError').style.display = 'none';
+        document.getElementById('withdrawMsg').style.display = 'none';
         if (!wallet || !jumlah) { alert('Isi semua data!'); return; }
-        var saldoText = document.getElementById('saldoWallet').textContent.replace('◎', '').trim();
-        var saldo = parseFloat(saldoText);
-        if (jumlah > saldo) { alert('❌ Saldo tidak mencukupi! Saldo Anda: ◎' + saldo); return; }
+        var saldo = parseFloat(document.getElementById('saldoWallet').textContent.replace('◎', '').trim());
+        if (jumlah > saldo) { document.getElementById('withdrawError').style.display = 'block'; return; }
         db.collection('withdraw').add({
             nama: userNama, email: userEmail, jumlah: jumlah.toString(), wallet: wallet,
             tanggal: new Date().toLocaleDateString('id-ID')
