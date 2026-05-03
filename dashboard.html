@@ -11,7 +11,8 @@
         body { background-color: #0B1120; font-family: 'Inter', sans-serif; color: #E2E8F0; min-height: 100vh; display: flex; }
         .sidebar { width: 250px; background: rgba(11, 17, 32, 0.95); border-right: 1px solid rgba(153, 69, 255, 0.15); padding: 24px 16px; display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 10; }
         .main-content { margin-left: 250px; flex: 1; padding: 24px; }
-        .glass-card { background: rgba(17, 24, 39, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(153, 69, 255, 0.15); border-radius: 16px; padding: 24px; }
+        .glass-card { background: rgba(17, 24, 39, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(153, 69, 255, 0.15); border-radius: 16px; padding: 24px; cursor: pointer; transition: all 0.3s; }
+        .glass-card:hover { border-color: #14F195; box-shadow: 0 0 20px rgba(20,241,149,0.1); }
         .stat-card { background: rgba(17, 24, 39, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(153, 69, 255, 0.1); border-radius: 14px; padding: 20px; text-align: center; }
         .btn-primary { background: linear-gradient(135deg, #9945FF, #14F195); color: #0B1120; font-weight: 700; padding: 12px 24px; border-radius: 10px; cursor: pointer; border: none; text-decoration: none; display: inline-block; }
         .btn-outline { background: transparent; color: #14F195; font-weight: 600; padding: 12px 24px; border-radius: 10px; border: 2px solid #14F195; cursor: pointer; text-decoration: none; display: inline-block; }
@@ -62,71 +63,101 @@
 
         <div id="tab-dashboard" class="tab-content active">
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 28px;">
-                <div class="stat-card"><p style="font-size: 12px; color: #94A3B8;">💰 Total Investasi</p><p style="font-size: 1.6rem; font-weight: 800; color: #9945FF;" id="totalInvest">◎ 0</p></div>
-                <div class="stat-card"><p style="font-size: 12px; color: #94A3B8;">📈 Profit Hari Ini</p><p style="font-size: 1.6rem; font-weight: 800; color: #14F195;" id="profitHarian">◎ 0</p></div>
-                <div class="stat-card"><p style="font-size: 12px; color: #94A3B8;">⚡ Hash Rate Aktif</p><p style="font-size: 1.6rem; font-weight: 800; color: #E2E8F0;" id="hashRate">0 TH/s</p></div>
-                <div class="stat-card"><p style="font-size: 12px; color: #94A3B8;">◎ Saldo Tersedia</p><p style="font-size: 1.6rem; font-weight: 800; color: #14F195;" id="saldoTersedia">◎ 0</p></div>
+                <div class="stat-card"><p style="font-size:12px;color:#94A3B8;">💰 Total Investasi</p><p style="font-size:1.6rem;font-weight:800;color:#9945FF;" id="totalInvest">◎ 0</p></div>
+                <div class="stat-card"><p style="font-size:12px;color:#94A3B8;">📈 Profit Hari Ini</p><p style="font-size:1.6rem;font-weight:800;color:#14F195;" id="profitHarian">◎ 0</p></div>
+                <div class="stat-card"><p style="font-size:12px;color:#94A3B8;">⚡ Hash Rate Aktif</p><p style="font-size:1.6rem;font-weight:800;color:#E2E8F0;" id="hashRate">0 TH/s</p></div>
+                <div class="stat-card"><p style="font-size:12px;color:#94A3B8;">◎ Saldo Tersedia</p><p style="font-size:1.6rem;font-weight:800;color:#14F195;" id="saldoTersedia">◎ 0</p></div>
             </div>
-            <div id="kontrakAktif" class="glass-card" style="margin-bottom: 20px;"></div>
-            <div class="glass-card" style="text-align: center; padding: 40px;"><span style="font-size: 50px;">⛏️</span><h2>Ingin Mining Lebih Banyak?</h2><p style="color: #94A3B8;">Beli kontrak mining Solana</p><button class="btn-primary" onclick="showTab('beli')">🛒 Beli Kontrak</button></div>
+            <div id="kontrakAktif" class="glass-card" style="margin-bottom:20px;cursor:default;"></div>
+            <div class="glass-card" style="text-align:center;padding:40px;cursor:default;"><span style="font-size:50px;">⛏️</span><h2>Ingin Mining Lebih Banyak?</h2><p style="color:#94A3B8;">Beli kontrak mining Solana</p><button class="btn-primary" onclick="showTab('beli')">🛒 Beli Kontrak</button></div>
     </div>
         <div id="tab-beli" class="tab-content">
-        <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 24px;">💳 Beli Kontrak Mining</h2>
-        <div style="display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 32px;">
-            <div class="glass-card" style="flex: 1; min-width: 200px; text-align: center; padding: 24px 16px; cursor: pointer;" onclick="pilihPaket('Basic',5)"><p style="font-weight: 700; color: #14F195;">BASIC</p><p style="font-size: 1.8rem; font-weight: 900;">◎ 5 SOL</p><p style="color: #94A3B8; font-size: 12px;">6 Bulan • 1 TH/s</p></div>
-            <div class="glass-card" style="flex: 1; min-width: 200px; text-align: center; padding: 24px 16px; cursor: pointer; border-color: rgba(20, 241, 149, 0.4);" onclick="pilihPaket('Silver',25)"><p style="font-weight: 700; color: #14F195;">SILVER ⭐</p><p style="font-size: 1.8rem; font-weight: 900;">◎ 25 SOL</p><p style="color: #94A3B8; font-size: 12px;">12 Bulan • 5 TH/s</p></div>
-            <div class="glass-card" style="flex: 1; min-width: 200px; text-align: center; padding: 24px 16px; cursor: pointer;" onclick="pilihPaket('Gold',50)"><p style="font-weight: 700; color: #14F195;">GOLD</p><p style="font-size: 1.8rem; font-weight: 900;">◎ 50 SOL</p><p style="color: #94A3B8; font-size: 12px;">24 Bulan • 12 TH/s</p></div>
-            <div class="glass-card" style="flex: 1; min-width: 200px; text-align: center; padding: 24px 16px; cursor: pointer;" onclick="pilihPaket('VIP',250)"><p style="font-weight: 700; color: #14F195;">VIP</p><p style="font-size: 1.8rem; font-weight: 900;">◎ 250 SOL</p><p style="color: #94A3B8; font-size: 12px;">36 Bulan • 70 TH/s</p></div>
-            <div class="glass-card" style="flex: 1; min-width: 200px; text-align: center; padding: 24px 16px; cursor: pointer; border-color: rgba(153, 69, 255, 0.5); background: linear-gradient(180deg, rgba(153, 69, 255, 0.1) 0%, rgba(17, 24, 39, 0.7) 100%);" onclick="pilihPaket('AFF',500)"><p style="font-weight: 700; color: #14F195;">PAKET AFF 🔥</p><p style="font-size: 1.8rem; font-weight: 900;">◎ 500 SOL</p><p style="color: #94A3B8; font-size: 12px;">60 Bulan • 150 TH/s</p></div>
+        <h2 style="font-size:1.5rem;font-weight:700;margin-bottom:24px;">💳 Beli Kontrak Mining</h2>
+        <p style="text-align:center;color:#94A3B8;margin-bottom:20px;">Klik paket pilihan, transfer SOL, lalu konfirmasi</p>
+        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin-bottom:32px;">
+            <div class="glass-card" style="flex:1;min-width:200px;max-width:220px;text-align:center;padding:24px 16px;" onclick="beliPaket('Basic','5')">
+                <p style="font-weight:700;color:#14F195;font-size:1.2rem;">BASIC</p>
+                <p style="font-size:1.8rem;font-weight:900;">◎ 5 SOL</p>
+                <p style="color:#94A3B8;font-size:12px;">6 Bulan • 1 TH/s</p>
+                <p style="color:#14F195;font-size:11px;margin-top:8px;">👆 Klik untuk beli</p>
+            </div>
+            <div class="glass-card" style="flex:1;min-width:200px;max-width:220px;text-align:center;padding:24px 16px;border-color:rgba(20,241,149,0.4);" onclick="beliPaket('Silver','25')">
+                <p style="font-weight:700;color:#14F195;font-size:1.2rem;">SILVER ⭐</p>
+                <p style="font-size:1.8rem;font-weight:900;color:#14F195;">◎ 25 SOL</p>
+                <p style="color:#94A3B8;font-size:12px;">12 Bulan • 5 TH/s</p>
+                <p style="color:#14F195;font-size:11px;margin-top:8px;">👆 Klik untuk beli</p>
+            </div>
+            <div class="glass-card" style="flex:1;min-width:200px;max-width:220px;text-align:center;padding:24px 16px;" onclick="beliPaket('Gold','50')">
+                <p style="font-weight:700;color:#14F195;font-size:1.2rem;">GOLD</p>
+                <p style="font-size:1.8rem;font-weight:900;">◎ 50 SOL</p>
+                <p style="color:#94A3B8;font-size:12px;">24 Bulan • 12 TH/s</p>
+                <p style="color:#14F195;font-size:11px;margin-top:8px;">👆 Klik untuk beli</p>
+            </div>
+            <div class="glass-card" style="flex:1;min-width:200px;max-width:220px;text-align:center;padding:24px 16px;" onclick="beliPaket('VIP','250')">
+                <p style="font-weight:700;color:#14F195;font-size:1.2rem;">VIP</p>
+                <p style="font-size:1.8rem;font-weight:900;">◎ 250 SOL</p>
+                <p style="color:#94A3B8;font-size:12px;">36 Bulan • 70 TH/s</p>
+                <p style="color:#14F195;font-size:11px;margin-top:8px;">👆 Klik untuk beli</p>
+            </div>
+            <div class="glass-card" style="flex:1;min-width:200px;max-width:220px;text-align:center;padding:24px 16px;border-color:rgba(153,69,255,0.5);background:linear-gradient(180deg,rgba(153,69,255,0.1) 0%,rgba(17,24,39,0.7) 100%);" onclick="beliPaket('AFF','500')">
+                <p style="font-weight:700;color:#14F195;font-size:1.2rem;">PAKET AFF 🔥</p>
+                <p style="font-size:1.8rem;font-weight:900;">◎ 500 SOL</p>
+                <p style="color:#94A3B8;font-size:12px;">60 Bulan • 150 TH/s</p>
+                <p style="color:#14F195;font-size:11px;margin-top:8px;">👆 Klik untuk beli</p>
+            </div>
         </div>
-        <div id="paymentInfo" class="glass-card" style="display: none; text-align: center; max-width: 600px; margin: 0 auto;">
-            <h3 style="font-size: 1.2rem; font-weight: 700;">🔑 Pembayaran</h3>
-            <p style="color: #94A3B8;">Transfer SOL ke alamat:</p>
-            <div style="background: rgba(153, 69, 255, 0.1); padding: 14px; border-radius: 10px; word-break: break-all; font-size: 13px; color: #14F195;">Ac2oExnWGJBYqVV7vYFuHfjoWx7mJ6Dbf1XyL7GWdXSC</div>
+        <div id="beliInfo" class="glass-card" style="display:none;text-align:center;max-width:600px;margin:0 auto;cursor:default;">
+            <h3 style="font-size:1.2rem;font-weight:700;">🔑 Pembayaran <span id="beliPaketNama"></span></h3>
+            <p style="color:#94A3B8;">Transfer <strong id="beliJumlah"></strong> ke:</p>
+            <div style="background:rgba(153,69,255,0.1);padding:14px;border-radius:10px;word-break:break-all;font-size:13px;color:#14F195;margin:12px 0;">Ac2oExnWGJBYqVV7vYFuHfjoWx7mJ6Dbf1XyL7GWdXSC</div>
+            <button class="btn-outline btn-sm" onclick="copyWallet()" style="margin-bottom:12px;">📋 Copy Alamat</button>
+            <br>
+            <button class="btn-primary" onclick="konfirmasiBeli()">✅ Saya Sudah Transfer</button>
+            <p id="beliMsg" style="display:none;color:#14F195;margin-top:10px;">✅ Pembelian menunggu verifikasi admin.</p>
         </div>
     </div>
 
     <div id="tab-wallet" class="tab-content">
-        <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 24px;">◎ Wallet Solana</h2>
-        <div class="glass-card" style="text-align: center; margin-bottom: 24px; padding: 40px;">
-            <p style="color: #94A3B8;">💰 Saldo Tersedia</p>
-            <p style="font-size: 3rem; font-weight: 900; color: #14F195;" id="saldoWallet">◎ 0</p>
+        <h2 style="font-size:1.5rem;font-weight:700;margin-bottom:24px;">◎ Wallet Solana</h2>
+        <div class="glass-card" style="text-align:center;margin-bottom:24px;padding:40px;cursor:default;">
+            <p style="color:#94A3B8;">💰 Saldo Tersedia</p>
+            <p style="font-size:3rem;font-weight:900;color:#14F195;" id="saldoWallet">◎ 0</p>
         </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-            <div class="glass-card" style="padding: 32px; text-align: center;">
-                <span style="font-size: 50px;">📥</span><h3 style="font-weight: 700;">Deposit SOL</h3>
-                <p style="color: #94A3B8; font-size: 13px; margin-bottom: 20px;">Kirim SOL ke wallet AFF</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+            <div class="glass-card" style="padding:32px;text-align:center;cursor:default;">
+                <span style="font-size:50px;">📥</span><h3>Deposit SOL</h3>
+                <p style="color:#94A3B8;font-size:13px;margin-bottom:20px;">Kirim SOL ke wallet AFF</p>
                 <div id="depositStep1">
-                    <input type="number" id="jumlahDeposit" class="input-field" placeholder="Jumlah SOL" step="0.1" style="text-align: center; font-size: 1.5rem; font-weight: 700; margin-bottom: 12px;">
-                    <button class="btn-primary" onclick="showDepositInfo()" style="width: 100%;">🔑 Lihat Alamat Wallet</button>
+                    <input type="number" id="jumlahDeposit" class="input-field" placeholder="Jumlah SOL" step="0.1" style="text-align:center;font-size:1.5rem;font-weight:700;margin-bottom:12px;">
+                    <button class="btn-primary" onclick="showDepositInfo()" style="width:100%;">🔑 Lihat Alamat Wallet</button>
                 </div>
-                <div id="depositStep2" style="display: none;">
-                    <p style="color: #F59E0B;">Transfer <strong id="depoJumlahText">0</strong> SOL ke:</p>
-                    <div style="background: rgba(153, 69, 255, 0.1); padding: 14px; border-radius: 10px; word-break: break-all; font-size: 13px; color: #14F195;">Ac2oExnWGJBYqVV7vYFuHfjoWx7mJ6Dbf1XyL7GWdXSC</div>
-                    <button class="btn-outline btn-sm" onclick="copyWallet()" style="width: 100%; margin-bottom: 12px;">📋 Copy Alamat</button>
-                    <button class="btn-primary btn-sm" id="btnDepositConfirm" onclick="depositConfirm()" style="width: 100%;">✅ Saya Sudah Transfer</button>
-                    <p id="depoUserMsg" style="display: none; color: #14F195; margin-top: 10px;">✅ Menunggu verifikasi admin...</p>
+                <div id="depositStep2" style="display:none;">
+                    <p style="color:#F59E0B;">Transfer <strong id="depoJumlahText">0</strong> SOL ke:</p>
+                    <div style="background:rgba(153,69,255,0.1);padding:14px;border-radius:10px;word-break:break-all;font-size:13px;color:#14F195;">Ac2oExnWGJBYqVV7vYFuHfjoWx7mJ6Dbf1XyL7GWdXSC</div>
+                    <button class="btn-outline btn-sm" onclick="copyWallet()" style="width:100%;margin-bottom:12px;">📋 Copy Alamat</button>
+                    <button class="btn-primary btn-sm" onclick="depositConfirm()" style="width:100%;">✅ Saya Sudah Transfer</button>
+                    <p id="depoUserMsg" style="display:none;color:#14F195;margin-top:10px;">✅ Menunggu verifikasi admin...</p>
                 </div>
             </div>
-            <div class="glass-card" style="padding: 32px; text-align: center;">
-                <span style="font-size: 50px;">📤</span><h3 style="font-weight: 700;">Withdraw SOL</h3>
-                <p style="color: #94A3B8; font-size: 13px; margin-bottom: 20px;">Tarik profit ke wallet Anda</p>
-                <form onsubmit="return false;" style="display: flex; flex-direction: column; gap: 12px;">
+            <div class="glass-card" style="padding:32px;text-align:center;cursor:default;">
+                <span style="font-size:50px;">📤</span><h3>Withdraw SOL</h3>
+                <p style="color:#94A3B8;font-size:13px;margin-bottom:20px;">Tarik profit ke wallet Anda</p>
+                <form onsubmit="return false;" style="display:flex;flex-direction:column;gap:12px;">
                     <input type="text" id="walletTujuan" class="input-field" placeholder="Alamat Wallet Solana Anda">
                     <input type="number" id="jumlahWithdraw" class="input-field" placeholder="Jumlah SOL" step="0.01">
-                    <button type="button" class="btn-primary" onclick="kirimWithdraw()" style="width: 100%;">📤 Kirim Permintaan</button>
+                    <button type="button" class="btn-primary" onclick="kirimWithdraw()" style="width:100%;">📤 Kirim Permintaan</button>
                 </form>
-                <p id="withdrawMsg" style="display: none; color: #14F195; margin-top: 12px;">✅ Permintaan dikirim.</p>
-                <p id="withdrawError" style="display: none; color: #EF4444; font-size: 13px; margin-top: 8px;">❌ Saldo tidak mencukupi!</p>
+                <p id="withdrawMsg" style="display:none;color:#14F195;margin-top:12px;">✅ Permintaan dikirim.</p>
+                <p id="withdrawError" style="display:none;color:#EF4444;font-size:13px;margin-top:8px;">❌ Saldo tidak mencukupi!</p>
             </div>
         </div>
     </div>
-    <div id="tab-mining" class="tab-content"><div class="glass-card" style="text-align: center; padding: 60px;"><h2>⛏️ Mining Aktif</h2><p id="miningInfo" style="color:#94A3B8;">Memuat...</p></div></div>
-    <div id="tab-referral" class="tab-content"><div class="glass-card" style="text-align: center; padding: 60px;"><h2>👥 Referral</h2><p style="color:#94A3B8;">Kode: <strong id="kodeRef"></strong></p></div></div>
-    <div id="tab-riwayat" class="tab-content"><div class="glass-card" style="text-align: center; padding: 60px;"><h2>📜 Riwayat</h2><p style="color:#94A3B8;">Segera hadir.</p></div></div>
-    <div id="tab-setting" class="tab-content"><div class="glass-card" style="text-align: center; padding: 60px;"><h2>⚙️ Pengaturan</h2><p style="color:#94A3B8;">Nama: <strong id="setNama"></strong></p><p style="color:#94A3B8;">Email: <strong id="setEmail"></strong></p></div></div>
-                    </div>
-                    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <div id="tab-mining" class="tab-content"><div class="glass-card" style="text-align:center;padding:60px;cursor:default;"><h2>⛏️ Mining Aktif</h2><p id="miningInfo" style="color:#94A3B8;">Memuat...</p></div></div>
+    <div id="tab-referral" class="tab-content"><div class="glass-card" style="text-align:center;padding:60px;cursor:default;"><h2>👥 Referral</h2><p style="color:#94A3B8;">Kode: <strong id="kodeRef"></strong></p></div></div>
+    <div id="tab-riwayat" class="tab-content"><div class="glass-card" style="text-align:center;padding:60px;cursor:default;"><h2>📜 Riwayat</h2><p style="color:#94A3B8;">Segera hadir.</p></div></div>
+    <div id="tab-setting" class="tab-content"><div class="glass-card" style="text-align:center;padding:60px;cursor:default;"><h2>⚙️ Pengaturan</h2><p style="color:#94A3B8;">Nama: <strong id="setNama"></strong></p><p style="color:#94A3B8;">Email: <strong id="setEmail"></strong></p></div></div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 <script>
     firebase.initializeApp({
@@ -143,6 +174,8 @@
     document.getElementById('kodeRef').textContent = userNama.replace(/\s/g, '').toUpperCase();
     document.getElementById('setNama').textContent = userNama;
     document.getElementById('setEmail').textContent = userEmail;
+
+    var beliPaketNama = ''; var beliJumlah = '';
 
     function loadUserData() {
         db.collection('users').where('email', '==', userEmail).get().then(function(s) {
@@ -176,7 +209,25 @@
         document.getElementById('tab-' + t).classList.add('active');
         event.target.classList.add('active');
     }
-    function pilihPaket(nama, harga) { document.getElementById('paymentInfo').style.display = 'block'; }
+
+    function beliPaket(nama, jumlah) {
+        beliPaketNama = nama; beliJumlah = jumlah;
+        document.getElementById('beliPaketNama').textContent = nama;
+        document.getElementById('beliJumlah').textContent = '◎ ' + jumlah + ' SOL';
+        document.getElementById('beliInfo').style.display = 'block';
+    }
+
+    function konfirmasiBeli() {
+        db.collection('deposits').add({
+            nama: userNama, email: userEmail, jumlah: beliJumlah,
+            paket: beliPaketNama, status: 'Menunggu ACC',
+            tanggal: new Date().toLocaleDateString('id-ID')
+        }).then(function() {
+            document.getElementById('beliMsg').style.display = 'block';
+            document.getElementById('beliMsg').textContent = '✅ Pembelian ' + beliPaketNama + ' ' + beliJumlah + ' SOL menunggu verifikasi.';
+        });
+    }
+
     function showDepositInfo() {
         var jml = document.getElementById('jumlahDeposit').value;
         if (!jml || jml <= 0) { alert('Masukkan jumlah SOL!'); return; }
@@ -193,9 +244,7 @@
             status: 'Menunggu ACC', tanggal: new Date().toLocaleDateString('id-ID')
         }).then(function() {
             document.getElementById('depoUserMsg').style.display = 'block';
-            document.getElementById('depoUserMsg').textContent = '✅ Deposit ' + jumlah + ' SOL menunggu verifikasi admin.';
-        }).catch(function(err) {
-            alert('Gagal: ' + err.message);
+            document.getElementById('depoUserMsg').textContent = '✅ Deposit ' + jumlah + ' SOL menunggu verifikasi.';
         });
     }
 
