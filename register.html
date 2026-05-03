@@ -9,113 +9,88 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background-color: #0B1120; font-family: 'Inter', sans-serif; color: #E2E8F0; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
-        .glass-card { background: rgba(17, 24, 39, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(0, 212, 255, 0.15); border-radius: 20px; padding: 40px 28px; width: 100%; max-width: 440px; }
-        .btn-primary { background: linear-gradient(135deg, #00D4FF, #0099CC); color: #0B1120; font-weight: 700; padding: 14px; border-radius: 12px; width: 100%; border: none; font-size: 16px; cursor: pointer; }
-        .btn-primary:hover { box-shadow: 0 0 40px rgba(0, 212, 255, 0.4); }
+        .glass-card { background: rgba(17, 24, 39, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(153, 69, 255, 0.15); border-radius: 20px; padding: 40px 28px; width: 100%; max-width: 440px; }
+        .btn-primary { background: linear-gradient(135deg, #9945FF, #14F195); color: #0B1120; font-weight: 700; padding: 14px; border-radius: 12px; width: 100%; border: none; font-size: 16px; cursor: pointer; }
+        .btn-primary:hover { box-shadow: 0 0 40px rgba(153, 69, 255, 0.5); }
         .input-field { width: 100%; padding: 14px 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: #E2E8F0; font-size: 15px; outline: none; }
-        .input-field:focus { border-color: #00D4FF; box-shadow: 0 0 15px rgba(0, 212, 255, 0.1); }
-        .logo-icon { display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #00D4FF, #0099CC); color: #0B1120; font-weight: 900; font-size: 22px; width: 48px; height: 48px; border-radius: 12px; margin: 0 auto 16px; }
-        .link { color: #00D4FF; text-decoration: none; font-weight: 500; }
+        .input-field:focus { border-color: #14F195; }
+        .logo-icon { display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #9945FF, #14F195); color: #0B1120; font-weight: 900; font-size: 22px; width: 48px; height: 48px; border-radius: 12px; margin: 0 auto 16px; }
+        .link { color: #14F195; text-decoration: none; font-weight: 500; }
     </style>
 </head>
 <body>
-
     <div class="glass-card" id="formCard">
         <div class="logo-icon">AFF</div>
-        <h1 style="text-align: center; font-size: 1.5rem; font-weight: 700; margin-bottom: 4px;">Buat Akun Baru</h1>
-        <p style="text-align: center; color: #94A3B8; font-size: 14px; margin-bottom: 28px;">Daftar dan mulai mining hari ini</p>
-        
+        <h1 style="text-align: center; font-size: 1.5rem; font-weight: 700;">Buat Akun Baru</h1>
+        <p style="text-align: center; color: #94A3B8; font-size: 14px; margin-bottom: 28px;">Daftar dan mulai mining Solana</p>
         <form id="registerForm" onsubmit="return daftar(event)" style="display: flex; flex-direction: column; gap: 14px;">
-            <div>
-                <label style="font-size: 13px; color: #94A3B8; margin-bottom: 6px; display: block;">Nama Lengkap</label>
-                <input type="text" id="nama" class="input-field" placeholder="Nama lengkap Anda" required>
-            </div>
-            <div>
-                <label style="font-size: 13px; color: #94A3B8; margin-bottom: 6px; display: block;">Email</label>
-                <input type="email" id="email" class="input-field" placeholder="Email aktif" required>
-            </div>
-            <div>
-                <label style="font-size: 13px; color: #94A3B8; margin-bottom: 6px; display: block;">Password</label>
-                <input type="password" id="password" class="input-field" placeholder="Minimal 8 karakter" required>
-            </div>
-            <div>
-                <label style="font-size: 13px; color: #94A3B8; margin-bottom: 6px; display: block;">Konfirmasi Password</label>
-                <input type="password" id="konfirmasi" class="input-field" placeholder="Ulangi password" required>
-            </div>
-            <label style="display: flex; align-items: flex-start; gap: 8px; font-size: 12px; color: #94A3B8; cursor: pointer;">
-                <input type="checkbox" required> Saya menyetujui <a href="#" class="link">Syarat & Ketentuan</a>
-            </label>
+            <div><label style="font-size:13px;color:#94A3B8;">Nama Lengkap</label><input type="text" id="nama" class="input-field" placeholder="Nama lengkap Anda" required></div>
+            <div><label style="font-size:13px;color:#94A3B8;">Email</label><input type="email" id="email" class="input-field" placeholder="Email aktif" required></div>
+            <div><label style="font-size:13px;color:#94A3B8;">Password</label><input type="password" id="password" class="input-field" placeholder="Minimal 8 karakter" required></div>
+            <div><label style="font-size:13px;color:#94A3B8;">Konfirmasi Password</label><input type="password" id="konfirmasi" class="input-field" placeholder="Ulangi password" required></div>
+            <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:#94A3B8;"><input type="checkbox" required> Saya menyetujui <a href="#" class="link">Syarat & Ketentuan</a></label>
             <button type="submit" class="btn-primary">🎯 Buat Akun</button>
         </form>
-        
-        <p style="text-align: center; margin-top: 20px; font-size: 14px; color: #94A3B8;">
-            Sudah punya akun? <a href="login.html" class="link">Login di sini</a>
-        </p>
-        <p style="text-align: center; margin-top: 8px;">
-            <a href="index.html" style="color: #64748B; font-size: 13px; text-decoration: none;">← Kembali ke Beranda</a>
-        </p>
+        <p style="text-align:center;margin-top:20px;font-size:14px;color:#94A3B8;">Sudah punya akun? <a href="login.html" class="link">Login</a></p>
     </div>
-
-    <div class="glass-card" id="sukses" style="display: none; text-align: center;">
-        <span style="font-size: 60px; display: block; margin-bottom: 16px;">✅</span>
-        <h2 style="font-size: 1.3rem; font-weight: 700; color: #10B981; margin-bottom: 8px;">Pendaftaran Berhasil!</h2>
-        <p style="color: #94A3B8; font-size: 14px; margin-bottom: 20px;">Akun Anda sudah terdaftar. Silakan login.</p>
-        <a href="login.html" class="btn-primary" style="display: inline-block; width: auto; padding: 14px 28px; text-decoration: none;">🔑 Login Sekarang</a>
+    <div class="glass-card" id="suksesCard" style="display:none;text-align:center;">
+        <span style="font-size:60px;">✅</span>
+        <h2 style="color:#14F195;">Pendaftaran Berhasil!</h2>
+        <p style="color:#94A3B8;">Email konfirmasi telah dikirim.</p>
+        <a href="login.html" class="btn-primary" style="display:inline-block;width:auto;padding:14px 28px;text-decoration:none;margin-top:16px;">🔑 Login</a>
     </div>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 <script>
-    const firebaseConfig = {
+    firebase.initializeApp({
         apiKey: "AIzaSyCFNC6a8avHwLc-dG2xlzPRUp4pAl8mULw",
         authDomain: "affcloudmining-2c85f.firebaseapp.com",
         projectId: "affcloudmining-2c85f",
         storageBucket: "affcloudmining-2c85f.firebasestorage.app",
         messagingSenderId: "19712591186",
         appId: "1:19712591186:web:e20bf4b8379400b3cd268b"
-    };
-    
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    
+    });
+    var db = firebase.firestore();
+
     function daftar(e) {
         e.preventDefault();
-        
         var nama = document.getElementById('nama').value;
         var email = document.getElementById('email').value;
         var password = document.getElementById('password').value;
         var konfirmasi = document.getElementById('konfirmasi').value;
-        
-        if (password !== konfirmasi) {
-            alert('Password tidak cocok!');
-            return false;
-        }
-        
-        if (password.length < 8) {
-            alert('Password minimal 8 karakter!');
-            return false;
-        }
-        
+        if (password !== konfirmasi) { alert('Password tidak cocok!'); return false; }
+        if (password.length < 8) { alert('Password minimal 8 karakter!'); return false; }
+
         db.collection('users').add({
-            nama: nama,
-            email: email,
-            password: password,
-            tanggal: new Date().toLocaleDateString('id-ID'),
-            status: 'Baru'
-        })
-        .then(function() {
+            nama: nama, email: email, password: password,
+            tanggal: new Date().toLocaleDateString('id-ID'), status: 'Baru'
+        }).then(function() {
             document.getElementById('formCard').style.display = 'none';
-            document.getElementById('sukses').style.display = 'block';
-        })
-        .catch(function(error) {
-            alert('Pendaftaran berhasil! Silakan login.');
+            document.getElementById('suksesCard').style.display = 'block';
+
+            fetch('https://api.mailjet.com/v3.1/send', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Basic ' + btoa('724aa2bc461626c2c2ea0d3e9a754940:3a858a81b294b904c06f958813c8e9e7')
+                },
+                body: JSON.stringify({
+                    Messages: [{
+                        From: { Email: "mysteaker@gmail.com", Name: "AFF Cloud Mining" },
+                        To: [{ Email: email, Name: nama }],
+                        Subject: "🎉 Selamat Datang di AFF Cloud Mining!",
+                        HTMLPart: "<h2>Halo " + nama + "!</h2><p>Akun Anda sudah aktif.</p><p>📧 Email: " + email + "</p><p>🔗 <a href='https://affcloudmining.netlify.app/login.html'>Login sekarang</a></p><p>Salam,<br><strong>Tim AFF Cloud Mining</strong></p>"
+                    }]
+                })
+            });
+        }).catch(function(err) {
             document.getElementById('formCard').style.display = 'none';
-            document.getElementById('sukses').style.display = 'block';
+            document.getElementById('suksesCard').style.display = 'block';
         });
-        
         return false;
     }
 </script>
-    <script type="text/javascript">
+        <script type="text/javascript">
     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
     (function(){
     var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
