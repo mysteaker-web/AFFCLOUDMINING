@@ -25,7 +25,6 @@
     </style>
 </head>
 <body>
-
     <script>
         var userNama = localStorage.getItem('aff_user_nama');
         var userEmail = localStorage.getItem('aff_user_email');
@@ -70,8 +69,8 @@
             </div>
             <div id="kontrakAktif" class="glass-card" style="margin-bottom: 20px;"></div>
             <div class="glass-card" style="text-align: center; padding: 40px;"><span style="font-size: 50px;">⛏️</span><h2 style="font-size: 1.2rem; font-weight: 700;">Ingin Mining Lebih Banyak?</h2><p style="color: #94A3B8;">Beli kontrak mining Solana</p><button class="btn-primary" onclick="showTab('beli')">🛒 Beli Kontrak</button></div>
-                                           </div>
-                                               <div id="tab-beli" class="tab-content">
+        </div>
+            <div id="tab-beli" class="tab-content">
         <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 24px;">💳 Beli Kontrak Mining</h2>
         <div style="display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 32px;">
             <div class="glass-card" style="flex: 1; min-width: 200px; text-align: center; padding: 24px 16px; cursor: pointer;" onclick="pilihPaket('Basic',5)"><p style="font-weight: 700; color: #14F195;">BASIC</p><p style="font-size: 1.8rem; font-weight: 900;">◎ 5 SOL</p><p style="color: #94A3B8; font-size: 12px;">6 Bulan • 1 TH/s</p></div>
@@ -81,9 +80,9 @@
             <div class="glass-card" style="flex: 1; min-width: 200px; text-align: center; padding: 24px 16px; cursor: pointer; border-color: rgba(153, 69, 255, 0.5); background: linear-gradient(180deg, rgba(153, 69, 255, 0.1) 0%, rgba(17, 24, 39, 0.7) 100%);" onclick="pilihPaket('AFF',500)"><p style="font-weight: 700; color: #14F195;">PAKET AFF 🔥</p><p style="font-size: 1.8rem; font-weight: 900;">◎ 500 SOL</p><p style="color: #94A3B8; font-size: 12px;">60 Bulan • 150 TH/s</p></div>
         </div>
         <div id="paymentInfo" class="glass-card" style="display: none; text-align: center; max-width: 600px; margin: 0 auto;">
-            <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 8px;">🔑 Pembayaran</h3>
+            <h3 style="font-size: 1.2rem; font-weight: 700;">🔑 Pembayaran</h3>
             <p style="color: #94A3B8;">Transfer SOL ke alamat:</p>
-            <div style="background: rgba(153, 69, 255, 0.1); padding: 14px; border-radius: 10px; word-break: break-all; font-size: 13px; color: #14F195; margin-bottom: 12px;">Ac2oExnWGJBYqVV7vYFuHfjoWx7mJ6Dbf1XyL7GWdXSC</div>
+            <div style="background: rgba(153, 69, 255, 0.1); padding: 14px; border-radius: 10px; word-break: break-all; font-size: 13px; color: #14F195;">Ac2oExnWGJBYqVV7vYFuHfjoWx7mJ6Dbf1XyL7GWdXSC</div>
             <p style="color: #94A3B8; font-size: 12px;">Network: Solana</p>
         </div>
     </div>
@@ -104,7 +103,7 @@
                 </div>
                 <div id="depositStep2" style="display: none;">
                     <p style="color: #F59E0B;">Transfer <strong id="depoJumlahText">0</strong> SOL ke:</p>
-                    <div style="background: rgba(153, 69, 255, 0.1); padding: 14px; border-radius: 10px; word-break: break-all; font-size: 13px; color: #14F195; margin-bottom: 12px;">Ac2oExnWGJBYqVV7vYFuHfjoWx7mJ6Dbf1XyL7GWdXSC</div>
+                    <div style="background: rgba(153, 69, 255, 0.1); padding: 14px; border-radius: 10px; word-break: break-all; font-size: 13px; color: #14F195;">Ac2oExnWGJBYqVV7vYFuHfjoWx7mJ6Dbf1XyL7GWdXSC</div>
                     <button class="btn-outline btn-sm" onclick="copyWallet()" style="width: 100%; margin-bottom: 12px;">📋 Copy Alamat</button>
                     <button class="btn-primary btn-sm" onclick="konfirmasiDepoUser()" style="width: 100%;">✅ Saya Sudah Transfer</button>
                     <p id="depoUserMsg" style="display: none; color: #14F195; margin-top: 10px;">✅ Menunggu verifikasi admin...</p>
@@ -123,11 +122,11 @@
         </div>
     </div>
     <div id="tab-mining" class="tab-content"><div class="glass-card" style="text-align: center; padding: 60px;"><span style="font-size: 60px;">⛏️</span><h2 style="font-weight: 700;">Mining Aktif</h2><p style="color: #94A3B8;" id="miningInfo">Memuat...</p></div></div>
-    <div id="tab-referral" class="tab-content"><div class="glass-card" style="text-align: center; padding: 60px;"><span style="font-size: 60px;">👥</span><h2 style="font-weight: 700;">Program Referral</h2><p style="color: #94A3B8;">Ajak teman, dapat komisi 5%.</p><p style="color: #14F195;">Kode: <strong id="kodeRef"></strong></p></div></div>
+    <div id="tab-referral" class="tab-content"><div class="glass-card" style="text-align: center; padding: 60px;"><span style="font-size: 60px;">👥</span><h2 style="font-weight: 700;">Program Referral</h2><p style="color: #94A3B8;">Ajak teman, komisi 5%.</p><p style="color: #14F195;">Kode: <strong id="kodeRef"></strong></p></div></div>
     <div id="tab-riwayat" class="tab-content"><div class="glass-card" style="text-align: center; padding: 60px;"><span style="font-size: 60px;">📜</span><h2 style="font-weight: 700;">Riwayat</h2><p style="color: #94A3B8;">Fitur segera hadir.</p></div></div>
     <div id="tab-setting" class="tab-content"><div class="glass-card" style="text-align: center; padding: 60px;"><span style="font-size: 60px;">⚙️</span><h2 style="font-weight: 700;">Pengaturan</h2><p style="color: #94A3B8;">Nama: <strong id="setNama"></strong></p><p style="color: #94A3B8;">Email: <strong id="setEmail"></strong></p></div></div>
-    </div>
-    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+            </div>
+            <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 <script>
     firebase.initializeApp({
@@ -187,12 +186,16 @@
     }
     function copyWallet() { navigator.clipboard.writeText('Ac2oExnWGJBYqVV7vYFuHfjoWx7mJ6Dbf1XyL7GWdXSC'); alert('✅ Alamat dicopy!'); }
     function konfirmasiDepoUser() { document.getElementById('depoUserMsg').style.display = 'block'; }
+
     function kirimWithdraw() {
         var wallet = document.getElementById('walletTujuan').value.trim();
-        var jumlah = document.getElementById('jumlahWithdraw').value.trim();
-        if (!wallet || !jumlah) { alert('Isi semua!'); return; }
+        var jumlah = parseFloat(document.getElementById('jumlahWithdraw').value.trim());
+        if (!wallet || !jumlah) { alert('Isi semua data!'); return; }
+        var saldoText = document.getElementById('saldoWallet').textContent.replace('◎', '').trim();
+        var saldo = parseFloat(saldoText);
+        if (jumlah > saldo) { alert('❌ Saldo tidak mencukupi! Saldo Anda: ◎' + saldo); return; }
         db.collection('withdraw').add({
-            nama: userNama, email: userEmail, jumlah: jumlah, wallet: wallet,
+            nama: userNama, email: userEmail, jumlah: jumlah.toString(), wallet: wallet,
             tanggal: new Date().toLocaleDateString('id-ID')
         }).then(function() {
             document.getElementById('withdrawMsg').style.display = 'block';
@@ -200,6 +203,7 @@
             document.getElementById('jumlahWithdraw').value = '';
         });
     }
+
     function logout() {
         localStorage.removeItem('aff_user_nama');
         localStorage.removeItem('aff_user_email');
