@@ -22,16 +22,15 @@
         .tab-content { display: none; } .tab-content.active { display: block; }
         .input-field { width: 100%; padding: 14px 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: #E2E8F0; font-size: 15px; outline: none; }
         .input-field:focus { border-color: #14F195; }
-        @keyframes mining { 0%{transform:translateY(0) rotate(0deg);} 25%{transform:translateY(-15px) rotate(-10deg);} 50%{transform:translateY(0) rotate(0deg);} 75%{transform:translateY(-10px) rotate(10deg);} 100%{transform:translateY(0) rotate(0deg);} }
-        @keyframes sparkle { 0%,100%{opacity:0;transform:scale(0);} 50%{opacity:1;transform:scale(1);} }
-        @keyframes fall { 0%{transform:translateY(-20px);opacity:1;} 100%{transform:translateY(40px);opacity:0;} }
         @keyframes countUp { 0%{opacity:0;transform:translateY(10px);} 100%{opacity:1;transform:translateY(0);} }
         @keyframes hashScroll { 0%{transform:translateX(0);opacity:0.3;} 50%{transform:translateX(-10px);opacity:1;} 100%{transform:translateX(0);opacity:0.3;} }
-        .mining-animation { animation:mining 0.6s ease-in-out infinite; display:inline-block; font-size:60px; margin-bottom:16px; }
-        .sparkle { animation:sparkle 0.5s ease-in-out infinite; display:inline-block; position:absolute; font-size:20px; color:#14F195; }
-        .particle-fall { position:absolute; width:4px; height:4px; background:#14F195; border-radius:50%; animation:fall 1.5s infinite; }
+        @keyframes hashBlink { 0%,100%{opacity:0.4;} 50%{opacity:1;} }
         .profit-animate { animation:countUp 0.8s ease-out; display:inline-block; }
-        .hash-animate { animation:hashScroll 2s infinite; font-family:monospace; color:#14F195; font-size:0.9rem; letter-spacing:2px; }
+        .hash-animate { animation:hashScroll 1s infinite; font-family:monospace; color:#14F195; font-size:0.85rem; letter-spacing:2px; }
+        .hash-fast { animation:hashScroll 0.5s infinite; font-family:monospace; color:#14F195; font-size:0.8rem; letter-spacing:1px; }
+        .hash-rate-indicator { animation:hashBlink 1.5s infinite; }
+        .sparkle { animation:hashBlink 0.5s infinite; display:inline-block; position:absolute; font-size:20px; color:#14F195; }
+        .particle-fall { position:absolute; width:4px; height:4px; background:#14F195; border-radius:50%; animation:hashBlink 1.5s infinite; }
     </style>
 </head>
 <body>
@@ -65,10 +64,7 @@
                 <div class="stat-card"><p style="font-size:12px;color:#94A3B8;">⚡ Hash Rate Aktif</p><p style="font-size:1.6rem;font-weight:800;color:#E2E8F0;" id="hashRate">0 TH/s</p></div>
                 <div class="stat-card"><p style="font-size:12px;color:#94A3B8;">◎ Saldo Tersedia</p><p style="font-size:1.6rem;font-weight:800;color:#14F195;" id="saldoTersedia">◎ 0</p></div>
             </div>
-            <div class="glass-card" style="margin-bottom:20px;text-align:center;position:relative;overflow:hidden;">
-                <div id="miningAnimContainer" style="display:none;"><span class="mining-animation">⛏️</span><span class="sparkle" style="top:10px;left:45%;">💎</span><span class="sparkle" style="top:20px;right:30%;">✨</span><div class="particle-fall" style="left:40%;"></div><div class="particle-fall" style="left:60%;"></div><p style="color:#14F195;">⛏️ Mining Solana...</p></div>
-                <div id="kontrakAktif"></div>
-            </div>
+            <div id="kontrakAktif" class="glass-card" style="margin-bottom:20px;text-align:center;position:relative;overflow:hidden;"></div>
         </div>
             <div id="tab-beli" class="tab-content">
         <h2 style="font-size:1.5rem;font-weight:700;margin-bottom:24px;">💳 Beli Kontrak Mining</h2>
@@ -106,17 +102,20 @@
             <h2>⛏️ Mining Aktif</h2>
             <img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" alt="ASIC Miner" style="max-width:350px;width:100%;border-radius:12px;margin-bottom:16px;">
             <p id="miningInfo" style="color:#94A3B8;">Memuat...</p>
-            <div class="hash-animate" style="margin:12px 0;">⚡ <span id="randomHash">0x8d536a3cdf9c2a...73342cfc0280ab</span></div>
+            <div class="hash-fast" style="margin:12px 0;">⚡ <span id="randomHash">0x8d536a3cdf9c2a...73342cfc0280ab</span></div>
             <div style="font-size:0.9rem;color:#14F195;margin-top:4px;" class="profit-animate" id="profitUpdate">+0.00000000 SOL</div>
             <button onclick="var a=document.getElementById('asound');a.play()" style="background:#14F195;color:#000;padding:10px 20px;border-radius:8px;font-weight:700;border:none;cursor:pointer;margin-top:12px;">🔊 Dengarkan Suara Rig ASIC</button>
             <audio id="asound" style="display:none"><source src="https://raw.githubusercontent.com/mysteaker-web/AFFCLOUDMINING/main/freesound_community-server-31360%20(1).mp3" type="audio/mp3"></audio>
         </div>
     </div>
     <div id="tab-referral" class="tab-content"><div class="glass-card"><h2>👥 Referral</h2><p style="color:#94A3B8;">Kode: <strong id="kodeRef"></strong></p></div></div>
-    <div id="tab-riwayat" class="tab-content"><div class="glass-card"><h2>📜 Riwayat</h2><p style="color:#94A3B8;">Segera hadir.</p></div></div>
+    <div id="tab-riwayat" class="tab-content">
+        <h2>📜 Riwayat Transaksi</h2>
+        <div class="glass-card" style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:13px;"><thead><tr style="border-bottom:1px solid rgba(255,255,255,0.1);"><th style="padding:10px;color:#94A3B8;">Tanggal</th><th style="padding:10px;color:#94A3B8;">Jam</th><th style="padding:10px;color:#94A3B8;">Jenis</th><th style="padding:10px;color:#94A3B8;">Jumlah</th><th style="padding:10px;color:#94A3B8;">Paket</th><th style="padding:10px;color:#94A3B8;">Status</th></tr></thead><tbody id="riwayatTable"><tr><td colspan="6" style="text-align:center;color:#94A3B8;padding:20px;">Memuat data...</td></tr></tbody></table></div>
+    </div>
     <div id="tab-setting" class="tab-content"><div class="glass-card"><h2>⚙️ Pengaturan</h2><p style="color:#94A3B8;">Nama: <strong id="setNama"></strong></p><p style="color:#94A3B8;">Email: <strong id="setEmail"></strong></p></div></div>
-                                                                                                                                                                                                          </div>
-                                                                                                                                                                                                          <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 <script>
     firebase.initializeApp({apiKey:"AIzaSyCFNC6a8avHwLc-dG2xlzPRUp4pAl8mULw",authDomain:"affcloudmining-2c85f.firebaseapp.com",projectId:"affcloudmining-2c85f",storageBucket:"affcloudmining-2c85f.firebasestorage.app",messagingSenderId:"19712591186",appId:"1:19712591186:web:e20bf4b8379400b3cd268b"});
@@ -133,6 +132,7 @@
         document.querySelectorAll('.nav-item').forEach(function(b){b.classList.remove('active');});
         document.getElementById('tab-'+t).classList.add('active');
         event.target.classList.add('active');
+        if(t==='riwayat'){loadRiwayat();}
     }
 
     function loadUserData(){
@@ -147,27 +147,40 @@
                 document.getElementById('hashRate').textContent=hashrate;
                 document.getElementById('saldoTersedia').textContent='◎ '+saldo;
                 document.getElementById('saldoWallet').textContent='◎ '+saldo;
-                if(status==='Aktif'){document.getElementById('miningAnimContainer').style.display='block';document.getElementById('kontrakAktif').innerHTML='<h3>⛏️ Kontrak Aktif</h3><p style="color:#14F195;">Paket: <strong>'+paket+'</strong></p><p>Hash Rate: '+hashrate+'</p><p>Profit: '+profit+'/hari</p><p style="color:#14F195;">✅ Aktif</p>';document.getElementById('miningInfo').innerHTML='Paket <strong>'+paket+'</strong> aktif!';}
-                else{document.getElementById('miningAnimContainer').style.display='none';document.getElementById('kontrakAktif').innerHTML='<p>Belum ada kontrak aktif.</p>';document.getElementById('miningInfo').textContent='Belum ada kontrak aktif.';}
+                if(status==='Aktif'){
+                    document.getElementById('kontrakAktif').innerHTML='<div style="text-align:center;position:relative;"><img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" style="max-width:300px;width:100%;border-radius:12px;margin-bottom:12px;"><h3 style="color:#14F195;">⛏️ Kontrak Aktif</h3><p style="color:#14F195;">Paket: <strong>'+paket+'</strong></p><p>Hash Rate: '+hashrate+'</p><p>Profit: '+profit+'/hari</p><p style="color:#14F195;">✅ Aktif</p><div class="hash-fast" style="margin-top:8px;">⚡ <span class="hashLive">0x'+randomHash()+'</span></div></div>';
+                    document.getElementById('miningInfo').innerHTML='Paket <strong>'+paket+'</strong> aktif!<br>Hash Rate: '+hashrate+'<br>Profit: '+profit+'/hari';
+                } else {
+                    document.getElementById('kontrakAktif').innerHTML='<p style="text-align:center;color:#94A3B8;">Belum ada kontrak aktif.</p>';
+                    document.getElementById('miningInfo').textContent='Belum ada kontrak aktif.';
+                }
             }
         });
     }
     setInterval(function(){loadUserData();},86400000);
 
+    function loadRiwayat(){
+        db.collection('transactions').where('email','==',userEmail).orderBy('timestamp','desc').limit(50).get().then(function(snapshot){
+            var html='';
+            if(snapshot.empty){html='<tr><td colspan="6" style="text-align:center;color:#94A3B8;padding:20px;">Belum ada transaksi</td></tr>';}
+            else{snapshot.forEach(function(doc){var t=doc.data();var jb=t.jenis==='Deposit'?'#14F195':(t.jenis==='Withdraw'?'#EF4444':'#F59E0B');var sb=t.status==='Selesai'?'#14F195':'#F59E0B';html+='<tr style="border-bottom:1px solid rgba(255,255,255,0.05);"><td>'+t.tanggal+'</td><td>'+t.jam+'</td><td style="color:'+jb+';font-weight:600;">'+t.jenis+'</td><td>◎ '+t.jumlah+'</td><td>'+t.paket+'</td><td style="color:'+sb+';">'+t.status+'</td></tr>';});}
+            document.getElementById('riwayatTable').innerHTML=html;
+        });
+    }
+
     function beliPaket(nama,jumlah){beliPaketNama=nama;beliJumlah=jumlah;document.getElementById('beliPaketNama').textContent=nama;document.getElementById('beliJumlah').textContent='◎ '+jumlah+' SOL';document.getElementById('beliInfo').style.display='block';}
-    function konfirmasiBeli(){db.collection('deposits').add({nama:userNama,email:userEmail,jumlah:beliJumlah,paket:beliPaketNama,status:'Menunggu ACC',tanggal:new Date().toLocaleDateString('id-ID')}).then(function(){document.getElementById('beliMsg').style.display='block';});}
+    function konfirmasiBeli(){var now=new Date();var tanggal=now.toLocaleDateString('id-ID');var jam=now.toLocaleTimeString('id-ID');db.collection('deposits').add({nama:userNama,email:userEmail,jumlah:beliJumlah,paket:beliPaketNama,status:'Menunggu ACC',tanggal:tanggal});db.collection('transactions').add({email:userEmail,jenis:'Deposit',jumlah:beliJumlah,paket:beliPaketNama,status:'Pending',tanggal:tanggal,jam:jam,timestamp:now.getTime()});document.getElementById('beliMsg').style.display='block';}
     function showDepositInfo(){var jml=document.getElementById('jumlahDeposit').value;if(!jml||jml<=0){alert('Jumlah!');return;}document.getElementById('depositStep1').style.display='none';document.getElementById('depositStep2').style.display='block';}
     function copyWallet(){navigator.clipboard.writeText('Ac2oExnWGJBYqVV7vYFuHfjoWx7mJ6Dbf1XyL7GWdXSC');alert('✅ Dicopy!');}
-    function depositConfirm(){var jumlah=document.getElementById('jumlahDeposit').value;db.collection('deposits').add({nama:userNama,email:userEmail,jumlah:jumlah,status:'Menunggu ACC',tanggal:new Date().toLocaleDateString('id-ID')}).then(function(){document.getElementById('depoUserMsg').style.display='block';});}
-    function kirimWithdraw(){var wallet=document.getElementById('walletTujuan').value.trim();var jumlah=parseFloat(document.getElementById('jumlahWithdraw').value.trim());document.getElementById('withdrawError').style.display='none';document.getElementById('withdrawMsg').style.display='none';if(!wallet||!jumlah){alert('Isi semua!');return;}var saldo=parseFloat(document.getElementById('saldoWallet').textContent.replace('◎','').trim());if(jumlah>saldo){document.getElementById('withdrawError').style.display='block';return;}db.collection('withdraw').add({nama:userNama,email:userEmail,jumlah:jumlah.toString(),wallet:wallet,tanggal:new Date().toLocaleDateString('id-ID')}).then(function(){document.getElementById('withdrawMsg').style.display='block';});}
+    function depositConfirm(){var jumlah=document.getElementById('jumlahDeposit').value;var now=new Date();var tanggal=now.toLocaleDateString('id-ID');var jam=now.toLocaleTimeString('id-ID');db.collection('deposits').add({nama:userNama,email:userEmail,jumlah:jumlah,status:'Menunggu ACC',tanggal:tanggal});db.collection('transactions').add({email:userEmail,jenis:'Deposit',jumlah:jumlah,paket:'-',status:'Pending',tanggal:tanggal,jam:jam,timestamp:now.getTime()});document.getElementById('depoUserMsg').style.display='block';}
+    function kirimWithdraw(){var wallet=document.getElementById('walletTujuan').value.trim();var jumlah=parseFloat(document.getElementById('jumlahWithdraw').value.trim());document.getElementById('withdrawError').style.display='none';document.getElementById('withdrawMsg').style.display='none';if(!wallet||!jumlah){alert('Isi semua!');return;}var saldo=parseFloat(document.getElementById('saldoWallet').textContent.replace('◎','').trim());if(jumlah>saldo){document.getElementById('withdrawError').style.display='block';return;}var now=new Date();db.collection('withdraw').add({nama:userNama,email:userEmail,jumlah:jumlah.toString(),wallet:wallet,tanggal:now.toLocaleDateString('id-ID')});db.collection('transactions').add({email:userEmail,jenis:'Withdraw',jumlah:jumlah.toString(),paket:'-',status:'Diproses',tanggal:now.toLocaleDateString('id-ID'),jam:now.toLocaleTimeString('id-ID'),timestamp:now.getTime()});document.getElementById('withdrawMsg').style.display='block';document.getElementById('walletTujuan').value='';document.getElementById('jumlahWithdraw').value='';}
     function logout(){localStorage.removeItem('aff_user_nama');localStorage.removeItem('aff_user_email');window.location.href='login.html';}
     loadUserData();
 
-    function randomHash(){var h='0x';var c='0123456789abcdef';for(var i=0;i<40;i++)h+=c[Math.floor(Math.random()*16)];return h;}
-    setInterval(function(){document.getElementById('randomHash').textContent=randomHash();},3000);
-
-    function microProfit(){var p=(Math.random()*0.00000100).toFixed(8);document.getElementById('profitUpdate').textContent='+'+p+' SOL';document.getElementById('profitUpdate').classList.remove('profit-animate');void document.getElementById('profitUpdate').offsetWidth;document.getElementById('profitUpdate').classList.add('profit-animate');}
-    setInterval(function(){microProfit();},5000);
+    function randomHash(){var h='';var c='0123456789abcdef';for(var i=0;i<40;i++)h+=c[Math.floor(Math.random()*16)];return h;}
+    setInterval(function(){var h=randomHash();var el=document.getElementById('randomHash');if(el)el.textContent='0x'+h;var live=document.querySelector('.hashLive');if(live)live.textContent='0x'+h;},500);
+    function microProfit(){var p=(Math.random()*0.00000100).toFixed(8);var el=document.getElementById('profitUpdate');if(el){el.textContent='+'+p+' SOL';el.classList.remove('profit-animate');void el.offsetWidth;el.classList.add('profit-animate');}}
+    setInterval(function(){microProfit();},3000);
 </script>
     <script type="text/javascript">
     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
