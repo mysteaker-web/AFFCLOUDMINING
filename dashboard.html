@@ -25,9 +25,13 @@
         @keyframes mining { 0%{transform:translateY(0) rotate(0deg);} 25%{transform:translateY(-15px) rotate(-10deg);} 50%{transform:translateY(0) rotate(0deg);} 75%{transform:translateY(-10px) rotate(10deg);} 100%{transform:translateY(0) rotate(0deg);} }
         @keyframes sparkle { 0%,100%{opacity:0;transform:scale(0);} 50%{opacity:1;transform:scale(1);} }
         @keyframes fall { 0%{transform:translateY(-20px);opacity:1;} 100%{transform:translateY(40px);opacity:0;} }
+        @keyframes countUp { 0%{opacity:0;transform:translateY(10px);} 100%{opacity:1;transform:translateY(0);} }
+        @keyframes hashScroll { 0%{transform:translateX(0);opacity:0.3;} 50%{transform:translateX(-10px);opacity:1;} 100%{transform:translateX(0);opacity:0.3;} }
         .mining-animation { animation:mining 0.6s ease-in-out infinite; display:inline-block; font-size:60px; margin-bottom:16px; }
         .sparkle { animation:sparkle 0.5s ease-in-out infinite; display:inline-block; position:absolute; font-size:20px; color:#14F195; }
         .particle-fall { position:absolute; width:4px; height:4px; background:#14F195; border-radius:50%; animation:fall 1.5s infinite; }
+        .profit-animate { animation:countUp 0.8s ease-out; display:inline-block; }
+        .hash-animate { animation:hashScroll 2s infinite; font-family:monospace; color:#14F195; font-size:0.9rem; letter-spacing:2px; }
     </style>
 </head>
 <body>
@@ -65,8 +69,8 @@
                 <div id="miningAnimContainer" style="display:none;"><span class="mining-animation">⛏️</span><span class="sparkle" style="top:10px;left:45%;">💎</span><span class="sparkle" style="top:20px;right:30%;">✨</span><div class="particle-fall" style="left:40%;"></div><div class="particle-fall" style="left:60%;"></div><p style="color:#14F195;">⛏️ Mining Solana...</p></div>
                 <div id="kontrakAktif"></div>
             </div>
-                                                                                                                                                                                                                                                                               </div>
-                                                                                                                                                                                                                                                                                   <div id="tab-beli" class="tab-content">
+        </div>
+            <div id="tab-beli" class="tab-content">
         <h2 style="font-size:1.5rem;font-weight:700;margin-bottom:24px;">💳 Beli Kontrak Mining</h2>
         <p style="text-align:center;color:#94A3B8;margin-bottom:20px;">Klik paket pilihan, transfer SOL, lalu konfirmasi</p>
         <div style="text-align:center;margin-bottom:24px;">
@@ -102,15 +106,17 @@
             <h2>⛏️ Mining Aktif</h2>
             <img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" alt="ASIC Miner" style="max-width:350px;width:100%;border-radius:12px;margin-bottom:16px;">
             <p id="miningInfo" style="color:#94A3B8;">Memuat...</p>
-            <button onclick="var a=document.getElementById('asound');a.play()" style="background:#14F195;color:#000;padding:10px 20px;border-radius:8px;font-weight:700;border:none;cursor:pointer;margin-top:8px;">🔊 Dengarkan Suara Rig ASIC</button>
+            <div class="hash-animate" style="margin:12px 0;">⚡ <span id="randomHash">0x8d536a3cdf9c2a...73342cfc0280ab</span></div>
+            <div style="font-size:0.9rem;color:#14F195;margin-top:4px;" class="profit-animate" id="profitUpdate">+0.00000000 SOL</div>
+            <button onclick="var a=document.getElementById('asound');a.play()" style="background:#14F195;color:#000;padding:10px 20px;border-radius:8px;font-weight:700;border:none;cursor:pointer;margin-top:12px;">🔊 Dengarkan Suara Rig ASIC</button>
             <audio id="asound" style="display:none"><source src="https://raw.githubusercontent.com/mysteaker-web/AFFCLOUDMINING/main/freesound_community-server-31360%20(1).mp3" type="audio/mp3"></audio>
         </div>
     </div>
     <div id="tab-referral" class="tab-content"><div class="glass-card"><h2>👥 Referral</h2><p style="color:#94A3B8;">Kode: <strong id="kodeRef"></strong></p></div></div>
     <div id="tab-riwayat" class="tab-content"><div class="glass-card"><h2>📜 Riwayat</h2><p style="color:#94A3B8;">Segera hadir.</p></div></div>
     <div id="tab-setting" class="tab-content"><div class="glass-card"><h2>⚙️ Pengaturan</h2><p style="color:#94A3B8;">Nama: <strong id="setNama"></strong></p><p style="color:#94A3B8;">Email: <strong id="setEmail"></strong></p></div></div>
-                                                                                                                                                                                                                                                      </div>
-                                                                                                                                                                                                                                                      <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+                                                                                                                                                                                                          </div>
+                                                                                                                                                                                                          <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 <script>
     firebase.initializeApp({apiKey:"AIzaSyCFNC6a8avHwLc-dG2xlzPRUp4pAl8mULw",authDomain:"affcloudmining-2c85f.firebaseapp.com",projectId:"affcloudmining-2c85f",storageBucket:"affcloudmining-2c85f.firebasestorage.app",messagingSenderId:"19712591186",appId:"1:19712591186:web:e20bf4b8379400b3cd268b"});
@@ -156,6 +162,12 @@
     function kirimWithdraw(){var wallet=document.getElementById('walletTujuan').value.trim();var jumlah=parseFloat(document.getElementById('jumlahWithdraw').value.trim());document.getElementById('withdrawError').style.display='none';document.getElementById('withdrawMsg').style.display='none';if(!wallet||!jumlah){alert('Isi semua!');return;}var saldo=parseFloat(document.getElementById('saldoWallet').textContent.replace('◎','').trim());if(jumlah>saldo){document.getElementById('withdrawError').style.display='block';return;}db.collection('withdraw').add({nama:userNama,email:userEmail,jumlah:jumlah.toString(),wallet:wallet,tanggal:new Date().toLocaleDateString('id-ID')}).then(function(){document.getElementById('withdrawMsg').style.display='block';});}
     function logout(){localStorage.removeItem('aff_user_nama');localStorage.removeItem('aff_user_email');window.location.href='login.html';}
     loadUserData();
+
+    function randomHash(){var h='0x';var c='0123456789abcdef';for(var i=0;i<40;i++)h+=c[Math.floor(Math.random()*16)];return h;}
+    setInterval(function(){document.getElementById('randomHash').textContent=randomHash();},3000);
+
+    function microProfit(){var p=(Math.random()*0.00000100).toFixed(8);document.getElementById('profitUpdate').textContent='+'+p+' SOL';document.getElementById('profitUpdate').classList.remove('profit-animate');void document.getElementById('profitUpdate').offsetWidth;document.getElementById('profitUpdate').classList.add('profit-animate');}
+    setInterval(function(){microProfit();},5000);
 </script>
     <script type="text/javascript">
     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
