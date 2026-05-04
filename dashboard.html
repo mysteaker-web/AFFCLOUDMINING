@@ -12,7 +12,7 @@
         .sidebar { width: 250px; background: rgba(11, 17, 32, 0.95); border-right: 1px solid rgba(153, 69, 255, 0.15); padding: 24px 16px; display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 10; }
         .main-content { margin-left: 250px; flex: 1; padding: 24px; }
         .glass-card { background: rgba(17, 24, 39, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(153, 69, 255, 0.15); border-radius: 16px; padding: 24px; cursor: pointer; transition: all 0.3s; }
-        .glass-card:hover { border-color: #14F195; box-shadow: 0 0 20px rgba(20,241,149,0.1); }
+        .glass-card:hover { border-color: #14F195; }
         .stat-card { background: rgba(17, 24, 39, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(153, 69, 255, 0.1); border-radius: 14px; padding: 20px; text-align: center; }
         .btn-primary { background: linear-gradient(135deg, #9945FF, #14F195); color: #0B1120; font-weight: 700; padding: 12px 24px; border-radius: 10px; cursor: pointer; border: none; text-decoration: none; display: inline-block; }
         .btn-outline { background: transparent; color: #14F195; font-weight: 600; padding: 12px 24px; border-radius: 10px; border: 2px solid #14F195; cursor: pointer; text-decoration: none; display: inline-block; }
@@ -24,11 +24,9 @@
         .input-field:focus { border-color: #14F195; }
         @keyframes mining { 0%{transform:translateY(0) rotate(0deg);} 25%{transform:translateY(-15px) rotate(-10deg);} 50%{transform:translateY(0) rotate(0deg);} 75%{transform:translateY(-10px) rotate(10deg);} 100%{transform:translateY(0) rotate(0deg);} }
         @keyframes sparkle { 0%,100%{opacity:0;transform:scale(0);} 50%{opacity:1;transform:scale(1);} }
-        @keyframes numberScroll { 0%{opacity:0;transform:translateY(10px);} 100%{opacity:1;transform:translateY(0);} }
         @keyframes fall { 0%{transform:translateY(-20px);opacity:1;} 100%{transform:translateY(40px);opacity:0;} }
         .mining-animation { animation:mining 0.6s ease-in-out infinite; display:inline-block; font-size:60px; margin-bottom:16px; }
         .sparkle { animation:sparkle 0.5s ease-in-out infinite; display:inline-block; position:absolute; font-size:20px; color:#14F195; }
-        .profit-number { animation:numberScroll 0.5s ease-out; display:inline-block; font-weight:900; font-size:2rem; color:#14F195; }
         .particle-fall { position:absolute; width:4px; height:4px; background:#14F195; border-radius:50%; animation:fall 1.5s infinite; }
     </style>
 </head>
@@ -39,7 +37,7 @@
         if (!userNama || !userEmail) { window.location.href = 'login.html'; }
     </script>
     <div class="sidebar">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:32px;padding:0 8px;"><div class="logo-icon">AFF</div><span style="font-weight:700;color:#14F195;font-size:15px;">CLOUD MINING</span></div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:32px;padding:0 8px;"><div class="logo-icon">AFF</div><span style="font-weight:700;color:#14F195;">CLOUD MINING</span></div>
         <nav style="flex:1;">
             <a class="nav-item active" onclick="showTab('dashboard')">📊 Dashboard</a>
             <a class="nav-item" onclick="showTab('mining')">⛏️ Mining Aktif</a>
@@ -49,12 +47,12 @@
             <a class="nav-item" onclick="showTab('riwayat')">📜 Riwayat</a>
             <a class="nav-item" onclick="showTab('setting')">⚙️ Pengaturan</a>
         </nav>
-        <a href="#" onclick="logout()" style="color:#EF4444;text-decoration:none;font-size:13px;padding:12px 16px;display:flex;align-items:center;gap:8px;">🚪 Logout</a>
+        <a href="#" onclick="logout()" style="color:#EF4444;text-decoration:none;font-size:13px;padding:12px 16px;">🚪 Logout</a>
     </div>
     <div class="main-content">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;">
-            <div><h1 style="font-size:1.5rem;font-weight:700;">👋 Selamat Datang, <span id="namaUser"></span></h1><p style="color:#94A3B8;font-size:13px;">Ringkasan akun mining Solana Anda</p></div>
-            <div style="display:flex;align-items:center;gap:12px;"><span style="font-size:20px;cursor:pointer;">🔔</span><div style="width:36px;height:36px;background:linear-gradient(135deg,#9945FF,#14F195);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#0B1120;font-weight:700;font-size:14px;" id="inisialUser"></div></div>
+            <div><h1>👋 Selamat Datang, <span id="namaUser"></span></h1><p style="color:#94A3B8;">Ringkasan akun mining Solana Anda</p></div>
+            <div style="display:flex;align-items:center;gap:12px;"><span>🔔</span><div style="width:36px;height:36px;background:linear-gradient(135deg,#9945FF,#14F195);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#0B1120;font-weight:700;" id="inisialUser"></div></div>
         </div>
         <div id="tab-dashboard" class="tab-content active">
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:28px;">
@@ -63,52 +61,46 @@
                 <div class="stat-card"><p style="font-size:12px;color:#94A3B8;">⚡ Hash Rate Aktif</p><p style="font-size:1.6rem;font-weight:800;color:#E2E8F0;" id="hashRate">0 TH/s</p></div>
                 <div class="stat-card"><p style="font-size:12px;color:#94A3B8;">◎ Saldo Tersedia</p><p style="font-size:1.6rem;font-weight:800;color:#14F195;" id="saldoTersedia">◎ 0</p></div>
             </div>
-            <div class="glass-card" style="margin-bottom:20px;cursor:default;text-align:center;position:relative;overflow:hidden;">
-                <div id="miningAnimContainer" style="display:none;position:relative;">
-                    <span class="mining-animation">⛏️</span>
-                    <span class="sparkle" style="top:10px;left:45%;">💎</span>
-                    <span class="sparkle" style="top:20px;right:30%;animation-delay:0.2s;">✨</span>
-                    <span class="sparkle" style="top:0;left:55%;animation-delay:0.4s;">💎</span>
-                    <div class="particle-fall" style="left:40%;animation-delay:0s;"></div>
-                    <div class="particle-fall" style="left:60%;animation-delay:0.5s;"></div>
-                    <div class="particle-fall" style="left:50%;animation-delay:1s;"></div>
-                    <p style="color:#14F195;font-weight:700;margin-top:8px;">⛏️ Mining Solana...</p>
-                </div>
+            <div class="glass-card" style="margin-bottom:20px;text-align:center;position:relative;overflow:hidden;">
+                <div id="miningAnimContainer" style="display:none;"><span class="mining-animation">⛏️</span><span class="sparkle" style="top:10px;left:45%;">💎</span><span class="sparkle" style="top:20px;right:30%;">✨</span><div class="particle-fall" style="left:40%;"></div><div class="particle-fall" style="left:60%;"></div><p style="color:#14F195;">⛏️ Mining Solana...</p></div>
                 <div id="kontrakAktif"></div>
             </div>
-            <div class="glass-card" style="text-align:center;padding:40px;cursor:default;"><span style="font-size:50px;">⛏️</span><h2>Ingin Mining Lebih Banyak?</h2><p style="color:#94A3B8;">Beli kontrak mining Solana</p><button class="btn-primary" onclick="showTab('beli')">🛒 Beli Kontrak</button></div>
-                        </div>
-                            <div id="tab-beli" class="tab-content">
+        </div>
+            <div id="tab-beli" class="tab-content">
         <h2 style="font-size:1.5rem;font-weight:700;margin-bottom:24px;">💳 Beli Kontrak Mining</h2>
         <p style="text-align:center;color:#94A3B8;margin-bottom:20px;">Klik paket pilihan, transfer SOL, lalu konfirmasi</p>
-        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin-bottom:32px;">
-            <div class="glass-card" style="flex:1;min-width:200px;max-width:220px;text-align:center;padding:24px 16px;" onclick="beliPaket('Basic','5')"><p style="font-weight:700;color:#14F195;font-size:1.2rem;">BASIC</p><p style="font-size:1.8rem;font-weight:900;">◎ 5 SOL</p><p style="color:#94A3B8;font-size:12px;">6 Bulan • 1 TH/s</p><p style="color:#14F195;font-size:11px;margin-top:8px;">👆 Klik untuk beli</p></div>
-            <div class="glass-card" style="flex:1;min-width:200px;max-width:220px;text-align:center;padding:24px 16px;border-color:rgba(20,241,149,0.4);" onclick="beliPaket('Silver','25')"><p style="font-weight:700;color:#14F195;font-size:1.2rem;">SILVER ⭐</p><p style="font-size:1.8rem;font-weight:900;color:#14F195;">◎ 25 SOL</p><p style="color:#94A3B8;font-size:12px;">12 Bulan • 5 TH/s</p><p style="color:#14F195;font-size:11px;margin-top:8px;">👆 Klik untuk beli</p></div>
-            <div class="glass-card" style="flex:1;min-width:200px;max-width:220px;text-align:center;padding:24px 16px;" onclick="beliPaket('Gold','50')"><p style="font-weight:700;color:#14F195;font-size:1.2rem;">GOLD</p><p style="font-size:1.8rem;font-weight:900;">◎ 50 SOL</p><p style="color:#94A3B8;font-size:12px;">24 Bulan • 12 TH/s</p><p style="color:#14F195;font-size:11px;margin-top:8px;">👆 Klik untuk beli</p></div>
-            <div class="glass-card" style="flex:1;min-width:200px;max-width:220px;text-align:center;padding:24px 16px;" onclick="beliPaket('VIP','250')"><p style="font-weight:700;color:#14F195;font-size:1.2rem;">VIP</p><p style="font-size:1.8rem;font-weight:900;">◎ 250 SOL</p><p style="color:#94A3B8;font-size:12px;">36 Bulan • 70 TH/s</p><p style="color:#14F195;font-size:11px;margin-top:8px;">👆 Klik untuk beli</p></div>
-            <div class="glass-card" style="flex:1;min-width:200px;max-width:220px;text-align:center;padding:24px 16px;border-color:rgba(153,69,255,0.5);background:linear-gradient(180deg,rgba(153,69,255,0.1) 0%,rgba(17,24,39,0.7) 100%);" onclick="beliPaket('AFF','500')"><p style="font-weight:700;color:#14F195;font-size:1.2rem;">PAKET AFF 🔥</p><p style="font-size:1.8rem;font-weight:900;">◎ 500 SOL</p><p style="color:#94A3B8;font-size:12px;">60 Bulan • 150 TH/s</p><p style="color:#14F195;font-size:11px;margin-top:8px;">👆 Klik untuk beli</p></div>
+        <div style="text-align:center;margin-bottom:24px;">
+            <img src="https://i.ibb.co.com/Hf2RjGFJ/images.jpg" alt="ASIC Miner AFF" style="max-width:300px;width:100%;border-radius:12px;border:2px solid rgba(20,241,149,0.3);">
+            <p style="color:#14F195;font-size:12px;margin-top:8px;">⛏️ Rig ASIC Miner kami bekerja 24/7</p>
         </div>
-        <div id="beliInfo" class="glass-card" style="display:none;text-align:center;max-width:600px;margin:0 auto;cursor:default;">
+        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin-bottom:32px;">
+            <div class="glass-card" style="flex:1;min-width:200px;max-width:220px;text-align:center;padding:24px 16px;" onclick="beliPaket('Basic','5')"><p style="font-weight:700;color:#14F195;">BASIC</p><p style="font-size:1.8rem;font-weight:900;">◎ 5 SOL</p><p style="color:#94A3B8;font-size:12px;">6 Bulan • 1 TH/s</p></div>
+            <div class="glass-card" style="flex:1;min-width:200px;max-width:220px;text-align:center;padding:24px 16px;border-color:rgba(20,241,149,0.4);" onclick="beliPaket('Silver','25')"><p style="font-weight:700;color:#14F195;">SILVER ⭐</p><p style="font-size:1.8rem;font-weight:900;color:#14F195;">◎ 25 SOL</p><p style="color:#94A3B8;font-size:12px;">12 Bulan • 5 TH/s</p></div>
+            <div class="glass-card" style="flex:1;min-width:200px;max-width:220px;text-align:center;padding:24px 16px;" onclick="beliPaket('Gold','50')"><p style="font-weight:700;color:#14F195;">GOLD</p><p style="font-size:1.8rem;font-weight:900;">◎ 50 SOL</p><p style="color:#94A3B8;font-size:12px;">24 Bulan • 12 TH/s</p></div>
+            <div class="glass-card" style="flex:1;min-width:200px;max-width:220px;text-align:center;padding:24px 16px;" onclick="beliPaket('VIP','250')"><p style="font-weight:700;color:#14F195;">VIP</p><p style="font-size:1.8rem;font-weight:900;">◎ 250 SOL</p><p style="color:#94A3B8;font-size:12px;">36 Bulan • 70 TH/s</p></div>
+            <div class="glass-card" style="flex:1;min-width:200px;max-width:220px;text-align:center;padding:24px 16px;border-color:rgba(153,69,255,0.5);background:linear-gradient(180deg,rgba(153,69,255,0.1) 0%,rgba(17,24,39,0.7) 100%);" onclick="beliPaket('AFF','500')"><p style="font-weight:700;color:#14F195;">PAKET AFF 🔥</p><p style="font-size:1.8rem;font-weight:900;">◎ 500 SOL</p><p style="color:#94A3B8;font-size:12px;">60 Bulan • 150 TH/s</p></div>
+        </div>
+        <div id="beliInfo" class="glass-card" style="display:none;text-align:center;max-width:600px;margin:0 auto;">
             <h3>🔑 Pembayaran <span id="beliPaketNama"></span></h3>
             <p style="color:#94A3B8;">Transfer <strong id="beliJumlah"></strong> ke:</p>
             <div style="background:rgba(153,69,255,0.1);padding:14px;border-radius:10px;word-break:break-all;font-size:13px;color:#14F195;margin:12px 0;">Ac2oExnWGJBYqVV7vYFuHfjoWx7mJ6Dbf1XyL7GWdXSC</div>
-            <button class="btn-outline btn-sm" onclick="copyWallet()" style="margin-bottom:12px;">📋 Copy Alamat</button><br>
+            <button class="btn-outline btn-sm" onclick="copyWallet()">📋 Copy Alamat</button><br>
             <button class="btn-primary" onclick="konfirmasiBeli()">✅ Saya Sudah Transfer</button>
             <p id="beliMsg" style="display:none;color:#14F195;margin-top:10px;">✅ Menunggu verifikasi admin.</p>
         </div>
     </div>
     <div id="tab-wallet" class="tab-content">
-        <h2 style="font-size:1.5rem;font-weight:700;margin-bottom:24px;">◎ Wallet Solana</h2>
-        <div class="glass-card" style="text-align:center;margin-bottom:24px;padding:40px;cursor:default;"><p style="color:#94A3B8;">💰 Saldo Tersedia</p><p style="font-size:3rem;font-weight:900;color:#14F195;" id="saldoWallet">◎ 0</p></div>
+        <h2>◎ Wallet Solana</h2>
+        <div class="glass-card" style="text-align:center;margin-bottom:24px;padding:40px;"><p style="color:#94A3B8;">💰 Saldo Tersedia</p><p style="font-size:3rem;font-weight:900;color:#14F195;" id="saldoWallet">◎ 0</p></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
-            <div class="glass-card" style="padding:32px;text-align:center;cursor:default;"><span style="font-size:50px;">📥</span><h3>Deposit SOL</h3><p style="color:#94A3B8;font-size:13px;margin-bottom:20px;">Kirim SOL ke wallet AFF</p><div id="depositStep1"><input type="number" id="jumlahDeposit" class="input-field" placeholder="Jumlah SOL" step="0.1" style="text-align:center;font-size:1.5rem;font-weight:700;margin-bottom:12px;"><button class="btn-primary" onclick="showDepositInfo()" style="width:100%;">🔑 Lihat Alamat Wallet</button></div><div id="depositStep2" style="display:none;"><p style="color:#F59E0B;">Transfer <strong id="depoJumlahText">0</strong> SOL ke:</p><div style="background:rgba(153,69,255,0.1);padding:14px;border-radius:10px;word-break:break-all;font-size:13px;color:#14F195;">Ac2oExnWGJBYqVV7vYFuHfjoWx7mJ6Dbf1XyL7GWdXSC</div><button class="btn-outline btn-sm" onclick="copyWallet()" style="width:100%;margin-bottom:12px;">📋 Copy Alamat</button><button class="btn-primary btn-sm" onclick="depositConfirm()" style="width:100%;">✅ Saya Sudah Transfer</button><p id="depoUserMsg" style="display:none;color:#14F195;margin-top:10px;">✅ Menunggu verifikasi...</p></div></div>
-            <div class="glass-card" style="padding:32px;text-align:center;cursor:default;"><span style="font-size:50px;">📤</span><h3>Withdraw SOL</h3><p style="color:#94A3B8;font-size:13px;margin-bottom:20px;">Tarik profit ke wallet Anda</p><form onsubmit="return false;" style="display:flex;flex-direction:column;gap:12px;"><input type="text" id="walletTujuan" class="input-field" placeholder="Alamat Wallet Solana Anda"><input type="number" id="jumlahWithdraw" class="input-field" placeholder="Jumlah SOL" step="0.01"><button type="button" class="btn-primary" onclick="kirimWithdraw()" style="width:100%;">📤 Kirim Permintaan</button></form><p id="withdrawMsg" style="display:none;color:#14F195;margin-top:12px;">✅ Permintaan dikirim.</p><p id="withdrawError" style="display:none;color:#EF4444;font-size:13px;margin-top:8px;">❌ Saldo tidak mencukupi!</p></div>
+            <div class="glass-card" style="padding:32px;text-align:center;"><span style="font-size:50px;">📥</span><h3>Deposit SOL</h3><div id="depositStep1"><input type="number" id="jumlahDeposit" class="input-field" placeholder="Jumlah SOL" style="text-align:center;font-size:1.5rem;font-weight:700;margin-bottom:12px;"><button class="btn-primary" onclick="showDepositInfo()">🔑 Lihat Alamat Wallet</button></div><div id="depositStep2" style="display:none;"><p style="color:#F59E0B;">Transfer <strong id="depoJumlahText">0</strong> SOL ke:</p><div style="background:rgba(153,69,255,0.1);padding:14px;border-radius:10px;word-break:break-all;font-size:13px;color:#14F195;">Ac2oExnWGJBYqVV7vYFuHfjoWx7mJ6Dbf1XyL7GWdXSC</div><button class="btn-outline btn-sm" onclick="copyWallet()">📋 Copy Alamat</button><button class="btn-primary btn-sm" onclick="depositConfirm()">✅ Saya Sudah Transfer</button><p id="depoUserMsg" style="display:none;color:#14F195;">✅ Menunggu verifikasi...</p></div></div>
+            <div class="glass-card" style="padding:32px;text-align:center;"><span style="font-size:50px;">📤</span><h3>Withdraw SOL</h3><form onsubmit="return false;"><input type="text" id="walletTujuan" class="input-field" placeholder="Alamat Wallet"><input type="number" id="jumlahWithdraw" class="input-field" placeholder="Jumlah SOL"><button type="button" class="btn-primary" onclick="kirimWithdraw()">📤 Kirim</button></form><p id="withdrawMsg" style="display:none;color:#14F195;">✅ Permintaan dikirim.</p><p id="withdrawError" style="display:none;color:#EF4444;">❌ Saldo tidak mencukupi!</p></div>
         </div>
     </div>
-    <div id="tab-mining" class="tab-content"><div class="glass-card" style="text-align:center;padding:60px;cursor:default;"><h2>⛏️ Mining Aktif</h2><p id="miningInfo" style="color:#94A3B8;">Memuat...</p></div></div>
-    <div id="tab-referral" class="tab-content"><div class="glass-card" style="text-align:center;padding:60px;cursor:default;"><h2>👥 Referral</h2><p style="color:#94A3B8;">Kode: <strong id="kodeRef"></strong></p></div></div>
-    <div id="tab-riwayat" class="tab-content"><div class="glass-card" style="text-align:center;padding:60px;cursor:default;"><h2>📜 Riwayat</h2><p style="color:#94A3B8;">Segera hadir.</p></div></div>
-    <div id="tab-setting" class="tab-content"><div class="glass-card" style="text-align:center;padding:60px;cursor:default;"><h2>⚙️ Pengaturan</h2><p style="color:#94A3B8;">Nama: <strong id="setNama"></strong></p><p style="color:#94A3B8;">Email: <strong id="setEmail"></strong></p></div></div>
+    <div id="tab-mining" class="tab-content"><div class="glass-card" style="text-align:center;padding:60px;"><h2>⛏️ Mining Aktif</h2><p id="miningInfo" style="color:#94A3B8;">Memuat...</p></div></div>
+    <div id="tab-referral" class="tab-content"><div class="glass-card"><h2>👥 Referral</h2><p style="color:#94A3B8;">Kode: <strong id="kodeRef"></strong></p></div></div>
+    <div id="tab-riwayat" class="tab-content"><div class="glass-card"><h2>📜 Riwayat</h2><p style="color:#94A3B8;">Segera hadir.</p></div></div>
+    <div id="tab-setting" class="tab-content"><div class="glass-card"><h2>⚙️ Pengaturan</h2><p style="color:#94A3B8;">Nama: <strong id="setNama"></strong></p><p style="color:#94A3B8;">Email: <strong id="setEmail"></strong></p></div></div>
     </div>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
@@ -126,26 +118,16 @@
         db.collection('users').where('email','==',userEmail).get().then(function(s){
             if(!s.empty){
                 var u=s.docs[0].data();
-                var saldo=u.saldo||'0';
-                var investasi=u.investasi||'0';
-                var paket=u.paket||'-';
-                var hashrate=u.hashrate||'-';
-                var profit=u.profit_harian||'◎0';
-                var status=u.status_kontrak||'Baru';
+                var saldo=u.saldo||'0';var investasi=u.investasi||'0';
+                var paket=u.paket||'-';var hashrate=u.hashrate||'-';
+                var profit=u.profit_harian||'◎0';var status=u.status_kontrak||'Baru';
                 document.getElementById('totalInvest').textContent='◎ '+investasi;
                 document.getElementById('profitHarian').textContent=profit;
                 document.getElementById('hashRate').textContent=hashrate;
                 document.getElementById('saldoTersedia').textContent='◎ '+saldo;
                 document.getElementById('saldoWallet').textContent='◎ '+saldo;
-                if(status==='Aktif'){
-                    document.getElementById('miningAnimContainer').style.display='block';
-                    document.getElementById('kontrakAktif').innerHTML='<h3>⛏️ Kontrak Aktif</h3><p style="color:#14F195;">Paket: <strong>'+paket+'</strong></p><p style="color:#94A3B8;">Hash Rate: '+hashrate+'</p><p style="color:#94A3B8;">Profit: '+profit+'/hari</p><p style="color:#14F195;">Status: ✅ Aktif</p>';
-                    document.getElementById('miningInfo').innerHTML='Paket <strong>'+paket+'</strong> aktif!<br>Hash Rate: '+hashrate+'<br>Profit: '+profit+'/hari';
-                }else{
-                    document.getElementById('miningAnimContainer').style.display='none';
-                    document.getElementById('kontrakAktif').innerHTML='<p style="color:#94A3B8;">Belum ada kontrak aktif.</p>';
-                    document.getElementById('miningInfo').textContent='Belum ada kontrak aktif.';
-                }
+                if(status==='Aktif'){document.getElementById('miningAnimContainer').style.display='block';document.getElementById('kontrakAktif').innerHTML='<h3>⛏️ Kontrak Aktif</h3><p style="color:#14F195;">Paket: <strong>'+paket+'</strong></p><p>Hash Rate: '+hashrate+'</p><p>Profit: '+profit+'/hari</p><p style="color:#14F195;">✅ Aktif</p>';document.getElementById('miningInfo').innerHTML='Paket <strong>'+paket+'</strong> aktif!<br>Hash Rate: '+hashrate+'<br>Profit: '+profit+'/hari';}
+                else{document.getElementById('miningAnimContainer').style.display='none';document.getElementById('kontrakAktif').innerHTML='<p>Belum ada kontrak aktif.</p>';document.getElementById('miningInfo').textContent='Belum ada kontrak aktif.';}
             }
         });
     }
@@ -153,11 +135,11 @@
 
     function showTab(t){document.querySelectorAll('.tab-content').forEach(function(x){x.classList.remove('active');});document.querySelectorAll('.nav-item').forEach(function(b){b.classList.remove('active');});document.getElementById('tab-'+t).classList.add('active');event.target.classList.add('active');}
     function beliPaket(nama,jumlah){beliPaketNama=nama;beliJumlah=jumlah;document.getElementById('beliPaketNama').textContent=nama;document.getElementById('beliJumlah').textContent='◎ '+jumlah+' SOL';document.getElementById('beliInfo').style.display='block';}
-    function konfirmasiBeli(){db.collection('deposits').add({nama:userNama,email:userEmail,jumlah:beliJumlah,paket:beliPaketNama,status:'Menunggu ACC',tanggal:new Date().toLocaleDateString('id-ID')}).then(function(){document.getElementById('beliMsg').style.display='block';document.getElementById('beliMsg').textContent='✅ Pembelian '+beliPaketNama+' '+beliJumlah+' SOL menunggu verifikasi.';});}
+    function konfirmasiBeli(){db.collection('deposits').add({nama:userNama,email:userEmail,jumlah:beliJumlah,paket:beliPaketNama,status:'Menunggu ACC',tanggal:new Date().toLocaleDateString('id-ID')}).then(function(){document.getElementById('beliMsg').style.display='block';});}
     function showDepositInfo(){var jml=document.getElementById('jumlahDeposit').value;if(!jml||jml<=0){alert('Masukkan jumlah SOL!');return;}document.getElementById('depoJumlahText').textContent=jml;document.getElementById('depositStep1').style.display='none';document.getElementById('depositStep2').style.display='block';}
     function copyWallet(){navigator.clipboard.writeText('Ac2oExnWGJBYqVV7vYFuHfjoWx7mJ6Dbf1XyL7GWdXSC');alert('✅ Alamat dicopy!');}
-    function depositConfirm(){var jumlah=document.getElementById('depoJumlahText').textContent;db.collection('deposits').add({nama:userNama,email:userEmail,jumlah:jumlah,status:'Menunggu ACC',tanggal:new Date().toLocaleDateString('id-ID')}).then(function(){document.getElementById('depoUserMsg').style.display='block';document.getElementById('depoUserMsg').textContent='✅ Deposit '+jumlah+' SOL menunggu verifikasi.';});}
-    function kirimWithdraw(){var wallet=document.getElementById('walletTujuan').value.trim();var jumlah=parseFloat(document.getElementById('jumlahWithdraw').value.trim());document.getElementById('withdrawError').style.display='none';document.getElementById('withdrawMsg').style.display='none';if(!wallet||!jumlah){alert('Isi semua data!');return;}var saldo=parseFloat(document.getElementById('saldoWallet').textContent.replace('◎','').trim());if(jumlah>saldo){document.getElementById('withdrawError').style.display='block';return;}db.collection('withdraw').add({nama:userNama,email:userEmail,jumlah:jumlah.toString(),wallet:wallet,tanggal:new Date().toLocaleDateString('id-ID')}).then(function(){document.getElementById('withdrawMsg').style.display='block';document.getElementById('walletTujuan').value='';document.getElementById('jumlahWithdraw').value='';});}
+    function depositConfirm(){var jumlah=document.getElementById('depoJumlahText').textContent;db.collection('deposits').add({nama:userNama,email:userEmail,jumlah:jumlah,status:'Menunggu ACC',tanggal:new Date().toLocaleDateString('id-ID')}).then(function(){document.getElementById('depoUserMsg').style.display='block';});}
+    function kirimWithdraw(){var wallet=document.getElementById('walletTujuan').value.trim();var jumlah=parseFloat(document.getElementById('jumlahWithdraw').value.trim());document.getElementById('withdrawError').style.display='none';document.getElementById('withdrawMsg').style.display='none';if(!wallet||!jumlah){alert('Isi semua data!');return;}var saldo=parseFloat(document.getElementById('saldoWallet').textContent.replace('◎','').trim());if(jumlah>saldo){document.getElementById('withdrawError').style.display='block';return;}db.collection('withdraw').add({nama:userNama,email:userEmail,jumlah:jumlah.toString(),wallet:wallet,tanggal:new Date().toLocaleDateString('id-ID')}).then(function(){document.getElementById('withdrawMsg').style.display='block';});}
     function logout(){localStorage.removeItem('aff_user_nama');localStorage.removeItem('aff_user_email');window.location.href='login.html';}
     loadUserData();
 </script>
