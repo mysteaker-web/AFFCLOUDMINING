@@ -26,8 +26,6 @@
         @keyframes hashScroll { 0%{transform:translateX(0);opacity:0.3;} 50%{transform:translateX(-10px);opacity:1;} 100%{transform:translateX(0);opacity:0.3;} }
         .profit-animate { animation:countUp 0.8s ease-out; display:inline-block; }
         .hash-fast { animation:hashScroll 0.5s infinite; font-family:monospace; color:#14F195; font-size:0.8rem; letter-spacing:1px; }
-        .sparkle { animation:hashScroll 0.5s infinite; display:inline-block; position:absolute; font-size:20px; color:#14F195; }
-        .particle-fall { position:absolute; width:4px; height:4px; background:#14F195; border-radius:50%; animation:hashScroll 1.5s infinite; }
     </style>
 </head>
 <body>
@@ -62,8 +60,8 @@
                 <div class="stat-card"><p style="font-size:12px;color:#94A3B8;">◎ Saldo</p><p style="font-size:1.6rem;font-weight:800;color:#14F195;" id="saldoTersedia">◎ 0</p></div>
             </div>
             <div id="kontrakAktif" class="glass-card" style="margin-bottom:20px;text-align:center;position:relative;overflow:hidden;"></div>
-                                                                                                                                                                                            </div>
-                                                                                                                                                                                                <div id="tab-beli" class="tab-content">
+                                                                                               </div>
+                                                                                                   <div id="tab-beli" class="tab-content">
         <h2 style="font-size:1.5rem;font-weight:700;margin-bottom:24px;">💳 Beli Kontrak Mining</h2>
         <p style="text-align:center;color:#94A3B8;margin-bottom:20px;">Klik paket, transfer SOL, lalu konfirmasi</p>
         <div style="text-align:center;margin-bottom:24px;"><img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" style="max-width:300px;width:100%;border-radius:12px;border:2px solid rgba(20,241,149,0.3);"><p style="color:#14F195;font-size:12px;">⛏️ Rig ASIC Miner 24/7</p></div>
@@ -93,7 +91,7 @@
     </div>
     <div id="tab-mining" class="tab-content"><div class="glass-card" style="text-align:center;padding:40px;"><h2>⛏️ Mining Aktif</h2><img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" style="max-width:350px;width:100%;border-radius:12px;margin-bottom:16px;"><p id="miningInfo" style="color:#94A3B8;">Memuat...</p><div class="hash-fast">⚡ <span id="randomHash">0x...</span></div><div class="profit-animate" id="profitUpdate">+0.00000000 SOL</div><button onclick="document.getElementById('asound').play()" style="background:#14F195;color:#000;padding:10px 20px;border-radius:8px;font-weight:700;border:none;cursor:pointer;margin-top:12px;">🔊 Suara Rig ASIC</button><audio id="asound" style="display:none"><source src="https://raw.githubusercontent.com/mysteaker-web/AFFCLOUDMINING/main/freesound_community-server-31360%20(1).mp3" type="audio/mp3"></audio></div></div>
     <div id="tab-referral" class="tab-content"><div class="glass-card"><h2>👥 Referral</h2><p>Kode: <strong id="kodeRef"></strong></p></div></div>
-    <div id="tab-riwayat" class="tab-content"><h2>📜 Riwayat Transaksi</h2><div class="glass-card"><table style="width:100%;font-size:13px;"><thead><tr><th style="padding:10px;color:#94A3B8;">Tanggal</th><th style="padding:10px;color:#94A3B8;">Jam</th><th style="padding:10px;color:#94A3B8;">Jenis</th><th style="padding:10px;color:#94A3B8;">Jumlah</th><th style="padding:10px;color:#94A3B8;">Paket</th><th style="padding:10px;color:#94A3B8;">Status</th></tr></thead><tbody id="riwayatTable"><tr><td colspan="6" style="text-align:center;color:#94A3B8;padding:20px;">Memuat...</td></tr></tbody></table></div></div>
+    <div id="tab-riwayat" class="tab-content"><h2>📜 Riwayat Transaksi</h2><div class="glass-card"><table style="width:100%;font-size:13px;"><thead><tr><th style="padding:10px;color:#94A3B8;">Tanggal</th><th style="padding:10px;color:#94A3B8;">Jam</th><th style="padding:10px;color:#94A3B8;">Jenis</th><th style="padding:10px;color:#94A3B8;">Jumlah</th><th style="padding:10px;color:#94A3B8;">Paket</th><th style="padding:10px;color:#94A3B8;">Status</th></tr></thead><tbody id="riwayatTable"><tr><td colspan="6" style="text-align:center;color:#94A3B8;padding:20px;">Klik untuk memuat...</td></tr></tbody></table></div></div>
     <div id="tab-setting" class="tab-content"><div class="glass-card"><h2>⚙️ Pengaturan</h2><p>Nama: <strong id="setNama"></strong></p><p>Email: <strong id="setEmail"></strong></p></div></div>
     </div>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
@@ -141,12 +139,19 @@
     setInterval(function(){loadUserData();},86400000);
 
     function loadRiwayat(){
-        db.collection('transactions').where('email','==',userEmail).orderBy('timestamp','desc').limit(50).get().then(function(snapshot){
+        var el = document.getElementById('riwayatTable');
+        el.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#94A3B8;padding:20px;">Memuat data...</td></tr>';
+        db.collection('transactions').where('email','==',userEmail).get().then(function(snapshot){
             var html='';
             if(snapshot.empty){html='<tr><td colspan="6" style="text-align:center;color:#94A3B8;padding:20px;">Belum ada transaksi</td></tr>';}
-            else{snapshot.forEach(function(doc){var t=doc.data();var jb=t.jenis==='Deposit'?'#14F195':(t.jenis==='Withdraw'?'#EF4444':'#F59E0B');var sb=t.status==='Selesai'?'#14F195':'#F59E0B';html+='<tr><td>'+t.tanggal+'</td><td>'+t.jam+'</td><td style="color:'+jb+';font-weight:600;">'+t.jenis+'</td><td>◎ '+t.jumlah+'</td><td>'+t.paket+'</td><td style="color:'+sb+';">'+t.status+'</td></tr>';});}
-            document.getElementById('riwayatTable').innerHTML=html;
-        });
+            else{
+                var docs = [];
+                snapshot.forEach(function(doc){docs.push(doc);});
+                docs.sort(function(a,b){return b.data().timestamp - a.data().timestamp;});
+                docs.forEach(function(doc){var t=doc.data();var jb=t.jenis==='Deposit'?'#14F195':(t.jenis==='Withdraw'?'#EF4444':'#F59E0B');var sb=t.status==='Selesai'?'#14F195':'#F59E0B';html+='<tr><td>'+t.tanggal+'</td><td>'+t.jam+'</td><td style="color:'+jb+';font-weight:600;">'+t.jenis+'</td><td>◎ '+t.jumlah+'</td><td>'+t.paket+'</td><td style="color:'+sb+';">'+t.status+'</td></tr>';});
+            }
+            el.innerHTML=html;
+        }).catch(function(){el.innerHTML='<tr><td colspan="6" style="text-align:center;color:#EF4444;padding:20px;">Gagal memuat data.</td></tr>';});
     }
 
     function beliPaket(nama,jumlah){beliPaketNama=nama;beliJumlah=jumlah;document.getElementById('beliPaketNama').textContent=nama;document.getElementById('beliJumlah').textContent='◎ '+jumlah+' SOL';document.getElementById('beliInfo').style.display='block';}
