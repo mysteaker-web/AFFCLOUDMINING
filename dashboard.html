@@ -60,8 +60,8 @@
                 <div class="stat-card"><p style="font-size:12px;color:#94A3B8;">◎ Saldo</p><p style="font-size:1.6rem;font-weight:800;color:#14F195;" id="saldoTersedia">◎ 0</p></div>
             </div>
             <div id="kontrakAktif" class="glass-card" style="margin-bottom:20px;text-align:center;position:relative;overflow:hidden;"></div>
-                                                                                               </div>
-                                                                                                   <div id="tab-beli" class="tab-content">
+        </div>
+            <div id="tab-beli" class="tab-content">
         <h2 style="font-size:1.5rem;font-weight:700;margin-bottom:24px;">💳 Beli Kontrak Mining</h2>
         <p style="text-align:center;color:#94A3B8;margin-bottom:20px;">Klik paket, transfer SOL, lalu konfirmasi</p>
         <div style="text-align:center;margin-bottom:24px;"><img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" style="max-width:300px;width:100%;border-radius:12px;border:2px solid rgba(20,241,149,0.3);"><p style="color:#14F195;font-size:12px;">⛏️ Rig ASIC Miner 24/7</p></div>
@@ -93,8 +93,8 @@
     <div id="tab-referral" class="tab-content"><div class="glass-card"><h2>👥 Referral</h2><p>Kode: <strong id="kodeRef"></strong></p></div></div>
     <div id="tab-riwayat" class="tab-content"><h2>📜 Riwayat Transaksi</h2><div class="glass-card"><table style="width:100%;font-size:13px;"><thead><tr><th style="padding:10px;color:#94A3B8;">Tanggal</th><th style="padding:10px;color:#94A3B8;">Jam</th><th style="padding:10px;color:#94A3B8;">Jenis</th><th style="padding:10px;color:#94A3B8;">Jumlah</th><th style="padding:10px;color:#94A3B8;">Paket</th><th style="padding:10px;color:#94A3B8;">Status</th></tr></thead><tbody id="riwayatTable"><tr><td colspan="6" style="text-align:center;color:#94A3B8;padding:20px;">Klik untuk memuat...</td></tr></tbody></table></div></div>
     <div id="tab-setting" class="tab-content"><div class="glass-card"><h2>⚙️ Pengaturan</h2><p>Nama: <strong id="setNama"></strong></p><p>Email: <strong id="setEmail"></strong></p></div></div>
-    </div>
-    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 <script>
     firebase.initializeApp({apiKey:"AIzaSyCFNC6a8avHwLc-dG2xlzPRUp4pAl8mULw",authDomain:"affcloudmining-2c85f.firebaseapp.com",projectId:"affcloudmining-2c85f",storageBucket:"affcloudmining-2c85f.firebasestorage.app",messagingSenderId:"19712591186",appId:"1:19712591186:web:e20bf4b8379400b3cd268b"});
@@ -118,38 +118,39 @@
         db.collection('users').where('email','==',userEmail).get().then(function(s){
             if(!s.empty){
                 var u=s.docs[0].data();
-                var saldo=u.saldo||'0';var investasi=u.investasi||'0';
-                var paket=u.paket||'-';var hashrate=u.hashrate||'-';
-                var profit=u.profit_harian||'◎0';var status=u.status_kontrak||'Baru';
-                document.getElementById('totalInvest').textContent='◎ '+investasi;
-                document.getElementById('profitHarian').textContent=profit;
-                document.getElementById('hashRate').textContent=hashrate;
-                document.getElementById('saldoTersedia').textContent='◎ '+saldo;
-                document.getElementById('saldoWallet').textContent='◎ '+saldo;
-                if(status==='Aktif'){
-                    document.getElementById('kontrakAktif').innerHTML='<div style="text-align:center;"><img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" style="max-width:300px;width:100%;border-radius:12px;margin-bottom:12px;"><h3 style="color:#14F195;">⛏️ Kontrak Aktif</h3><p style="color:#14F195;">Paket: <strong>'+paket+'</strong></p><p>Hash Rate: '+hashrate+'</p><p>Profit: '+profit+'/hari</p><p style="color:#14F195;">✅ Aktif</p><div class="hash-fast">⚡ <span class="hashLive">0x'+randomHash()+'</span></div></div>';
-                    document.getElementById('miningInfo').innerHTML='Paket <strong>'+paket+'</strong> aktif!';
-                } else {
-                    document.getElementById('kontrakAktif').innerHTML='<p style="text-align:center;color:#94A3B8;">Belum ada kontrak aktif.</p>';
-                    document.getElementById('miningInfo').textContent='Belum ada kontrak.';
+                var saldo=parseFloat(u.saldo||'0');
+                var investasi=u.investasi||'0';
+                var paket=u.paket||'-';
+                var hashrate=u.hashrate||'-';
+                var profitText=u.profit_harian||'◎0';
+                var profitHarian=parseFloat(profitText.replace('◎',''));
+                var status=u.status_kontrak||'Baru';
+                var tglMulai=u.tanggal_mulai||'';
+                var diffHari=0;
+                if(status==='Aktif' && tglMulai){
+                    var parts=tglMulai.split('/');
+                    var mulai=new Date(parts[2],parts[1]-1,parts[0]);
+                    var sekarang=new Date();
+                    diffHari=Math.floor((sekarang-mulai)/(1000*60*60*24));
+                    if(diffHari>0){saldo=parseFloat((diffHari*profitHarian).toFixed(4));}
                 }
+                document.getElementById('totalInvest').textContent='◎ '+investasi;
+                document.getElementById('profitHarian').textContent='◎ '+profitHarian.toFixed(3);
+                document.getElementById('hashRate').textContent=hashrate;
+                document.getElementById('saldoTersedia').textContent='◎ '+saldo.toFixed(4);
+                document.getElementById('saldoWallet').textContent='◎ '+saldo.toFixed(4);
+                if(status==='Aktif'){document.getElementById('kontrakAktif').innerHTML='<div style="text-align:center;"><img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" style="max-width:300px;width:100%;border-radius:12px;margin-bottom:12px;"><h3 style="color:#14F195;">⛏️ Kontrak Aktif</h3><p style="color:#14F195;">Paket: <strong>'+paket+'</strong></p><p>Hash Rate: '+hashrate+'</p><p>Profit: '+profitHarian.toFixed(3)+'/hari</p><p style="color:#14F195;">✅ Aktif ('+diffHari+' hari)</p><div class="hash-fast">⚡ <span class="hashLive">0x'+randomHash()+'</span></div></div>';document.getElementById('miningInfo').innerHTML='Paket <strong>'+paket+'</strong> aktif!';}
+                else{document.getElementById('kontrakAktif').innerHTML='<p style="text-align:center;color:#94A3B8;">Belum ada kontrak aktif.</p>';document.getElementById('miningInfo').textContent='Belum ada kontrak.';}
             }
         });
     }
-    setInterval(function(){loadUserData();},86400000);
 
     function loadRiwayat(){
-        var el = document.getElementById('riwayatTable');
-        el.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#94A3B8;padding:20px;">Memuat data...</td></tr>';
+        var el=document.getElementById('riwayatTable');
+        el.innerHTML='<tr><td colspan="6" style="text-align:center;color:#94A3B8;padding:20px;">Memuat data...</td></tr>';
         db.collection('transactions').where('email','==',userEmail).get().then(function(snapshot){
-            var html='';
-            if(snapshot.empty){html='<tr><td colspan="6" style="text-align:center;color:#94A3B8;padding:20px;">Belum ada transaksi</td></tr>';}
-            else{
-                var docs = [];
-                snapshot.forEach(function(doc){docs.push(doc);});
-                docs.sort(function(a,b){return b.data().timestamp - a.data().timestamp;});
-                docs.forEach(function(doc){var t=doc.data();var jb=t.jenis==='Deposit'?'#14F195':(t.jenis==='Withdraw'?'#EF4444':'#F59E0B');var sb=t.status==='Selesai'?'#14F195':'#F59E0B';html+='<tr><td>'+t.tanggal+'</td><td>'+t.jam+'</td><td style="color:'+jb+';font-weight:600;">'+t.jenis+'</td><td>◎ '+t.jumlah+'</td><td>'+t.paket+'</td><td style="color:'+sb+';">'+t.status+'</td></tr>';});
-            }
+            var html='';if(snapshot.empty){html='<tr><td colspan="6" style="text-align:center;color:#94A3B8;padding:20px;">Belum ada transaksi</td></tr>';}
+            else{var docs=[];snapshot.forEach(function(doc){docs.push(doc);});docs.sort(function(a,b){return b.data().timestamp-a.data().timestamp;});docs.forEach(function(doc){var t=doc.data();var jb=t.jenis==='Deposit'?'#14F195':(t.jenis==='Withdraw'?'#EF4444':'#F59E0B');var sb=t.status==='Selesai'?'#14F195':'#F59E0B';html+='<tr><td>'+t.tanggal+'</td><td>'+t.jam+'</td><td style="color:'+jb+';font-weight:600;">'+t.jenis+'</td><td>◎ '+t.jumlah+'</td><td>'+t.paket+'</td><td style="color:'+sb+';">'+t.status+'</td></tr>';});}
             el.innerHTML=html;
         }).catch(function(){el.innerHTML='<tr><td colspan="6" style="text-align:center;color:#EF4444;padding:20px;">Gagal memuat data.</td></tr>';});
     }
