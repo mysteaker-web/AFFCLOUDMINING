@@ -97,7 +97,17 @@
             <div class="glass-card" style="padding:32px;text-align:center;"><span style="font-size:50px;">📤</span><h3>Withdraw SOL</h3><form onsubmit="return false;"><input type="text" id="walletTujuan" class="input-field" placeholder="Alamat Wallet"><input type="number" id="jumlahWithdraw" class="input-field" placeholder="Jumlah SOL"><button type="button" class="btn-primary" onclick="kirimWithdraw()">📤 Kirim</button></form><p id="withdrawMsg" style="display:none;color:#14F195;">✅ Permintaan dikirim.</p><p id="withdrawError" style="display:none;color:#EF4444;">❌ Saldo tidak mencukupi!</p></div>
         </div>
     </div>
-    <div id="tab-mining" class="tab-content"><div class="glass-card" style="text-align:center;padding:60px;"><h2>⛏️ Mining Aktif</h2><p id="miningInfo" style="color:#94A3B8;">Memuat...</p></div></div>
+    <div id="tab-mining" class="tab-content">
+        <div class="glass-card" style="text-align:center;padding:40px;">
+            <h2 style="font-weight:700;margin-bottom:16px;">⛏️ Mining Aktif</h2>
+            <img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" alt="ASIC Miner" style="max-width:350px;width:100%;border-radius:12px;margin-bottom:16px;">
+            <p id="miningInfo" style="color:#94A3B8;">Memuat...</p>
+            <audio id="fanSound" loop style="display:none;">
+                <source src="https://www.soundjay.com/mechanical/sounds/fan-noise-01.mp3" type="audio/mp3">
+            </audio>
+            <button class="btn-outline btn-sm" onclick="toggleSound()" style="margin-top:12px;" id="soundBtn">🔇 Suara: Mati</button>
+        </div>
+    </div>
     <div id="tab-referral" class="tab-content"><div class="glass-card"><h2>👥 Referral</h2><p style="color:#94A3B8;">Kode: <strong id="kodeRef"></strong></p></div></div>
     <div id="tab-riwayat" class="tab-content"><div class="glass-card"><h2>📜 Riwayat</h2><p style="color:#94A3B8;">Segera hadir.</p></div></div>
     <div id="tab-setting" class="tab-content"><div class="glass-card"><h2>⚙️ Pengaturan</h2><p style="color:#94A3B8;">Nama: <strong id="setNama"></strong></p><p style="color:#94A3B8;">Email: <strong id="setEmail"></strong></p></div></div>
@@ -113,6 +123,15 @@
     document.getElementById('setNama').textContent=userNama;
     document.getElementById('setEmail').textContent=userEmail;
     var beliPaketNama='';var beliJumlah='';
+
+    var fanOn = false;
+    function toggleSound() {
+        var audio = document.getElementById('fanSound');
+        var btn = document.getElementById('soundBtn');
+        if (fanOn) { audio.pause(); btn.textContent = '🔇 Suara: Mati'; }
+        else { audio.play().catch(function(){}); btn.textContent = '🔊 Suara: Hidup'; }
+        fanOn = !fanOn;
+    }
 
     function loadUserData(){
         db.collection('users').where('email','==',userEmail).get().then(function(s){
