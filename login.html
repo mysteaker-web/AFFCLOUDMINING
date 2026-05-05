@@ -9,18 +9,20 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background-color: #0B1120; font-family: 'Inter', sans-serif; color: #E2E8F0; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
-        .glass-card { background: rgba(17, 24, 39, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(0, 212, 255, 0.15); border-radius: 20px; padding: 40px 28px; width: 100%; max-width: 420px; }
-        .btn-primary { background: linear-gradient(135deg, #00D4FF, #0099CC); color: #0B1120; font-weight: 700; padding: 14px; border-radius: 12px; width: 100%; border: none; font-size: 16px; cursor: pointer; }
-        .btn-primary:hover { box-shadow: 0 0 40px rgba(0, 212, 255, 0.4); }
+        .glass-card { background: rgba(17, 24, 39, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(153, 69, 255, 0.15); border-radius: 20px; padding: 40px 28px; width: 100%; max-width: 420px; }
+        .btn-primary { background: linear-gradient(135deg, #9945FF, #14F195); color: #0B1120; font-weight: 700; padding: 14px; border-radius: 12px; width: 100%; border: none; font-size: 16px; cursor: pointer; }
+        .btn-primary:hover { box-shadow: 0 0 40px rgba(153, 69, 255, 0.5); }
         .input-field { width: 100%; padding: 14px 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: #E2E8F0; font-size: 15px; outline: none; }
-        .input-field:focus { border-color: #00D4FF; box-shadow: 0 0 15px rgba(0, 212, 255, 0.1); }
-        .logo-icon { display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #00D4FF, #0099CC); color: #0B1120; font-weight: 900; font-size: 22px; width: 48px; height: 48px; border-radius: 12px; margin: 0 auto 16px; }
-        .link { color: #00D4FF; text-decoration: none; font-weight: 500; }
+        .input-field:focus { border-color: #14F195; }
+        .logo-icon { display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #9945FF, #14F195); color: #0B1120; font-weight: 900; font-size: 22px; width: 48px; height: 48px; border-radius: 12px; margin: 0 auto 16px; }
+        .link { color: #14F195; text-decoration: none; font-weight: 500; cursor: pointer; }
         .link:hover { text-decoration: underline; }
+        .otp-box { background: rgba(20,241,149,0.05); border:1px solid rgba(20,241,149,0.2); border-radius:12px; padding:16px; margin-top:12px; text-align:center; }
+        #resetSection { display: none; }
     </style>
 </head>
 <body>
-    <div class="glass-card">
+    <div class="glass-card" id="loginCard">
         <div class="logo-icon">AFF</div>
         <h1 style="text-align: center; font-size: 1.5rem; font-weight: 700; margin-bottom: 4px;">Selamat Datang</h1>
         <p style="text-align: center; color: #94A3B8; font-size: 14px; margin-bottom: 32px;">Login ke akun AFF CLOUD MINING</p>
@@ -35,13 +37,11 @@
                 <input type="password" id="password" class="input-field" placeholder="Masukkan password" required>
             </div>
             <div style="display: flex; justify-content: space-between; align-items: center; font-size: 13px;">
-                <label style="display: flex; align-items: center; gap: 6px; color: #94A3B8; cursor: pointer;">
-                    <input type="checkbox"> Ingat saya
-                </label>
-                <a href="#" class="link">Lupa password?</a>
+                <label style="display: flex; align-items: center; gap: 6px; color: #94A3B8; cursor: pointer;"><input type="checkbox"> Ingat saya</label>
+                <a class="link" onclick="showReset()">Lupa password?</a>
             </div>
+            <p id="errorMsg" style="display: none; color: #EF4444; text-align: center; font-size: 13px;">❌ Email atau password salah!</p>
             <button type="submit" class="btn-primary">🚀 Login</button>
-            <p id="errorMsg" style="display: none; color: #EF4444; text-align: center; font-size: 13px; margin-top: 4px;">❌ Email atau password salah!</p>
         </form>
         
         <p style="text-align: center; margin-top: 20px; font-size: 14px; color: #94A3B8;">
@@ -51,46 +51,130 @@
             <a href="index.html" style="color: #64748B; font-size: 13px; text-decoration: none;">← Kembali ke Beranda</a>
         </p>
     </div>
-    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+
+    <div class="glass-card" id="resetSection">
+        <div class="logo-icon">AFF</div>
+        <h1 style="text-align:center;font-size:1.3rem;font-weight:700;">Reset Password</h1>
+        <p style="text-align:center;color:#94A3B8;font-size:14px;margin-bottom:20px;">Masukkan email untuk menerima kode verifikasi</p>
+        
+        <div id="resetStep1">
+            <input type="email" id="resetEmail" class="input-field" placeholder="Email Anda" style="margin-bottom:12px;">
+            <button class="btn-primary" onclick="kirimOTP()">📩 Kirim Kode Verifikasi</button>
+            <p id="resetMsg" style="display:none;text-align:center;margin-top:12px;font-size:13px;"></p>
+        </div>
+        
+        <div id="resetStep2" style="display:none;">
+            <div class="otp-box">
+                <p style="color:#94A3B8;font-size:13px;">Kode verifikasi dikirim ke email Anda</p>
+                <input type="text" id="otpInput" class="input-field" placeholder="6 digit kode" style="text-align:center;font-size:1.2rem;letter-spacing:4px;margin:12px 0;">
+                <button class="btn-primary" onclick="verifyOTPReset()" style="margin-bottom:8px;">✅ Verifikasi</button>
+                <p id="otpError" style="display:none;color:#EF4444;font-size:13px;margin-top:8px;"></p>
+            </div>
+        </div>
+        
+        <div id="resetStep3" style="display:none;">
+            <input type="password" id="newPassword" class="input-field" placeholder="Password baru (min 8 karakter)" style="margin-bottom:12px;">
+            <button class="btn-primary" onclick="saveNewPasswordReset()">💾 Simpan Password Baru</button>
+            <p id="resetSuccess" style="display:none;color:#14F195;text-align:center;margin-top:12px;"></p>
+        </div>
+        
+        <p style="text-align:center;margin-top:16px;"><a class="link" onclick="hideReset()">← Kembali ke Login</a></p>
+            </div>
+            <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 <script>
-    const firebaseConfig = {
+    firebase.initializeApp({
         apiKey: "AIzaSyCFNC6a8avHwLc-dG2xlzPRUp4pAl8mULw",
         authDomain: "affcloudmining-2c85f.firebaseapp.com",
         projectId: "affcloudmining-2c85f",
         storageBucket: "affcloudmining-2c85f.firebasestorage.app",
         messagingSenderId: "19712591186",
         appId: "1:19712591186:web:e20bf4b8379400b3cd268b"
-    };
-    
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    
+    });
+    var db = firebase.firestore();
+    var resetOTP = '';
+    var resetEmail = '';
+    var resetUserId = '';
+
     function login(e) {
         e.preventDefault();
-        
         var email = document.getElementById('email').value.trim();
         var password = document.getElementById('password').value.trim();
         
-        db.collection('users')
-            .where('email', '==', email)
-            .where('password', '==', password)
-            .get()
-            .then(function(snapshot) {
-                if (snapshot.empty) {
-                    document.getElementById('errorMsg').style.display = 'block';
-                } else {
-                    var userData = snapshot.docs[0].data();
-                    localStorage.setItem('aff_user_nama', userData.nama);
-                    localStorage.setItem('aff_user_email', userData.email);
-                    window.location.href = 'dashboard.html';
-                }
-            })
-            .catch(function(error) {
+        db.collection('users').where('email', '==', email).where('password', '==', password).get()
+        .then(function(snapshot) {
+            if (snapshot.empty) {
                 document.getElementById('errorMsg').style.display = 'block';
-            });
-        
+            } else {
+                var userData = snapshot.docs[0].data();
+                localStorage.setItem('aff_user_nama', userData.nama);
+                localStorage.setItem('aff_user_email', userData.email);
+                window.location.href = 'dashboard.html';
+            }
+        }).catch(function(error) {
+            document.getElementById('errorMsg').style.display = 'block';
+        });
         return false;
+    }
+
+    function showReset() {
+        document.getElementById('loginCard').style.display = 'none';
+        document.getElementById('resetSection').style.display = 'block';
+        document.getElementById('resetStep1').style.display = 'block';
+        document.getElementById('resetStep2').style.display = 'none';
+        document.getElementById('resetStep3').style.display = 'none';
+    }
+
+    function hideReset() {
+        document.getElementById('loginCard').style.display = 'block';
+        document.getElementById('resetSection').style.display = 'none';
+    }
+
+    function kirimOTP() {
+        resetEmail = document.getElementById('resetEmail').value.trim();
+        if (!resetEmail) { alert('Masukkan email!'); return; }
+        
+        db.collection('users').where('email', '==', resetEmail).get().then(function(s) {
+            if (s.empty) {
+                document.getElementById('resetMsg').style.display = 'block';
+                document.getElementById('resetMsg').style.color = '#EF4444';
+                document.getElementById('resetMsg').textContent = '❌ Email tidak ditemukan!';
+            } else {
+                resetUserId = s.docs[0].id;
+                resetOTP = Math.floor(100000 + Math.random() * 900000).toString();
+                
+                fetch('https://script.google.com/macros/s/AKfycbx_xyQz2T5pbr6bbxGsUxS9V3TruGUEcJshg-BGTjF0-wzOmrojzOojkTZDW5jRGVZ_sQ/exec', {
+                    method: 'POST',
+                    body: JSON.stringify({ action: 'sendOTP', email: resetEmail })
+                });
+                
+                document.getElementById('resetStep1').style.display = 'none';
+                document.getElementById('resetStep2').style.display = 'block';
+            }
+        });
+    }
+
+    function verifyOTPReset() {
+        var input = document.getElementById('otpInput').value.trim();
+        if (input === resetOTP) {
+            document.getElementById('resetStep2').style.display = 'none';
+            document.getElementById('resetStep3').style.display = 'block';
+        } else {
+            document.getElementById('otpError').style.display = 'block';
+            document.getElementById('otpError').textContent = '❌ Kode verifikasi salah!';
+        }
+    }
+
+    function saveNewPasswordReset() {
+        var pass = document.getElementById('newPassword').value.trim();
+        if (pass.length < 8) { alert('Password minimal 8 karakter!'); return; }
+        if (resetUserId) {
+            db.collection('users').doc(resetUserId).update({ password: pass }).then(function() {
+                document.getElementById('resetSuccess').style.display = 'block';
+                document.getElementById('resetSuccess').textContent = '✅ Password berhasil direset!';
+                setTimeout(function() { hideReset(); }, 2000);
+            });
+        }
     }
 </script>
     <script type="text/javascript">
