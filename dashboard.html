@@ -11,21 +11,22 @@
         body { background-color: #0B1120; font-family: 'Inter', sans-serif; color: #E2E8F0; min-height: 100vh; display: flex; }
         .sidebar { width: 250px; background: rgba(11, 17, 32, 0.95); border-right: 1px solid rgba(153, 69, 255, 0.15); padding: 24px 16px; display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 10; }
         .main-content { margin-left: 250px; flex: 1; padding: 24px; }
-        .glass-card { background: rgba(17, 24, 39, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(153, 69, 255, 0.15); border-radius: 16px; padding: 24px; cursor: pointer; transition: all 0.3s; }
+        .glass-card { background: rgba(17, 24, 39, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(153, 69, 255, 0.15); border-radius: 16px; padding: 24px; transition: all 0.3s; }
         .glass-card:hover { border-color: #14F195; }
         .stat-card { background: rgba(17, 24, 39, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(153, 69, 255, 0.1); border-radius: 14px; padding: 20px; text-align: center; }
-        .btn-primary { background: linear-gradient(135deg, #9945FF, #14F195); color: #0B1120; font-weight: 700; padding: 12px 24px; border-radius: 10px; cursor: pointer; border: none; text-decoration: none; display: inline-block; }
-        .btn-outline { background: transparent; color: #14F195; font-weight: 600; padding: 12px 24px; border-radius: 10px; border: 2px solid #14F195; cursor: pointer; text-decoration: none; display: inline-block; }
+        .btn-primary { background: linear-gradient(135deg, #9945FF, #14F195); color: #0B1120; font-weight: 700; padding: 12px 24px; border-radius: 10px; cursor: pointer; border: none; }
+        .btn-outline { background: transparent; color: #14F195; font-weight: 600; padding: 12px 24px; border-radius: 10px; border: 2px solid #14F195; cursor: pointer; }
         .nav-item { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 10px; color: #94A3B8; text-decoration: none; transition: all 0.2s; font-size: 14px; font-weight: 500; margin-bottom: 4px; cursor: pointer; }
         .nav-item:hover, .nav-item.active { background: rgba(153, 69, 255, 0.15); color: #14F195; }
         .logo-icon { display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #9945FF, #14F195); color: #0B1120; font-weight: 900; font-size: 16px; width: 34px; height: 34px; border-radius: 8px; }
         .tab-content { display: none; } .tab-content.active { display: block; }
         .input-field { width: 100%; padding: 14px 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: #E2E8F0; font-size: 15px; outline: none; }
         .input-field:focus { border-color: #14F195; }
-        @keyframes countUp { 0%{opacity:0;transform:translateY(10px);} 100%{opacity:1;transform:translateY(0);} }
         @keyframes hashScroll { 0%{transform:translateX(0);opacity:0.3;} 50%{transform:translateX(-10px);opacity:1;} 100%{transform:translateX(0);opacity:0.3;} }
-        .profit-animate { animation:countUp 0.8s ease-out; display:inline-block; }
         .hash-fast { animation:hashScroll 0.5s infinite; font-family:monospace; color:#14F195; font-size:0.8rem; letter-spacing:1px; }
+        .otp-box { background: rgba(20,241,149,0.05); border:1px solid rgba(20,241,149,0.2); border-radius:12px; padding:16px; margin-top:12px; text-align:center; }
+        .otp-code { font-size: 2rem; font-weight:900; letter-spacing:6px; color:#14F195; font-family:monospace; }
+        .setting-section { border-top:1px solid rgba(255,255,255,0.05); padding-top:20px; margin-top:20px; }
     </style>
 </head>
 <body>
@@ -62,50 +63,54 @@
             <div id="kontrakAktif" class="glass-card" style="margin-bottom:20px;text-align:center;position:relative;overflow:hidden;"></div>
     </div>
         <div id="tab-beli" class="tab-content">
-        <h2>💳 Beli Kontrak Mining</h2><p style="text-align:center;color:#94A3B8;margin-bottom:20px;">Klik paket, transfer SOL, konfirmasi</p>
+        <h2>💳 Beli Kontrak Mining</h2><p style="text-align:center;color:#94A3B8;margin-bottom:20px;">Pilih paket, transfer SOL, konfirmasi</p>
         <div style="text-align:center;margin-bottom:24px;"><img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" style="max-width:300px;width:100%;border-radius:12px;border:2px solid rgba(20,241,149,0.3);"><p style="color:#14F195;font-size:12px;">⛏️ Rig ASIC Miner 24/7</p></div>
         <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:16px;">
-            <div class="glass-card" style="flex:1;min-width:200px;max-width:220px;text-align:center;padding:24px 16px;" onclick="beliPaket('Basic','5')"><img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" style="width:60px;height:60px;border-radius:8px;"><p style="color:#14F195;">BASIC</p><p style="font-size:1.4rem;font-weight:900;">◎ 5 SOL</p></div>
-            <div class="glass-card" style="flex:1;min-width:200px;max-width:220px;text-align:center;padding:24px 16px;border-color:rgba(20,241,149,0.4);" onclick="beliPaket('Silver','25')"><img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" style="width:60px;height:60px;border-radius:8px;"><p style="color:#14F195;">SILVER ⭐</p><p style="font-size:1.4rem;font-weight:900;color:#14F195;">◎ 25 SOL</p></div>
-            <div class="glass-card" style="flex:1;min-width:200px;max-width:220px;text-align:center;padding:24px 16px;" onclick="beliPaket('Gold','50')"><img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" style="width:60px;height:60px;border-radius:8px;"><p style="color:#14F195;">GOLD</p><p style="font-size:1.4rem;font-weight:900;">◎ 50 SOL</p></div>
-            <div class="glass-card" style="flex:1;min-width:200px;max-width:220px;text-align:center;padding:24px 16px;" onclick="beliPaket('VIP','250')"><img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" style="width:60px;height:60px;border-radius:8px;"><p style="color:#14F195;">VIP</p><p style="font-size:1.4rem;font-weight:900;">◎ 250 SOL</p></div>
-            <div class="glass-card" style="flex:1;min-width:200px;max-width:220px;text-align:center;padding:24px 16px;border-color:rgba(153,69,255,0.5);background:linear-gradient(180deg,rgba(153,69,255,0.1),rgba(17,24,39,0.7));" onclick="beliPaket('AFF','500')"><img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" style="width:60px;height:60px;border-radius:8px;"><p style="color:#14F195;">PAKET AFF 🔥</p><p style="font-size:1.4rem;font-weight:900;">◎ 500 SOL</p></div>
+            <div class="glass-card" style="flex:1;min-width:200px;max-width:220px;text-align:center;padding:24px 16px;cursor:pointer;" onclick="beliPaket('Basic','5')"><img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" style="width:60px;height:60px;border-radius:8px;"><p style="color:#14F195;font-weight:700;">BASIC</p><p style="font-size:1.4rem;font-weight:900;">◎ 5 SOL</p></div>
+            <div class="glass-card" style="flex:1;min-width:200px;max-width:220px;text-align:center;padding:24px 16px;cursor:pointer;border-color:rgba(20,241,149,0.4);" onclick="beliPaket('Silver','25')"><img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" style="width:60px;height:60px;border-radius:8px;"><p style="color:#14F195;font-weight:700;">SILVER ⭐</p><p style="font-size:1.4rem;font-weight:900;color:#14F195;">◎ 25 SOL</p></div>
+            <div class="glass-card" style="flex:1;min-width:200px;max-width:220px;text-align:center;padding:24px 16px;cursor:pointer;" onclick="beliPaket('Gold','50')"><img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" style="width:60px;height:60px;border-radius:8px;"><p style="color:#14F195;font-weight:700;">GOLD</p><p style="font-size:1.4rem;font-weight:900;">◎ 50 SOL</p></div>
+            <div class="glass-card" style="flex:1;min-width:200px;max-width:220px;text-align:center;padding:24px 16px;cursor:pointer;" onclick="beliPaket('VIP','250')"><img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" style="width:60px;height:60px;border-radius:8px;"><p style="color:#14F195;font-weight:700;">VIP</p><p style="font-size:1.4rem;font-weight:900;">◎ 250 SOL</p></div>
+            <div class="glass-card" style="flex:1;min-width:200px;max-width:220px;text-align:center;padding:24px 16px;cursor:pointer;border-color:rgba(153,69,255,0.5);background:linear-gradient(180deg,rgba(153,69,255,0.1),rgba(17,24,39,0.7));" onclick="beliPaket('AFF','500')"><img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" style="width:60px;height:60px;border-radius:8px;"><p style="color:#14F195;font-weight:700;">PAKET AFF 🔥</p><p style="font-size:1.4rem;font-weight:900;">◎ 500 SOL</p></div>
         </div>
-        <div id="beliInfo" class="glass-card" style="display:none;text-align:center;max-width:600px;margin:0 auto;"><h3>🔑 Pembayaran <span id="beliPaketNama"></span></h3><p>Transfer <strong id="beliJumlah"></strong> ke:</p><div style="background:rgba(153,69,255,0.1);padding:14px;border-radius:10px;color:#14F195;">Ac2oExnWGJBYqVV7vYFuHfjoWx7mJ6Dbf1XyL7GWdXSC</div><button class="btn-outline btn-sm" onclick="copyWallet()">📋 Copy</button><br><button class="btn-primary" onclick="konfirmasiBeli()">✅ Saya Sudah Transfer</button><p id="beliMsg" style="display:none;color:#14F195;">✅ Menunggu verifikasi admin.</p></div>
+        <div id="beliInfo" class="glass-card" style="display:none;text-align:center;max-width:600px;margin:0 auto;margin-top:24px;"><h3>🔑 Pembayaran <span id="beliPaketNama"></span></h3><p>Transfer <strong id="beliJumlah"></strong> ke:</p><div style="background:rgba(153,69,255,0.1);padding:14px;border-radius:10px;color:#14F195;margin:12px 0;">Ac2oExnWGJBYqVV7vYFuHfjoWx7mJ6Dbf1XyL7GWdXSC</div><button class="btn-outline btn-sm" onclick="copyWallet()">📋 Copy</button> <button class="btn-primary btn-sm" onclick="konfirmasiBeli()">✅ Saya Sudah Transfer</button><p id="beliMsg" style="display:none;color:#14F195;margin-top:12px;">✅ Menunggu verifikasi admin.</p></div>
     </div>
     <div id="tab-wallet" class="tab-content">
         <h2>◎ Wallet Solana</h2><div class="glass-card" style="text-align:center;margin-bottom:24px;padding:40px;"><p>💰 Saldo Tersedia</p><p style="font-size:3rem;font-weight:900;color:#14F195;" id="saldoWallet">◎ 0</p></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
-            <div class="glass-card"><span>📥</span><h3>Deposit SOL</h3><div id="depositStep1"><input type="number" id="jumlahDeposit" class="input-field" placeholder="Jumlah SOL"><button class="btn-primary" onclick="showDepositInfo()">🔑 Lihat Alamat</button></div><div id="depositStep2" style="display:none;"><div style="background:rgba(153,69,255,0.1);padding:14px;border-radius:10px;color:#14F195;">Ac2oExnWGJBYqVV7vYFuHfjoWx7mJ6Dbf1XyL7GWdXSC</div><button class="btn-outline btn-sm" onclick="copyWallet()">📋 Copy</button><button class="btn-primary btn-sm" onclick="depositConfirm()">✅ Saya Sudah Transfer</button><p id="depoUserMsg" style="display:none;color:#14F195;">✅ Menunggu verifikasi...</p></div></div>
-            <div class="glass-card"><span>📤</span><h3>Withdraw SOL</h3><form onsubmit="return false;"><input type="text" id="walletTujuan" class="input-field" placeholder="Alamat Wallet"><input type="number" id="jumlahWithdraw" class="input-field" placeholder="Jumlah SOL"><button type="button" class="btn-primary" onclick="kirimWithdraw()">📤 Kirim</button></form><p id="withdrawMsg" style="display:none;color:#14F195;">✅ Permintaan dikirim.</p><p id="withdrawError" style="display:none;color:#EF4444;">❌ Saldo tidak cukup!</p></div>
+            <div class="glass-card"><h3>📥 Deposit SOL</h3><div id="depositStep1"><input type="number" id="jumlahDeposit" class="input-field" placeholder="Jumlah SOL"><button class="btn-primary" onclick="showDepositInfo()">🔑 Lihat Alamat</button></div><div id="depositStep2" style="display:none;"><div style="background:rgba(153,69,255,0.1);padding:14px;border-radius:10px;color:#14F195;">Ac2oExnWGJBYqVV7vYFuHfjoWx7mJ6Dbf1XyL7GWdXSC</div><button class="btn-outline btn-sm" onclick="copyWallet()">📋 Copy</button><button class="btn-primary btn-sm" onclick="depositConfirm()">✅ Saya Sudah Transfer</button><p id="depoUserMsg" style="display:none;color:#14F195;">✅ Menunggu verifikasi...</p></div></div>
+            <div class="glass-card"><h3>📤 Withdraw SOL</h3><form onsubmit="return false;"><input type="text" id="walletTujuan" class="input-field" placeholder="Alamat Wallet"><input type="number" id="jumlahWithdraw" class="input-field" placeholder="Jumlah SOL"><button type="button" class="btn-primary" onclick="kirimWithdraw()">📤 Kirim</button></form><p id="withdrawMsg" style="display:none;color:#14F195;">✅ Permintaan dikirim.</p><p id="withdrawError" style="display:none;color:#EF4444;">❌ Saldo tidak cukup!</p></div>
         </div>
     </div>
-    <div id="tab-mining" class="tab-content"><div class="glass-card" style="text-align:center;padding:40px;"><h2>⛏️ Mining Aktif</h2><img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" style="max-width:350px;width:100%;border-radius:12px;"><p id="miningInfo">Memuat...</p><div class="hash-fast">⚡ <span id="randomHash">0x...</span></div><div class="profit-animate" id="profitUpdate">+0.00000000 SOL</div><button onclick="document.getElementById('asound').play()" style="background:#14F195;color:#000;padding:10px 20px;border-radius:8px;font-weight:700;border:none;margin-top:12px;">🔊 Suara Rig ASIC</button><audio id="asound" style="display:none"><source src="https://raw.githubusercontent.com/mysteaker-web/AFFCLOUDMINING/main/freesound_community-server-31360%20(1).mp3" type="audio/mp3"></audio></div></div>
+    <div id="tab-mining" class="tab-content"><div class="glass-card" style="text-align:center;padding:40px;"><h2>⛏️ Mining Aktif</h2><img src="https://i.ibb.co/QFJdYSRn/bitmain-antminer-s21-1707990232432.png" style="max-width:350px;border-radius:12px;"><p id="miningInfo">Memuat...</p><div class="hash-fast">⚡ <span id="randomHash">0x...</span></div><button onclick="document.getElementById('asound').play()" style="background:#14F195;color:#000;padding:10px 20px;border-radius:8px;font-weight:700;border:none;margin-top:12px;">🔊 Suara Rig ASIC</button><audio id="asound" style="display:none"><source src="https://raw.githubusercontent.com/mysteaker-web/AFFCLOUDMINING/main/freesound_community-server-31360%20(1).mp3" type="audio/mp3"></audio></div></div>
     <div id="tab-referral" class="tab-content"><div class="glass-card"><h2>👥 Referral</h2><p>Kode: <strong id="kodeRef"></strong></p></div></div>
     <div id="tab-riwayat" class="tab-content"><h2>📜 Riwayat Transaksi</h2><div class="glass-card"><table style="width:100%;"><thead><tr><th style="color:#94A3B8;">Tanggal</th><th style="color:#94A3B8;">Jam</th><th style="color:#94A3B8;">Jenis</th><th style="color:#94A3B8;">Jumlah</th><th style="color:#94A3B8;">Paket</th><th style="color:#94A3B8;">Status</th></tr></thead><tbody id="riwayatTable"><tr><td colspan="6" style="text-align:center;color:#94A3B8;">Klik untuk memuat...</td></tr></tbody></table></div></div>
     <div id="tab-setting" class="tab-content">
         <h2>⚙️ Pengaturan Akun</h2>
-        <div class="glass-card" style="max-width:500px;margin:0 auto;">
-            <p>📧 Email: <strong id="setEmail2"></strong></p>
-            <p>👤 Nama: <strong id="setNama2"></strong></p>
-            <h3 style="color:#14F195;margin-top:20px;">🔐 Ganti Password</h3>
-            <div id="otpSection" style="display:none;">
-                <p style="color:#F59E0B;">Kode OTP dikirim ke email Anda</p>
-                <input type="text" id="otpInput" class="input-field" placeholder="Masukkan 6 digit OTP">
-                <button class="btn-outline btn-sm" onclick="verifyOTP()">✅ Verifikasi</button>
-                <button class="btn-sm" style="background:#EF4444;color:#fff;border:none;padding:6px 12px;border-radius:8px;" onclick="cancelOTP()">Batal</button>
-                <p id="otpMsg" style="display:none;margin-top:8px;"></p>
+        <div class="glass-card" style="max-width:500px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;"><span>📧 Email</span><strong id="setEmail2"></strong></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;"><span>👤 Nama</span><strong id="setNama2"></strong></div>
+            <div class="setting-section">
+                <h3 style="color:#14F195;margin-bottom:16px;">🔐 Ganti Password</h3>
+                <div id="otpSection" style="display:none;">
+                    <div class="otp-box">
+                        <p style="color:#94A3B8;font-size:13px;margin-bottom:8px;">Kode verifikasi dikirim ke email Anda</p>
+                        <p class="otp-code" id="otpDisplay">------</p>
+                        <input type="text" id="otpInput" class="input-field" placeholder="Masukkan 6 digit kode" style="margin-top:12px;text-align:center;font-size:1.2rem;letter-spacing:4px;">
+                        <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;"><button class="btn-primary btn-sm" onclick="verifyOTP()">✅ Verifikasi</button><button class="btn-sm" style="background:#EF4444;color:#fff;border:none;padding:8px 16px;border-radius:8px;" onclick="cancelOTP()">Batal</button></div>
+                        <p id="otpMsg" style="display:none;margin-top:8px;font-size:13px;"></p>
+                    </div>
+                </div>
+                <div id="newPassSection" style="display:none;">
+                    <input type="password" id="newPassword" class="input-field" placeholder="Password baru (min 8 karakter)" style="margin-bottom:12px;">
+                    <button class="btn-primary" onclick="saveNewPassword()">💾 Simpan Password Baru</button>
+                    <p id="newPassMsg" style="display:none;color:#14F195;margin-top:8px;font-size:13px;"></p>
+                </div>
+                <button class="btn-outline" id="btnSendOTP" onclick="kirimOTP()" style="width:100%;margin-top:8px;">📩 Kirim Kode Verifikasi</button>
             </div>
-            <div id="newPassSection" style="display:none;">
-                <input type="password" id="newPassword" class="input-field" placeholder="Password baru (min 8 karakter)">
-                <button class="btn-primary" onclick="saveNewPassword()">💾 Simpan Password Baru</button>
-                <p id="newPassMsg" style="display:none;color:#14F195;margin-top:8px;"></p>
-            </div>
-            <button class="btn-primary" id="btnSendOTP" onclick="kirimOTP()" style="margin-top:12px;">📩 Kirim OTP ke Email</button>
         </div>
     </div>
-    </div>
-    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 <script>
     firebase.initializeApp({apiKey:"AIzaSyCFNC6a8avHwLc-dG2xlzPRUp4pAl8mULw",authDomain:"affcloudmining-2c85f.firebaseapp.com",projectId:"affcloudmining-2c85f",storageBucket:"affcloudmining-2c85f.firebasestorage.app",messagingSenderId:"19712591186",appId:"1:19712591186:web:e20bf4b8379400b3cd268b"});
@@ -152,36 +157,32 @@
 
     function randomHash(){var h='';for(var i=0;i<40;i++)h+='0123456789abcdef'[Math.floor(Math.random()*16)];return h;}
     setInterval(function(){var h=randomHash();var el=document.getElementById('randomHash');if(el)el.textContent='0x'+h;var live=document.querySelector('.hashLive');if(live)live.textContent='0x'+h;},500);
-    function microProfit(){var p=(Math.random()*0.00000100).toFixed(8);var el=document.getElementById('profitUpdate');if(el){el.textContent='+'+p+' SOL';el.classList.remove('profit-animate');void el.offsetWidth;el.classList.add('profit-animate');}}
-    setInterval(function(){microProfit();},3000);
 
     function kirimOTP(){
         currentOTP = Math.floor(100000 + Math.random() * 900000).toString();
         document.getElementById('btnSendOTP').style.display='none';
         document.getElementById('otpSection').style.display='block';
-        alert('🔐 Kode OTP Anda: ' + currentOTP + '\n\nSimpan kode ini untuk verifikasi.');
+        document.getElementById('otpDisplay').textContent = currentOTP;
     }
     function verifyOTP(){
-        var input=document.getElementById('otpInput').value.trim();
-        if(input===currentOTP){
+        if(document.getElementById('otpInput').value.trim()===currentOTP){
             document.getElementById('otpSection').style.display='none';
             document.getElementById('newPassSection').style.display='block';
         }else{
             document.getElementById('otpMsg').style.display='block';
             document.getElementById('otpMsg').style.color='#EF4444';
-            document.getElementById('otpMsg').textContent='❌ Kode OTP salah!';
+            document.getElementById('otpMsg').textContent='❌ Kode verifikasi salah!';
         }
     }
     function cancelOTP(){
         document.getElementById('otpSection').style.display='none';
         document.getElementById('btnSendOTP').style.display='block';
-        document.getElementById('btnSendOTP').disabled=false;
-        document.getElementById('btnSendOTP').textContent='📩 Kirim OTP ke Email';
+        document.getElementById('otpMsg').style.display='none';
     }
     function saveNewPassword(){
         var pass=document.getElementById('newPassword').value.trim();
         if(pass.length<8){alert('Password minimal 8 karakter!');return;}
-        if(userDbId){db.collection('users').doc(userDbId).update({password:pass}).then(function(){document.getElementById('newPassMsg').style.display='block';document.getElementById('newPassMsg').textContent='✅ Password berhasil diubah!';document.getElementById('newPassword').value='';});}
+        if(userDbId){db.collection('users').doc(userDbId).update({password:pass}).then(function(){document.getElementById('newPassMsg').style.display='block';document.getElementById('newPassMsg').textContent='✅ Password berhasil diubah!';});}
     }
 </script>
     <script type="text/javascript">
